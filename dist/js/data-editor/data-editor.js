@@ -349,7 +349,7 @@ const DataEditorImpl = (p, forwardedRef) => {
     if (appendRowRef) {
       appendRowRef.current = appendRow;
     }
-  }, [appendRowRef]);
+  }, [appendRow, appendRowRef]);
   const lastSelectedRowRef = React.useRef();
   const lastSelectedColRef = React.useRef();
   const onMouseDown = React.useCallback(args => {
