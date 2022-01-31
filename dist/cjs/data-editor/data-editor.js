@@ -224,18 +224,20 @@ const DataEditorImpl = (p, forwardedRef) => {
     } else if (isTrailing) {
       var _trailingRowOptions$h;
 
-      const isFirst = col === rowMarkerOffset;
+      const hintCol = trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.hintCol;
+      const isFirst = col === (hintCol === undefined ? rowMarkerOffset : hintCol + rowMarkerOffset);
       const display = isFirst ? (_trailingRowOptions$h = trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.hint) !== null && _trailingRowOptions$h !== void 0 ? _trailingRowOptions$h : "" : "";
       return {
         kind: _dataGridTypes.InnerGridCellKind.NewRow,
         hint: display,
         isFirst,
+        icon: trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.icon,
         allowOverlay: false
       };
     } else {
       return getCellContent([col - rowMarkerOffset, row]);
     }
-  }, [showTrailingBlankRow, mangledRows, hasRowMarkers, selectedRows, rowMarkers, rowMarkerOffset, trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.hint, getCellContent]);
+  }, [showTrailingBlankRow, mangledRows, hasRowMarkers, selectedRows, rowMarkers, rowMarkerOffset, trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.hint, trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.hintCol, trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.icon, getCellContent]);
   const reselect = React.useCallback((bounds, initialValue) => {
     if (gridSelection === undefined) return;
     const [col, row] = gridSelection.cell;
@@ -320,6 +322,56 @@ const DataEditorImpl = (p, forwardedRef) => {
       forceEditMode: true
     });
   }, [getMangedCellContent]);
+  const scrollTo = React.useCallback(function (col, row) {
+    let dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "both";
+
+    if (scrollRef.current !== null) {
+      const grid = gridRef.current;
+      const canvas = canvasRef.current;
+
+      if (grid !== null && canvas !== null) {
+        const bounds = grid.getBounds(col, row);
+        const scrollBounds = canvas.getBoundingClientRect();
+
+        if (bounds !== undefined) {
+          let scrollX = 0;
+          let scrollY = 0;
+          const sLeft = scrollBounds.left + rowMarkerOffset * rowMarkerWidth;
+          const sRight = scrollBounds.right;
+          const sTop = scrollBounds.top + totalHeaderHeight;
+          let trailingRowHeight = 0;
+
+          if (lastRowSticky) {
+            trailingRowHeight = typeof rowHeight === "number" ? rowHeight : rowHeight(rows);
+          }
+
+          const sBottom = scrollBounds.bottom - trailingRowHeight;
+
+          if (sLeft > bounds.x) {
+            scrollX = bounds.x - sLeft;
+          } else if (sRight < bounds.x + bounds.width) {
+            scrollX = bounds.x + bounds.width - sRight;
+          }
+
+          if (sTop > bounds.y) {
+            scrollY = bounds.y - sTop;
+          } else if (sBottom < bounds.y + bounds.height) {
+            scrollY = bounds.y + bounds.height - sBottom;
+          }
+
+          if (dir === "vertical") {
+            scrollX = 0;
+          } else if (dir === "horizontal") {
+            scrollY = 0;
+          }
+
+          if (scrollX !== 0 || scrollY !== 0) {
+            scrollRef.current.scrollTo(scrollX + scrollRef.current.scrollLeft, scrollY + scrollRef.current.scrollTop);
+          }
+        }
+      }
+    }
+  }, [totalHeaderHeight, lastRowSticky, rowHeight, rowMarkerOffset, rowMarkerWidth, rows]);
   const focusCallback = React.useRef(focusOnRowFromTrailingBlankRow);
   const getCellContentRef = React.useRef(getCellContent);
   const rowsRef = React.useRef(rows);
@@ -327,8 +379,9 @@ const DataEditorImpl = (p, forwardedRef) => {
   getCellContentRef.current = getCellContent;
   rowsRef.current = rows;
   const appendRow = React.useCallback(async col => {
+    const focusCol = (trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.appendCol) !== undefined ? (trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.appendCol) + rowMarkerOffset : col;
     const appendResult = onRowAppended === null || onRowAppended === void 0 ? void 0 : onRowAppended();
-    let r;
+    let r = undefined;
     let bottom = true;
 
     if (appendResult !== undefined) {
@@ -349,28 +402,28 @@ const DataEditorImpl = (p, forwardedRef) => {
         return;
       }
 
-      const row = typeof r === 'number' ? r : bottom ? rows : 0;
-      scrollTo(col, row);
+      const row = typeof r === "number" ? r : bottom ? rows : 0;
+      scrollTo(focusCol, row);
       setGridSelection({
-        cell: [col, row],
+        cell: [focusCol, row],
         range: {
-          x: col,
+          x: focusCol,
           y: row,
           width: 1,
           height: 1
         }
       });
-      const cell = getCellContentRef.current([col - rowMarkerOffset, row]);
+      const cell = getCellContentRef.current([focusCol - rowMarkerOffset, row]);
 
       if (cell.allowOverlay && (0, _dataGridTypes.isReadWriteCell)(cell) && cell.readonly !== true) {
         window.setTimeout(() => {
-          focusCallback.current(col, row);
+          focusCallback.current(focusCol, row);
         }, 0);
       }
     };
 
     doFocus();
-  }, [onRowAppended, rowMarkerOffset, rows, setGridSelection]);
+  }, [onRowAppended, rowMarkerOffset, rows, scrollTo, setGridSelection, trailingRowOptions === null || trailingRowOptions === void 0 ? void 0 : trailingRowOptions.appendCol]);
   React.useEffect(() => {
     if (appendRowRef) {
       appendRowRef.current = appendRow;
@@ -754,56 +807,6 @@ const DataEditorImpl = (p, forwardedRef) => {
     const str = cells.map(row => row.map(formatCell).join("\t")).join("\n");
     void window.navigator.clipboard.writeText(str);
   }, []);
-  const scrollTo = React.useCallback(function (col, row) {
-    let dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "both";
-
-    if (scrollRef.current !== null) {
-      const grid = gridRef.current;
-      const canvas = canvasRef.current;
-
-      if (grid !== null && canvas !== null) {
-        const bounds = grid.getBounds(col, row);
-        const scrollBounds = canvas.getBoundingClientRect();
-
-        if (bounds !== undefined) {
-          let scrollX = 0;
-          let scrollY = 0;
-          const sLeft = scrollBounds.left + rowMarkerOffset * rowMarkerWidth;
-          const sRight = scrollBounds.right;
-          const sTop = scrollBounds.top + totalHeaderHeight;
-          let trailingRowHeight = 0;
-
-          if (lastRowSticky) {
-            trailingRowHeight = typeof rowHeight === "number" ? rowHeight : rowHeight(rows);
-          }
-
-          const sBottom = scrollBounds.bottom - trailingRowHeight;
-
-          if (sLeft > bounds.x) {
-            scrollX = bounds.x - sLeft;
-          } else if (sRight < bounds.x + bounds.width) {
-            scrollX = bounds.x + bounds.width - sRight;
-          }
-
-          if (sTop > bounds.y) {
-            scrollY = bounds.y - sTop;
-          } else if (sBottom < bounds.y + bounds.height) {
-            scrollY = bounds.y + bounds.height - sBottom;
-          }
-
-          if (dir === "vertical") {
-            scrollX = 0;
-          } else if (dir === "horizontal") {
-            scrollY = 0;
-          }
-
-          if (scrollX !== 0 || scrollY !== 0) {
-            scrollRef.current.scrollTo(scrollX + scrollRef.current.scrollLeft, scrollY + scrollRef.current.scrollTop);
-          }
-        }
-      }
-    }
-  }, [totalHeaderHeight, lastRowSticky, rowHeight, rowMarkerOffset, rowMarkerWidth, rows]);
   const adjustSelection = React.useCallback(direction => {
     var _oldRange$x, _oldRange$y, _oldRange$width, _oldRange$height;
 

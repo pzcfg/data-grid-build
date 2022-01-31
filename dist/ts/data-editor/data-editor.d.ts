@@ -25,10 +25,18 @@ export interface DataEditorProps extends Props {
     readonly onGroupHeaderClicked?: (colIndex: number, event: GroupHeaderClickedEventArgs) => void;
     readonly onGroupHeaderRenamed?: (groupName: string, newVal: string) => void;
     readonly onCellClicked?: (cell: readonly [number, number], event: CellClickedEventArgs) => void;
-    readonly appendRowRef?: any;
+    readonly appendRowRef?: React.MutableRefObject<(col: number) => Promise<void> | null>;
     readonly trailingRowOptions?: {
         readonly tint?: boolean;
         readonly hint?: string;
+        readonly hintCol?: number;
+        readonly appendCol?: number;
+        readonly icon?: {
+            x?: number;
+            y?: number;
+            width: number;
+            path: Path2D;
+        };
         readonly sticky?: boolean;
     };
     readonly headerHeight?: number;

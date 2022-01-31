@@ -14,6 +14,6 @@ const newRowCellRenderer = {
   kind: _dataGridTypes.InnerGridCellKind.NewRow,
   needsHover: true,
   needsHoverPosition: false,
-  render: a => (0, _dataGridLib.drawNewRowCell)(a, a.cell.hint, a.cell.isFirst)
+  render: a => (0, _dataGridLib.drawNewRowCell)(a, a.cell.hint, a.cell.isFirst, a.cell.icon)
 };
 exports.newRowCellRenderer = newRowCellRenderer;

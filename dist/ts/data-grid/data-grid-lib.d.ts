@@ -20,7 +20,12 @@ export declare function measureTextCached(s: string, ctx: CanvasRenderingContext
 export declare function drawWithLastUpdate(args: BaseDrawArgs, lastUpdate: number | undefined, frameTime: number, draw: (forcePrep: boolean) => void): boolean;
 export declare function prepTextCell(args: BaseDrawArgs, overrideColor?: string): void;
 export declare function drawTextCell(args: BaseDrawArgs, data: string): void;
-export declare function drawNewRowCell(args: BaseDrawArgs, data: string, isFirst: boolean): void;
+export declare function drawNewRowCell(args: BaseDrawArgs, data: string, isFirst: boolean, icon?: {
+    x?: number;
+    y?: number;
+    width: number;
+    path: Path2D;
+}): void;
 export declare function prepMarkerRowCell(args: BaseDrawArgs): void;
 export declare function drawMarkerRowCell(args: BaseDrawArgs, index: number, checked: boolean, markerKind: "checkbox" | "both" | "number"): void;
 export declare function drawProtectedCell(args: BaseDrawArgs): void;

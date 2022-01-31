@@ -249,7 +249,7 @@ function drawTextCell(args, data) {
   }
 }
 
-function drawNewRowCell(args, data, isFirst) {
+function drawNewRowCell(args, data, isFirst, icon) {
   const {
     ctx,
     x,
@@ -271,7 +271,17 @@ function drawNewRowCell(args, data, isFirst) {
   const xTranslate = isFirst ? 0 : (1 - hoverAmount) * finalLineSize * 0.5;
   const padPlus = theme.cellHorizontalPadding + 4;
 
-  if (lineSize > 0) {
+  if (icon !== null && icon !== void 0 && icon.path) {
+    if (isFirst) {
+      var _icon$x, _icon$y;
+
+      ctx.save();
+      ctx.fillStyle = theme.bgIconHeader;
+      ctx.translate(x + padPlus + ((_icon$x = icon.x) !== null && _icon$x !== void 0 ? _icon$x : 0), y + ((_icon$y = icon.y) !== null && _icon$y !== void 0 ? _icon$y : 0));
+      ctx.fill(icon.path, 'evenodd');
+      ctx.restore();
+    }
+  } else if (lineSize > 0) {
     ctx.moveTo(x + padPlus + xTranslate, y + h / 2);
     ctx.lineTo(x + padPlus + xTranslate + lineSize, y + h / 2);
     ctx.moveTo(x + padPlus + xTranslate + lineSize * 0.5, y + h / 2 - lineSize * 0.5);
@@ -283,7 +293,13 @@ function drawNewRowCell(args, data, isFirst) {
   }
 
   ctx.fillStyle = theme.textMedium;
-  ctx.fillText(data, 24 + x + theme.cellHorizontalPadding + 0.5, y + h / 2);
+
+  if ((icon === null || icon === void 0 ? void 0 : icon.width) !== undefined) {
+    ctx.fillText(data, icon.width + x + theme.cellHorizontalPadding * 2 + 0.5, y + h / 2);
+  } else {
+    ctx.fillText(data, 24 + x + theme.cellHorizontalPadding + 0.5, y + h / 2);
+  }
+
   ctx.beginPath();
 }
 

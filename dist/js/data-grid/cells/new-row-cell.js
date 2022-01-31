@@ -5,5 +5,5 @@ export const newRowCellRenderer = {
   kind: InnerGridCellKind.NewRow,
   needsHover: true,
   needsHoverPosition: false,
-  render: a => drawNewRowCell(a, a.cell.hint, a.cell.isFirst)
+  render: a => drawNewRowCell(a, a.cell.hint, a.cell.isFirst, a.cell.icon)
 };
