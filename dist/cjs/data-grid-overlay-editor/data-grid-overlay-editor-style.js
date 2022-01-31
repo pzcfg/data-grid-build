@@ -14,7 +14,9 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
 
     display: flex;
     flex-direction: column;
+    ${p => !p.unstyled && `
     overflow: hidden;
+    `}
     box-sizing: border-box;
 
     --overlay-top: ${p => p.targetRect.y}px;
@@ -27,11 +29,13 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
     max-width: 400px;
     max-height: calc(100vh - ${p => p.targetRect.y + 10}px);
 
+    ${p => !p.unstyled && `
     border-radius: 2px;
     background-color: ${p => p.theme.bgCell};
 
     box-shadow: 0 0 0 1px ${p => p.theme.accentColor}, 0px 0px 1px rgba(62, 65, 86, 0.4),
         0px 6px 12px rgba(62, 65, 86, 0.15);
+    `}
 
     font-family: ${p => p.theme.fontFamily};
     font-size: 13px;
@@ -53,11 +57,14 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
     .clip-region {
         display: flex;
         flex-direction: column;
+        ${p => !p.unstyled && `
         overflow-y: auto;
         overflow-x: hidden;
         border-radius: 2px;
         overflow: hidden;
+        `}
 
+        ${p => !p.unstyled && `
         input {
             width: 100%;
 
@@ -65,6 +72,7 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
             border-width: 0;
             outline: none;
         }
+        `}
 
         textarea {
             border: none;

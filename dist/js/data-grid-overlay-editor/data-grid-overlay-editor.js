@@ -46,10 +46,12 @@ const DataGridOverlayEditor = p => {
     return (_renderer$getEditor = renderer.getEditor) === null || _renderer$getEditor === void 0 ? void 0 : _renderer$getEditor.call(renderer, content);
   }, [content]);
   let pad = true;
+  let unstyled = false;
   let editor;
 
   if (CustomEditor !== undefined) {
     pad = CustomEditor.disablePadding !== true;
+    unstyled = CustomEditor.unstyled === true;
     editor = React.createElement(CustomEditor, {
       isHighlighted: highlight,
       onChange: setTempValue,
@@ -82,7 +84,8 @@ const DataGridOverlayEditor = p => {
     onClickOutside: onClickOutside
   }, React.createElement(DataGridOverlayEditorStyle, {
     targetRect: target,
-    pad: pad
+    pad: pad,
+    unstyled: unstyled
   }, React.createElement("div", {
     className: "clip-region",
     onKeyDown: CustomEditor === undefined ? undefined : onKeyDown

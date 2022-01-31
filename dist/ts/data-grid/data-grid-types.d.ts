@@ -192,6 +192,7 @@ export declare type ProvideEditorCallback<T extends GridCell> = (cell: T) => (Re
     readonly value: T;
 }> & {
     disablePadding?: boolean;
+    unstyled?: boolean;
 }) | undefined;
 export interface CustomCell<T extends {} = {}> extends BaseGridCell {
     readonly kind: GridCellKind.Custom;
