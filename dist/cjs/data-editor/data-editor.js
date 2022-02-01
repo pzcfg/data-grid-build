@@ -900,6 +900,8 @@ const DataEditorImpl = (p, forwardedRef) => {
       const isEditingTrailingRow = gridSelection.cell[1] === mangledRows - 1 && newValue !== undefined;
       updateSelectedCell(gridSelection.cell[0] + movX, gridSelection.cell[1] + movY, isEditingTrailingRow);
     }
+
+    if (p !== null && p !== void 0 && p.onFinishEditing) p.onFinishEditing(newValue);
   }, [overlay === null || overlay === void 0 ? void 0 : overlay.cell, focus, gridSelection, mangledOnCellEdited, mangledRows, updateSelectedCell]);
   const [selCol, selRow] = (_gridSelection$cell = gridSelection === null || gridSelection === void 0 ? void 0 : gridSelection.cell) !== null && _gridSelection$cell !== void 0 ? _gridSelection$cell : [];
   const onCellFocused = React.useCallback(cell => {

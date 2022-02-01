@@ -22,9 +22,9 @@ export const DataGridOverlayEditorStyle = styled.div`
 
     ${p => !p.unstyled && `
     border-radius: 2px;
-    background-color: ${p => p.theme.bgCell};
+    background-color: ${p.theme.bgCell}};
 
-    box-shadow: 0 0 0 1px ${p => p.theme.accentColor}, 0px 0px 1px rgba(62, 65, 86, 0.4),
+    box-shadow: 0 0 0 1px ${p.theme.accentColor}, 0px 0px 1px rgba(62, 65, 86, 0.4),
         0px 6px 12px rgba(62, 65, 86, 0.15);
     `}
 
