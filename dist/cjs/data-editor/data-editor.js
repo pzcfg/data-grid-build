@@ -415,7 +415,7 @@ const DataEditorImpl = (p, forwardedRef) => {
       });
       const cell = getCellContentRef.current([focusCol - rowMarkerOffset, row]);
 
-      if (cell.allowOverlay && (0, _dataGridTypes.isReadWriteCell)(cell) && cell.readonly !== true) {
+      if (cell.allowOverlay && (cell.kind === _dataGridTypes.GridCellKind.Custom || (0, _dataGridTypes.isReadWriteCell)(cell) && cell.readonly !== true)) {
         window.setTimeout(() => {
           focusCallback.current(focusCol, row);
         }, 0);

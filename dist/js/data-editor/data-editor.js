@@ -389,7 +389,7 @@ const DataEditorImpl = (p, forwardedRef) => {
       });
       const cell = getCellContentRef.current([focusCol - rowMarkerOffset, row]);
 
-      if (cell.allowOverlay && isReadWriteCell(cell) && cell.readonly !== true) {
+      if (cell.allowOverlay && (cell.kind === GridCellKind.Custom || isReadWriteCell(cell) && cell.readonly !== true)) {
         window.setTimeout(() => {
           focusCallback.current(focusCol, row);
         }, 0);
