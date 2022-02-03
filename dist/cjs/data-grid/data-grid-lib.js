@@ -293,6 +293,7 @@ function drawNewRowCell(args, data, isFirst, icon) {
   }
 
   ctx.fillStyle = theme.textMedium;
+  ctx.font = '400 14px Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 
   if ((icon === null || icon === void 0 ? void 0 : icon.width) !== undefined) {
     ctx.fillText(data, icon.width + x + theme.cellHorizontalPadding * 2 + 0.5, y + h / 2);

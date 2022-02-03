@@ -876,7 +876,7 @@ const DataEditorImpl = (p, forwardedRef) => {
     }
 
     if (p !== null && p !== void 0 && p.onFinishEditing) p.onFinishEditing(newValue);
-  }, [overlay === null || overlay === void 0 ? void 0 : overlay.cell, focus, gridSelection, mangledOnCellEdited, mangledRows, updateSelectedCell]);
+  }, [overlay === null || overlay === void 0 ? void 0 : overlay.cell, focus, gridSelection, mangledOnCellEdited, mangledRows, updateSelectedCell, p === null || p === void 0 ? void 0 : p.onFinishEditing]);
   const [selCol, selRow] = (_gridSelection$cell = gridSelection === null || gridSelection === void 0 ? void 0 : gridSelection.cell) !== null && _gridSelection$cell !== void 0 ? _gridSelection$cell : [];
   const onCellFocused = React.useCallback(cell => {
     if (selCol === cell[0] && selRow === cell[1]) return;
