@@ -19,7 +19,7 @@ const loadingCell = {
 };
 
 const DataEditorImpl = (p, forwardedRef) => {
-  var _gridSelection$cell, _p$experimental;
+  var _p$experimental$paddi, _p$experimental, _gridSelection$cell, _p$experimental2;
 
   const [gridSelectionInner, setGridSelectionInner] = React.useState();
   const [selectedColumnsInner, setSelectedColumnsInner] = React.useState(CompactSelection.empty());
@@ -296,6 +296,7 @@ const DataEditorImpl = (p, forwardedRef) => {
       forceEditMode: true
     });
   }, [getMangedCellContent]);
+  const paddingBottom = (_p$experimental$paddi = (_p$experimental = p.experimental) === null || _p$experimental === void 0 ? void 0 : _p$experimental.paddingBottom) !== null && _p$experimental$paddi !== void 0 ? _p$experimental$paddi : 0;
   const scrollTo = React.useCallback(function (col, row) {
     let dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "both";
 
@@ -329,8 +330,8 @@ const DataEditorImpl = (p, forwardedRef) => {
 
           if (sTop > bounds.y) {
             scrollY = bounds.y - sTop;
-          } else if (sBottom < bounds.y + bounds.height) {
-            scrollY = bounds.y + bounds.height - sBottom;
+          } else if (sBottom < bounds.y + bounds.height + paddingBottom) {
+            scrollY = bounds.y + bounds.height + paddingBottom - sBottom;
           }
 
           if (dir === "vertical") {
@@ -345,7 +346,7 @@ const DataEditorImpl = (p, forwardedRef) => {
         }
       }
     }
-  }, [totalHeaderHeight, lastRowSticky, rowHeight, rowMarkerOffset, rowMarkerWidth, rows]);
+  }, [totalHeaderHeight, lastRowSticky, rowHeight, rowMarkerOffset, rowMarkerWidth, rows, paddingBottom]);
   const focusCallback = React.useRef(focusOnRowFromTrailingBlankRow);
   const getCellContentRef = React.useRef(getCellContent);
   const rowsRef = React.useRef(rows);
@@ -1414,7 +1415,7 @@ const DataEditorImpl = (p, forwardedRef) => {
     verticalBorder: mangledVerticalBorder,
     gridRef: gridRef
   })), renameGroupNode, overlay !== undefined && React.createElement(DataGridOverlayEditor, _extends({}, overlay, {
-    className: ((_p$experimental = p.experimental) === null || _p$experimental === void 0 ? void 0 : _p$experimental.isSubGrid) === true ? "click-outside-ignore" : undefined,
+    className: ((_p$experimental2 = p.experimental) === null || _p$experimental2 === void 0 ? void 0 : _p$experimental2.isSubGrid) === true ? "click-outside-ignore" : undefined,
     provideEditor: provideEditor,
     imageEditorOverride: imageEditorOverride,
     onFinishEditing: onFinishEditing,
