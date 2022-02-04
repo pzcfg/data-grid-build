@@ -187,7 +187,7 @@ export interface BubbleCell extends BaseGridCell {
 }
 export declare type ProvideEditorCallback<T extends GridCell> = (cell: T) => (React.FunctionComponent<{
     readonly onChange: (newValue: T) => void;
-    readonly onFinishedEditing: () => void;
+    readonly onFinishedEditing: (newValue?: T) => void;
     readonly isHighlighted: boolean;
     readonly value: T;
 }> & {

@@ -39,6 +39,9 @@ const DataGridOverlayEditor = p => {
   const onClickOutside = React.useCallback(() => {
     onFinishEditing(tempValue, [0, 0]);
   }, [tempValue, onFinishEditing]);
+  const onCustomFinishedEditing = React.useCallback(newValue => {
+    onFinishEditing(newValue !== undefined ? newValue : tempValue, [0, 0]);
+  }, [onFinishEditing, tempValue]);
   const onKeyDown = React.useCallback(event => {
     if (event.key === "Escape") {
       onFinishEditing(undefined, [0, 0]);
@@ -74,7 +77,7 @@ const DataGridOverlayEditor = p => {
       isHighlighted: highlight,
       onChange: setTempValue,
       value: targetValue,
-      onFinishedEditing: onClickOutside
+      onFinishedEditing: onCustomFinishedEditing
     });
   } else if (CellEditor !== undefined) {
     editor = React.createElement(CellEditor, {

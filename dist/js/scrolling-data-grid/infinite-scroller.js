@@ -86,8 +86,8 @@ export const InfiniteScroller = p => {
     update({
       x: el.scrollLeft,
       y: Math.min(maxFakeY, newY + offsetY.current),
-      width: el.clientWidth - paddingRight,
-      height: el.clientHeight - paddingBottom
+      width: el.clientWidth,
+      height: el.clientHeight
     });
   }, [paddingBottom, paddingRight, scrollHeight, update]);
   const lastProps = React.useRef();
