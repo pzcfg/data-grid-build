@@ -57,6 +57,9 @@ export const DataGridOverlayEditorStyle = styled.div`
 
         ${p => !p.unstyled && `
         input {
+            margin-top: -2.5px;
+            margin-left: 1px;
+
             width: 100%;
 
             border: none;
@@ -66,6 +69,9 @@ export const DataGridOverlayEditorStyle = styled.div`
         `}
 
         textarea {
+            margin-top: -0.5px;
+            margin-left: 1px;
+
             border: none;
             border-width: 0;
             outline: none;

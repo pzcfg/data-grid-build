@@ -9,7 +9,7 @@ var _styles = require("../common/styles");
 
 var _styledComponents = require("styled-components");
 
-const inputProps = (0, _styledComponents.css)(["font-size:13px;line-height:16px;font-family:", ";color:", ";padding:0;margin:0;"], p => p.theme.fontFamily, p => p.theme.textDark);
+const inputProps = (0, _styledComponents.css)(["font-size:14px;line-height:16px;font-family:", ";color:", ";padding:0;margin:0;"], p => p.theme.fontFamily, p => p.theme.textDark);
 const InputBox = _styles.styled.textarea`
     position: absolute;
     left: 0;

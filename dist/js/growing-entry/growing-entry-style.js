@@ -1,6 +1,6 @@
 import { styled } from "../common/styles";
 import { css } from "styled-components";
-const inputProps = css(["font-size:13px;line-height:16px;font-family:", ";color:", ";padding:0;margin:0;"], p => p.theme.fontFamily, p => p.theme.textDark);
+const inputProps = css(["font-size:14px;line-height:16px;font-family:", ";color:", ";padding:0;margin:0;"], p => p.theme.fontFamily, p => p.theme.textDark);
 export const InputBox = styled.textarea`
     position: absolute;
     left: 0;
