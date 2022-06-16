@@ -23,7 +23,11 @@ const drilldownCellRenderer = {
   getAccessibilityString: c => c.data.map(d => d.text).join(", "),
   kind: _dataGridTypes.GridCellKind.Drilldown,
   needsHover: false,
+  useLabel: false,
   needsHoverPosition: false,
+  measure: (ctx, cell) => {
+    return cell.data.reduce((acc, data) => ctx.measureText(data.text).width + (data.img === undefined ? 0 : 20) + acc, 0) + 16;
+  },
   render: a => (0, _dataGridLib.drawDrilldownCell)(a, a.cell.data),
   getEditor: () => p => {
     const {

@@ -3,16 +3,28 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.InnerGridCellKind = exports.GridColumnIcon = exports.GridCellKind = exports.CompactSelection = void 0;
+exports.InnerGridCellKind = exports.GridColumnIcon = exports.GridCellKind = exports.CompactSelection = exports.BooleanIndeterminate = exports.BooleanEmpty = void 0;
+exports.booleanCellIsEditable = booleanCellIsEditable;
 exports.isEditableGridCell = isEditableGridCell;
 exports.isInnerOnlyCell = isInnerOnlyCell;
+exports.isObjectEditorCallbackResult = isObjectEditorCallbackResult;
 exports.isReadWriteCell = isReadWriteCell;
+exports.isSizedGridColumn = isSizedGridColumn;
 exports.isTextEditableGridCell = isTextEditableGridCell;
+exports.resolveCellsThunk = resolveCellsThunk;
 
 var _support = require("../common/support");
 
+var _has = _interopRequireDefault(require("lodash/has"));
+
 let _Symbol$iterator;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const BooleanEmpty = null;
+exports.BooleanEmpty = BooleanEmpty;
+const BooleanIndeterminate = undefined;
+exports.BooleanIndeterminate = BooleanIndeterminate;
 let GridCellKind;
 exports.GridCellKind = GridCellKind;
 
@@ -65,8 +77,17 @@ exports.GridColumnIcon = GridColumnIcon;
   GridColumnIcon["ProtectedColumnOverlay"] = "protectedColumnOverlay";
 })(GridColumnIcon || (exports.GridColumnIcon = GridColumnIcon = {}));
 
+function isSizedGridColumn(c) {
+  return "width" in c;
+}
+
+async function resolveCellsThunk(thunk) {
+  if (typeof thunk === "object") return thunk;
+  return await thunk();
+}
+
 function isEditableGridCell(cell) {
-  if (cell.kind === GridCellKind.Loading || cell.kind === GridCellKind.Bubble || cell.kind === GridCellKind.RowID || cell.kind === GridCellKind.Protected || cell.kind === GridCellKind.Drilldown || cell.kind === GridCellKind.Custom) {
+  if (cell.kind === GridCellKind.Loading || cell.kind === GridCellKind.Bubble || cell.kind === GridCellKind.RowID || cell.kind === GridCellKind.Protected || cell.kind === GridCellKind.Drilldown) {
     return false;
   }
 
@@ -88,13 +109,29 @@ function isInnerOnlyCell(cell) {
 }
 
 function isReadWriteCell(cell) {
-  if (!isEditableGridCell(cell) || cell.kind === GridCellKind.Image || cell.kind === GridCellKind.Boolean) return false;
+  if (!isEditableGridCell(cell) || cell.kind === GridCellKind.Image) return false;
 
-  if (cell.kind === GridCellKind.Text || cell.kind === GridCellKind.Number || cell.kind === GridCellKind.Markdown || cell.kind === GridCellKind.Uri) {
+  if (cell.kind === GridCellKind.Text || cell.kind === GridCellKind.Number || cell.kind === GridCellKind.Markdown || cell.kind === GridCellKind.Uri || cell.kind === GridCellKind.Custom || cell.kind === GridCellKind.Boolean) {
     return cell.readonly !== true;
   }
 
   (0, _support.assertNever)(cell);
+}
+
+function isObjectEditorCallbackResult(obj) {
+  if ((0, _has.default)(obj, "editor")) {
+    return true;
+  }
+
+  return false;
+}
+
+function booleanCellIsEditable(cell) {
+  if (cell.readonly === true) return false;
+  if (cell.readonly === false) return true;
+  if (cell.allowEdit === true) return true;
+  if (cell.allowEdit === false) return false;
+  return true;
 }
 
 let InnerGridCellKind;
@@ -149,25 +186,24 @@ class CompactSelection {
 
     this.remove = selection => {
       const items = [...this.items];
+      const selMin = typeof selection === "number" ? selection : selection[0];
+      const selMax = typeof selection === "number" ? selection + 1 : selection[1];
 
       for (const [i, slice] of items.entries()) {
         const [start, end] = slice;
 
-        if (start <= selection && end > selection) {
-          const left = [start, selection];
-          const right = [selection + 1, end];
+        if (start <= selMax && selMin <= end) {
           const toAdd = [];
 
-          if (left[0] !== left[1]) {
-            toAdd.push(left);
+          if (start < selMin) {
+            toAdd.push([start, selMin]);
           }
 
-          if (right[0] !== right[1]) {
-            toAdd.push(right);
+          if (selMax < end) {
+            toAdd.push([selMax, end]);
           }
 
           items.splice(i, 1, ...toAdd);
-          break;
         }
       }
 
@@ -196,6 +232,27 @@ class CompactSelection {
     this.hasAll = index => {
       for (let x = index[0]; x < index[1]; x++) {
         if (!this.hasIndex(x)) return false;
+      }
+
+      return true;
+    };
+
+    this.some = predicate => {
+      for (const i of this) {
+        if (predicate(i)) return true;
+      }
+
+      return false;
+    };
+
+    this.equals = other => {
+      if (other === this) return true;
+      if (other.items.length !== this.items.length) return false;
+
+      for (let i = 0; i < this.items.length; i++) {
+        const left = other.items[i];
+        const right = this.items[i];
+        if (left[0] !== right[0] || left[1] !== right[1]) return false;
       }
 
       return true;

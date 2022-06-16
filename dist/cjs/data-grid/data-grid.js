@@ -43,20 +43,25 @@ const DataGrid = (p, forwardedRef) => {
   const {
     width,
     height,
+    accessibilityHeight,
     className,
     columns,
     cellXOffset: cellXOffsetReal,
     cellYOffset,
     headerHeight,
+    fillHandle = false,
     groupHeaderHeight,
     rowHeight,
     rows,
     getCellContent,
+    getRowThemeOverride,
     onHeaderMenuClick,
-    selectedRows,
     enableGroups,
-    selectedCell,
-    selectedColumns,
+    isFilling,
+    onCanvasFocused,
+    onCanvasBlur,
+    isFocused,
+    selection,
     freezeColumns,
     lastRowSticky,
     onMouseDown,
@@ -65,8 +70,10 @@ const DataGrid = (p, forwardedRef) => {
     onMouseMove,
     onItemHovered,
     dragAndDropState,
+    firstColAccessible,
     onKeyDown,
     onKeyUp,
+    highlightRegions,
     canvasRef,
     onDragStart,
     eventTargetRef,
@@ -102,11 +109,14 @@ const DataGrid = (p, forwardedRef) => {
   const [hoveredItemInfo, setHoveredItemInfo] = React.useState();
   const [hoveredOnEdge, setHoveredOnEdge] = React.useState();
   const overlayRef = React.useRef(null);
+  const [lastWasTouch, setLastWasTouch] = React.useState(false);
+  const lastWasTouchRef = React.useRef(lastWasTouch);
+  lastWasTouchRef.current = lastWasTouch;
   const spriteManager = React.useMemo(() => new _dataGridSprites.SpriteManager(headerIcons), [headerIcons]);
   const totalHeaderHeight = enableGroups ? groupHeaderHeight + headerHeight : headerHeight;
   const scrollingStopRef = React.useRef(-1);
-  const disableFirefoxRescaling = ((_p$experimental = p.experimental) === null || _p$experimental === void 0 ? void 0 : _p$experimental.disableFirefoxRescaling) === true;
-  React.useEffect(() => {
+  const disableFirefoxRescaling = ((_p$experimental = p.experimental) === null || _p$experimental === void 0 ? void 0 : _p$experimental.enableFirefoxRescaling) !== true;
+  React.useLayoutEffect(() => {
     if (!_browserDetect.browserIsFirefox || window.devicePixelRatio === 1 || disableFirefoxRescaling) return;
 
     if (scrollingStopRef.current !== -1) {
@@ -119,7 +129,7 @@ const DataGrid = (p, forwardedRef) => {
       scrollingStopRef.current = -1;
     }, 200);
   }, [cellYOffset, cellXOffset, translateX, translateY, disableFirefoxRescaling]);
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const fn = async () => {
       const changed = await spriteManager.buildSpriteMap(theme, columns);
 
@@ -133,89 +143,23 @@ const DataGrid = (p, forwardedRef) => {
   const mappedColumns = (0, _dataGridLib.useMappedColumns)(columns, freezeColumns);
   const getBoundsForItem = React.useCallback((canvas, col, row) => {
     const rect = canvas.getBoundingClientRect();
-    const result = {
-      x: rect.x,
-      y: rect.y + totalHeaderHeight + translateY,
-      width: 0,
-      height: 0
-    };
-
-    if (col >= freezeColumns) {
-      const dir = cellXOffset > col ? -1 : 1;
-      const freezeWidth = (0, _dataGridLib.getStickyWidth)(mappedColumns);
-      result.x += freezeWidth + translateX;
-
-      for (let i = cellXOffset; i !== col; i += dir) {
-        result.x += mappedColumns[i].width * dir;
-      }
-    } else {
-      for (let i = 0; i < col; i++) {
-        result.x += mappedColumns[i].width;
-      }
-    }
-
-    result.width = mappedColumns[col].width + 1;
-
-    if (row === -1) {
-      result.y = rect.y + groupHeaderHeight;
-      result.height = headerHeight;
-    } else if (row === -2) {
-      result.y = rect.y;
-      result.height = groupHeaderHeight;
-      let start = col;
-      const group = mappedColumns[col].group;
-      const sticky = mappedColumns[col].sticky;
-
-      while (start > 0 && (0, _dataGridLib.isGroupEqual)(mappedColumns[start - 1].group, group) && mappedColumns[start - 1].sticky === sticky) {
-        const c = mappedColumns[start - 1];
-        result.x -= c.width;
-        result.width += c.width;
-        start--;
-      }
-
-      let end = col;
-
-      while (end + 1 < mappedColumns.length && (0, _dataGridLib.isGroupEqual)(mappedColumns[end + 1].group, group) && mappedColumns[end + 1].sticky === sticky) {
-        const c = mappedColumns[end + 1];
-        result.width += c.width;
-        end++;
-      }
-
-      if (!sticky) {
-        const freezeWidth = (0, _dataGridLib.getStickyWidth)(mappedColumns);
-        const clip = result.x - (rect.x + freezeWidth);
-
-        if (clip < 0) {
-          result.x -= clip;
-          result.width += clip;
-        }
-
-        if (result.x + result.width > rect.right) {
-          result.width = rect.right - result.x;
-        }
-      }
-    } else if (lastRowSticky && row === rows - 1) {
-      const stickyHeight = typeof rowHeight === "number" ? rowHeight : rowHeight(row);
-      result.y = rect.y + (height - stickyHeight);
-      result.height = stickyHeight;
-    } else {
-      const dir = cellYOffset > row ? -1 : 1;
-
-      for (let r = cellYOffset; r !== row; r += dir) {
-        result.y += (typeof rowHeight === "number" ? rowHeight : rowHeight(r)) * dir;
-      }
-
-      result.height = (typeof rowHeight === "number" ? rowHeight : rowHeight(row)) + 1;
-    }
-
+    const result = (0, _dataGridLib.computeBounds)(col, row, width, height, groupHeaderHeight, totalHeaderHeight, cellXOffset, cellYOffset, translateX, translateY, rows, freezeColumns, lastRowSticky, mappedColumns, rowHeight);
+    result.x += rect.x;
+    result.y += rect.y;
     return result;
-  }, [totalHeaderHeight, translateY, freezeColumns, mappedColumns, lastRowSticky, rows, cellXOffset, translateX, groupHeaderHeight, headerHeight, rowHeight, height, cellYOffset]);
+  }, [width, height, groupHeaderHeight, totalHeaderHeight, cellXOffset, cellYOffset, translateX, translateY, rows, freezeColumns, lastRowSticky, mappedColumns, rowHeight]);
   const getMouseArgsForPosition = React.useCallback((canvas, posX, posY, ev) => {
     const rect = canvas.getBoundingClientRect();
     const x = posX - rect.left;
     const y = posY - rect.top;
     const edgeDetectionBuffer = 5;
     const effectiveCols = (0, _dataGridLib.getEffectiveColumns)(mappedColumns, cellXOffset, width, undefined, translateX);
+    let button = 0;
+
+    if (ev instanceof MouseEvent) {
+      button = ev.button;
+    }
+
     const col = (0, _dataGridLib.getColumnIndexForX)(x, effectiveCols, translateX);
     const row = (0, _dataGridLib.getRowIndexForY)(y, height, enableGroups, headerHeight, groupHeaderHeight, rows, rowHeight, cellYOffset, translateY, lastRowSticky);
     const shiftKey = (ev === null || ev === void 0 ? void 0 : ev.shiftKey) === true;
@@ -242,7 +186,8 @@ const DataGrid = (p, forwardedRef) => {
         ctrlKey,
         metaKey,
         isEdge,
-        isTouch
+        isTouch,
+        button
       };
     } else if (row <= -1) {
       let bounds = getBoundsForItem(canvas, col, row);
@@ -265,7 +210,8 @@ const DataGrid = (p, forwardedRef) => {
           metaKey,
           isTouch,
           localEventX: posX - bounds.x,
-          localEventY: posY - bounds.y
+          localEventY: posY - bounds.y,
+          button
         };
       } else {
         var _mappedColumns$col$gr;
@@ -281,12 +227,14 @@ const DataGrid = (p, forwardedRef) => {
           metaKey,
           isTouch,
           localEventX: posX - bounds.x,
-          localEventY: posY - bounds.y
+          localEventY: posY - bounds.y,
+          button
         };
       }
     } else {
       const bounds = getBoundsForItem(canvas, col, row);
       const isEdge = bounds !== undefined && bounds.x + bounds.width - posX < edgeDetectionBuffer;
+      const isFillHandle = fillHandle && bounds !== undefined && bounds.x + bounds.width - posX < 6 && bounds.y + bounds.height - posY < 6;
       result = {
         kind: "cell",
         location: [col, row],
@@ -294,15 +242,17 @@ const DataGrid = (p, forwardedRef) => {
         isEdge,
         shiftKey,
         ctrlKey,
+        isFillHandle,
         metaKey,
         isTouch,
         localEventX: posX - bounds.x,
-        localEventY: posY - bounds.y
+        localEventY: posY - bounds.y,
+        button
       };
     }
 
     return result;
-  }, [mappedColumns, cellXOffset, width, translateX, height, enableGroups, headerHeight, groupHeaderHeight, rows, rowHeight, cellYOffset, translateY, lastRowSticky, getBoundsForItem]);
+  }, [mappedColumns, cellXOffset, width, translateX, height, enableGroups, headerHeight, groupHeaderHeight, rows, rowHeight, cellYOffset, translateY, lastRowSticky, getBoundsForItem, fillHandle]);
 
   function isSameItem(item, other) {
     if (item === other) return true;
@@ -319,22 +269,67 @@ const DataGrid = (p, forwardedRef) => {
     const canvas = ref.current;
     const overlay = overlayRef.current;
     if (canvas === null || overlay === null) return;
-    (0, _dataGridRender.drawGrid)(canvas, {
-      overlay
-    }, width, height, cellXOffset, cellYOffset, Math.round(translateX), Math.round(translateY), columns, mappedColumns, enableGroups, freezeColumns, dragAndDropState, theme, headerHeight, groupHeaderHeight, selectedRows !== null && selectedRows !== void 0 ? selectedRows : _dataGridTypes.CompactSelection.empty(), disabledRows !== null && disabledRows !== void 0 ? disabledRows : _dataGridTypes.CompactSelection.empty(), rowHeight, verticalBorder, selectedColumns !== null && selectedColumns !== void 0 ? selectedColumns : _dataGridTypes.CompactSelection.empty(), isResizing, selectedCell, lastRowSticky, rows, getCellContent, getGroupDetails !== null && getGroupDetails !== void 0 ? getGroupDetails : name => ({
-      name
-    }), drawCustomCell, drawHeader, prelightCells, imageLoader, lastBlitData, (_canBlit$current = canBlit.current) !== null && _canBlit$current !== void 0 ? _canBlit$current : false, damageRegion.current, hoverValues.current, hoverInfoRef.current, spriteManager, scrolling, enqueueRef.current);
-  }, [width, height, cellXOffset, cellYOffset, translateX, translateY, columns, mappedColumns, enableGroups, freezeColumns, dragAndDropState, theme, headerHeight, groupHeaderHeight, selectedRows, disabledRows, rowHeight, verticalBorder, selectedColumns, isResizing, selectedCell, lastRowSticky, rows, getCellContent, getGroupDetails, drawCustomCell, drawHeader, prelightCells, imageLoader, spriteManager, scrolling]);
+    (0, _dataGridRender.drawGrid)({
+      canvas,
+      buffers: {
+        overlay
+      },
+      width,
+      height,
+      cellXOffset,
+      cellYOffset,
+      translateX: Math.round(translateX),
+      translateY: Math.round(translateY),
+      columns,
+      mappedColumns,
+      enableGroups,
+      freezeColumns,
+      dragAndDropState,
+      theme,
+      headerHeight,
+      groupHeaderHeight,
+      selectedRows: selection.rows,
+      disabledRows: disabledRows !== null && disabledRows !== void 0 ? disabledRows : _dataGridTypes.CompactSelection.empty(),
+      rowHeight,
+      verticalBorder,
+      selectedColumns: selection.columns,
+      isResizing,
+      isFocused,
+      selectedCell: selection,
+      fillHandle,
+      lastRowSticky,
+      rows,
+      getCellContent,
+      getGroupDetails: getGroupDetails !== null && getGroupDetails !== void 0 ? getGroupDetails : name => ({
+        name
+      }),
+      getRowThemeOverride,
+      drawCustomCell,
+      drawHeaderCallback: drawHeader,
+      prelightCells,
+      highlightRegions,
+      imageLoader,
+      lastBlitData,
+      canBlit: (_canBlit$current = canBlit.current) !== null && _canBlit$current !== void 0 ? _canBlit$current : false,
+      damage: damageRegion.current,
+      hoverValues: hoverValues.current,
+      hoverInfo: hoverInfoRef.current,
+      spriteManager,
+      scrolling,
+      touchMode: lastWasTouch,
+      enqueue: enqueueRef.current
+    });
+  }, [width, height, cellXOffset, cellYOffset, translateX, translateY, columns, mappedColumns, enableGroups, freezeColumns, dragAndDropState, theme, headerHeight, isFocused, groupHeaderHeight, selection, disabledRows, rowHeight, verticalBorder, isResizing, fillHandle, lastRowSticky, rows, getCellContent, getGroupDetails, getRowThemeOverride, drawCustomCell, drawHeader, prelightCells, highlightRegions, imageLoader, spriteManager, scrolling, lastWasTouch]);
   canBlit.current = canBlit.current !== undefined;
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     canBlit.current = false;
-  }, [width, height, columns, theme, headerHeight, rowHeight, rows, isResizing, getCellContent, selectedRows, selectedColumns, selectedCell, dragAndDropState, prelightCells, scrolling]);
+  }, [width, height, columns, theme, headerHeight, rowHeight, rows, isFocused, isResizing, verticalBorder, getCellContent, highlightRegions, lastWasTouch, selection, dragAndDropState, prelightCells, scrolling]);
   const lastDrawRef = React.useRef(draw);
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     draw();
     lastDrawRef.current = draw;
   }, [draw]);
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const fn = async () => {
       var _document, _document$fonts;
 
@@ -362,27 +357,26 @@ const DataGrid = (p, forwardedRef) => {
     damageInternal(cells.map(x => x.cell));
   }, [damageInternal]);
   imageLoader.setCallback(damageInternal);
+  const [overFill, setOverFill] = React.useState(false);
   const [hCol, hRow] = hoveredItem !== null && hoveredItem !== void 0 ? hoveredItem : [];
   const headerHovered = hCol !== undefined && hRow === -1;
   const groupHeaderHovered = hCol !== undefined && hRow === -2;
   let clickableInnerCellHovered = false;
   let editableBoolHovered = false;
 
-  if (hCol !== undefined && hRow !== undefined && hRow > 0) {
+  if (hCol !== undefined && hRow !== undefined && hRow > -1) {
     const cell = getCellContent([hCol, hRow]);
     clickableInnerCellHovered = cell.kind === _dataGridTypes.InnerGridCellKind.NewRow || cell.kind === _dataGridTypes.InnerGridCellKind.Marker && cell.markerKind !== "number";
-    editableBoolHovered = cell.kind === _dataGridTypes.GridCellKind.Boolean && cell.allowEdit === true;
+    editableBoolHovered = cell.kind === _dataGridTypes.GridCellKind.Boolean && (0, _dataGridTypes.booleanCellIsEditable)(cell);
   }
 
   const canDrag = hoveredOnEdge !== null && hoveredOnEdge !== void 0 ? hoveredOnEdge : false;
-  const cursor = isDragging ? "grabbing" : canDrag || isResizing ? "col-resize" : headerHovered || clickableInnerCellHovered || editableBoolHovered || groupHeaderHovered ? "pointer" : "default";
+  const cursor = isDragging ? "grabbing" : canDrag || isResizing ? "col-resize" : overFill || isFilling ? "crosshair" : headerHovered || clickableInnerCellHovered || editableBoolHovered || groupHeaderHovered ? "pointer" : "default";
   const style = React.useMemo(() => ({
-    width,
-    height,
     contain: "strict",
     display: "block",
     cursor
-  }), [width, height, cursor]);
+  }), [cursor]);
   const target = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current;
 
   if (target !== null && target !== undefined) {
@@ -410,7 +404,7 @@ const DataGrid = (p, forwardedRef) => {
   const isOverHeaderMenu = React.useCallback((canvas, col, clientX, clientY) => {
     const header = columns[col];
 
-    if (!isDragging && header.hasMenu === true && !(hoveredOnEdge !== null && hoveredOnEdge !== void 0 ? hoveredOnEdge : false)) {
+    if (!isDragging && !isResizing && header.hasMenu === true && !(hoveredOnEdge !== null && hoveredOnEdge !== void 0 ? hoveredOnEdge : false)) {
       const headerBounds = getBoundsForItem(canvas, col, -1);
       const menuBounds = (0, _dataGridRender.getHeaderMenuBounds)(headerBounds.x, headerBounds.y, headerBounds.width, headerBounds.height);
 
@@ -420,7 +414,8 @@ const DataGrid = (p, forwardedRef) => {
     }
 
     return undefined;
-  }, [columns, getBoundsForItem, hoveredOnEdge, isDragging]);
+  }, [columns, getBoundsForItem, hoveredOnEdge, isDragging, isResizing]);
+  const downTime = React.useRef(0);
   const onMouseDownImpl = React.useCallback(ev => {
     const canvas = ref.current;
     const eventTarget = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current;
@@ -429,7 +424,6 @@ const DataGrid = (p, forwardedRef) => {
     let clientY;
 
     if (ev instanceof MouseEvent) {
-      if (ev.button !== 0) return;
       clientX = ev.clientX;
       clientY = ev.clientY;
     } else {
@@ -445,6 +439,14 @@ const DataGrid = (p, forwardedRef) => {
 
     const args = getMouseArgsForPosition(canvas, clientX, clientY, ev);
 
+    if (args.isTouch) {
+      downTime.current = Date.now();
+    }
+
+    if (lastWasTouchRef.current !== args.isTouch) {
+      setLastWasTouch(args.isTouch);
+    }
+
     if (args.kind === "header" && isOverHeaderMenu(canvas, args.location[0], clientX, clientY) !== undefined) {
       return;
     } else if (args.kind === "group-header") {
@@ -456,24 +458,22 @@ const DataGrid = (p, forwardedRef) => {
     }
 
     onMouseDown === null || onMouseDown === void 0 ? void 0 : onMouseDown(args);
-  }, [eventTargetRef, getMouseArgsForPosition, groupHeaderActionForEvent, isOverHeaderMenu, onMouseDown]);
-  (0, _utils.useEventListener)("touchstart", onMouseDownImpl, window, true);
-  (0, _utils.useEventListener)("mousedown", onMouseDownImpl, window, true);
+
+    if (!args.isTouch && !isDraggable) {
+      ev.preventDefault();
+    }
+  }, [eventTargetRef, isDraggable, getMouseArgsForPosition, groupHeaderActionForEvent, isOverHeaderMenu, onMouseDown]);
+  (0, _utils.useEventListener)("touchstart", onMouseDownImpl, window, false);
+  (0, _utils.useEventListener)("mousedown", onMouseDownImpl, window, false);
   const onMouseUpImpl = React.useCallback(ev => {
     const canvas = ref.current;
     if (onMouseUp === undefined || canvas === null) return;
     const eventTarget = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current;
     const isOutside = ev.target !== canvas && ev.target !== eventTarget;
-
-    if (!isOutside) {
-      ev.preventDefault();
-    }
-
     let clientX;
     let clientY;
 
     if (ev instanceof MouseEvent) {
-      if (ev.button !== 0) return;
       clientX = ev.clientX;
       clientY = ev.clientY;
     } else {
@@ -481,21 +481,41 @@ const DataGrid = (p, forwardedRef) => {
       clientY = ev.changedTouches[0].clientY;
     }
 
-    const args = getMouseArgsForPosition(canvas, clientX, clientY, ev);
+    let args = getMouseArgsForPosition(canvas, clientX, clientY, ev);
+
+    if (args.isTouch && downTime.current !== 0 && Date.now() - downTime.current > 500) {
+      args = { ...args,
+        isLongTouch: true
+      };
+    }
+
+    if (lastWasTouchRef.current !== args.isTouch) {
+      setLastWasTouch(args.isTouch);
+    }
+
+    if (!isOutside && ev.cancelable) {
+      ev.preventDefault();
+    }
 
     if (args.kind === "header" && isOverHeaderMenu(canvas, args.location[0], clientX, clientY)) {
       const [col] = args.location;
       const headerBounds = isOverHeaderMenu(canvas, col, clientX, clientY);
 
       if (headerBounds !== undefined) {
-        onHeaderMenuClick === null || onHeaderMenuClick === void 0 ? void 0 : onHeaderMenuClick(col, headerBounds);
+        if (args.button === 0) {
+          onHeaderMenuClick === null || onHeaderMenuClick === void 0 ? void 0 : onHeaderMenuClick(col, headerBounds);
+        }
+
         return;
       }
     } else if (args.kind === "group-header") {
       const action = groupHeaderActionForEvent(args.group, args.bounds, args.localEventX, args.localEventY);
 
       if (action !== undefined) {
-        action.onClick(args);
+        if (args.button === 0) {
+          action.onClick(args);
+        }
+
         return;
       }
     }
@@ -516,7 +536,7 @@ const DataGrid = (p, forwardedRef) => {
   const animManagerValue = React.useMemo(() => new _animationManager.AnimationManager(onAnimationFrame), [onAnimationFrame]);
   const animationManager = React.useRef(animManagerValue);
   animationManager.current = animManagerValue;
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const am = animationManager.current;
 
     if (hoveredItem === undefined || hoveredItem[1] < 0) {
@@ -554,17 +574,28 @@ const DataGrid = (p, forwardedRef) => {
     }
 
     setHoveredOnEdge(args.kind === "header" && args.isEdge && allowResize === true);
+
+    if (fillHandle && selection.current !== undefined) {
+      const [col, row] = selection.current.cell;
+      const sb = getBoundsForItem(canvas, col, row);
+      const x = ev.clientX;
+      const y = ev.clientY;
+      setOverFill(x >= sb.x + sb.width - 6 && x <= sb.x + sb.width && y >= sb.y + sb.height - 6 && y <= sb.y + sb.height);
+    } else {
+      setOverFill(false);
+    }
+
     onMouseMoveRaw === null || onMouseMoveRaw === void 0 ? void 0 : onMouseMoveRaw(ev);
     onMouseMove(args);
-  }, [getMouseArgsForPosition, allowResize, onMouseMoveRaw, onMouseMove, onItemHovered, getCellContent, damageInternal]);
+  }, [getMouseArgsForPosition, allowResize, fillHandle, selection, onMouseMoveRaw, onMouseMove, onItemHovered, getCellContent, damageInternal, getBoundsForItem]);
   (0, _utils.useEventListener)("mousemove", onMouseMoveImpl, window, true);
   const onKeyDownImpl = React.useCallback(event => {
     const canvas = ref.current;
     if (canvas === null) return;
     let bounds;
 
-    if (selectedCell !== undefined) {
-      bounds = getBoundsForItem(canvas, selectedCell.cell[0], selectedCell.cell[1]);
+    if (selection.current !== undefined) {
+      bounds = getBoundsForItem(canvas, selection.current.cell[0], selection.current.cell[1]);
     }
 
     onKeyDown === null || onKeyDown === void 0 ? void 0 : onKeyDown({
@@ -576,17 +607,18 @@ const DataGrid = (p, forwardedRef) => {
       ctrlKey: event.ctrlKey,
       metaKey: event.metaKey,
       shiftKey: event.shiftKey,
+      altKey: event.altKey,
       key: event.key,
       keyCode: event.keyCode
     });
-  }, [onKeyDown, selectedCell, getBoundsForItem]);
+  }, [onKeyDown, selection, getBoundsForItem]);
   const onKeyUpImpl = React.useCallback(event => {
     const canvas = ref.current;
     if (canvas === null) return;
     let bounds;
 
-    if (selectedCell !== undefined) {
-      bounds = getBoundsForItem(canvas, selectedCell.cell[0], selectedCell.cell[1]);
+    if (selection.current !== undefined) {
+      bounds = getBoundsForItem(canvas, selection.current.cell[0], selection.current.cell[1]);
     }
 
     onKeyUp === null || onKeyUp === void 0 ? void 0 : onKeyUp({
@@ -598,10 +630,11 @@ const DataGrid = (p, forwardedRef) => {
       ctrlKey: event.ctrlKey,
       metaKey: event.metaKey,
       shiftKey: event.shiftKey,
+      altKey: event.altKey,
       key: event.key,
       keyCode: event.keyCode
     });
-  }, [onKeyUp, selectedCell, getBoundsForItem]);
+  }, [onKeyUp, selection, getBoundsForItem]);
   const refImpl = React.useCallback(instance => {
     ref.current = instance;
 
@@ -655,7 +688,7 @@ const DataGrid = (p, forwardedRef) => {
           if (ctx !== null) {
             ctx.fillStyle = theme.bgCell;
             ctx.fillRect(0, 0, offscreen.width, offscreen.height);
-            (0, _dataGridRender.drawCell)(ctx, row, getCellContent([col, row]), 0, 0, 0, boundsForDragTarget.width, boundsForDragTarget.height, false, theme, drawCustomCell, imageLoader, 1, undefined, 0);
+            (0, _dataGridRender.drawCell)(ctx, row, getCellContent([col, row]), 0, 0, 0, boundsForDragTarget.width, boundsForDragTarget.height, false, theme, drawCustomCell, imageLoader, spriteManager, 1, undefined, 0);
           }
 
           offscreen.style.left = "-100%";
@@ -670,19 +703,21 @@ const DataGrid = (p, forwardedRef) => {
     } else {
       event.preventDefault();
     }
-  }, [isDraggable, getMouseArgsForPosition, onDragStart, getBoundsForItem, theme, getCellContent, drawCustomCell, imageLoader]);
+  }, [isDraggable, getMouseArgsForPosition, onDragStart, getBoundsForItem, theme, getCellContent, drawCustomCell, imageLoader, spriteManager]);
   (0, _utils.useEventListener)("dragstart", onDragStartImpl, (_eventTargetRef$curre = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current) !== null && _eventTargetRef$curre !== void 0 ? _eventTargetRef$curre : null, false, false);
+  const selectionRef = React.useRef(selection);
+  selectionRef.current = selection;
   const focusRef = React.useRef(null);
   const focusElement = React.useCallback(el => {
     if (ref.current === null || !ref.current.contains(document.activeElement)) return;
 
-    if (el === null) {
+    if (el === null && selectionRef.current.current !== undefined) {
       var _canvasRef$current;
 
       canvasRef === null || canvasRef === void 0 ? void 0 : (_canvasRef$current = canvasRef.current) === null || _canvasRef$current === void 0 ? void 0 : _canvasRef$current.focus({
         preventScroll: true
       });
-    } else {
+    } else if (el !== null) {
       el.focus({
         preventScroll: true
       });
@@ -715,8 +750,17 @@ const DataGrid = (p, forwardedRef) => {
     },
     damage
   }), [canvasRef, damage, getBoundsForItem]);
+  const lastFocusedSubdomNode = React.useRef();
   const accessibilityTree = (0, _utils.useDebouncedMemo)(() => {
-    const effectiveCols = (0, _dataGridLib.getEffectiveColumns)(mappedColumns, cellXOffset, width, dragAndDropState, translateX);
+    var _effectiveCols$, _selection$current$ce, _selection$current, _selection$current2;
+
+    if (width < 50) return null;
+    let effectiveCols = (0, _dataGridLib.getEffectiveColumns)(mappedColumns, cellXOffset, width, dragAndDropState, translateX);
+    const colOffset = firstColAccessible ? 0 : -1;
+
+    if (!firstColAccessible && ((_effectiveCols$ = effectiveCols[0]) === null || _effectiveCols$ === void 0 ? void 0 : _effectiveCols$.sourceIndex) === 0) {
+      effectiveCols = effectiveCols.slice(1);
+    }
 
     const getRowData = cell => {
       if (cell.kind === _dataGridTypes.GridCellKind.Custom) {
@@ -726,39 +770,56 @@ const DataGrid = (p, forwardedRef) => {
       }
     };
 
-    return React.createElement("div", {
-      role: "grid",
-      "aria-rowcount": rows,
-      "aria-colcount": mappedColumns.length
-    }, React.createElement("div", {
-      role: "rowgroup"
-    }, React.createElement("div", {
-      role: "row",
-      "aria-rowindex": 1,
-      "row-index": 1
-    }, effectiveCols.map(c => React.createElement("div", {
-      role: "columnheader",
-      "aria-colindex": c.sourceIndex + 1,
-      key: c.sourceIndex
-    }, c.title)))), React.createElement("div", {
-      role: "rowgroup"
-    }, (0, _range.default)(cellYOffset, Math.min(rows, cellYOffset + 50)).map(row => React.createElement("div", {
-      role: "row",
-      key: row,
-      "aria-rowindex": row + 2,
-      "row-index": row + 2
-    }, effectiveCols.map(c => {
-      var _selectedCell$cell;
+    const [fCol, fRow] = (_selection$current$ce = (_selection$current = selection.current) === null || _selection$current === void 0 ? void 0 : _selection$current.cell) !== null && _selection$current$ce !== void 0 ? _selection$current$ce : [];
+    const range = (_selection$current2 = selection.current) === null || _selection$current2 === void 0 ? void 0 : _selection$current2.range;
+    const visibleCols = effectiveCols.map(c => c.sourceIndex);
+    const visibleRows = (0, _range.default)(cellYOffset, Math.min(rows, cellYOffset + accessibilityHeight));
 
+    if (fCol !== undefined && fRow !== undefined && !(visibleCols.includes(fCol) && visibleRows.includes(fRow))) {
+      focusElement(null);
+    }
+
+    return React.createElement("table", {
+      key: "access-tree",
+      role: "grid",
+      "aria-rowcount": rows + 1,
+      "aria-multiselectable": "true",
+      "aria-colcount": mappedColumns.length + colOffset
+    }, React.createElement("thead", {
+      role: "rowgroup"
+    }, React.createElement("tr", {
+      role: "row",
+      "aria-rowindex": 1
+    }, effectiveCols.map(c => React.createElement("th", {
+      role: "columnheader",
+      "aria-selected": selection.columns.hasIndex(c.sourceIndex),
+      "aria-colindex": c.sourceIndex + 1 + colOffset,
+      tabIndex: -1,
+      onFocus: e => {
+        if (e.target === focusRef.current) return;
+        return onCellFocused === null || onCellFocused === void 0 ? void 0 : onCellFocused([c.sourceIndex, -1]);
+      },
+      key: c.sourceIndex
+    }, c.title)))), React.createElement("tbody", {
+      role: "rowgroup"
+    }, visibleRows.map(row => React.createElement("tr", {
+      role: "row",
+      "aria-selected": selection.rows.hasIndex(row),
+      key: row,
+      "aria-rowindex": row + 2
+    }, effectiveCols.map(c => {
       const col = c.sourceIndex;
       const key = `${col},${row}`;
-      const [fCol, fRow] = (_selectedCell$cell = selectedCell === null || selectedCell === void 0 ? void 0 : selectedCell.cell) !== null && _selectedCell$cell !== void 0 ? _selectedCell$cell : [];
       const focused = fCol === col && fRow === row;
+      const selected = range !== undefined && col >= range.x && col < range.x + range.width && row >= range.y && row < range.y + range.height;
       const id = `glide-cell-${col}-${row}`;
-      return React.createElement("div", {
+      const cellContent = getCellContent([col, row]);
+      return React.createElement("td", {
         key: key,
         role: "gridcell",
-        "aria-colindex": col + 1,
+        "aria-colindex": col + 1 + colOffset,
+        "aria-selected": selected,
+        "aria-readonly": (0, _dataGridTypes.isInnerOnlyCell)(cellContent) || !(0, _dataGridTypes.isReadWriteCell)(cellContent),
         id: id,
         "data-testid": id,
         onClick: () => {
@@ -771,18 +832,22 @@ const DataGrid = (p, forwardedRef) => {
             key: "Enter",
             keyCode: 13,
             metaKey: false,
-            shiftKey: false
+            shiftKey: false,
+            altKey: false
           });
         },
         onFocusCapture: e => {
-          if (e.target === focusRef.current) return;
+          var _lastFocusedSubdomNod, _lastFocusedSubdomNod2;
+
+          if (e.target === focusRef.current || ((_lastFocusedSubdomNod = lastFocusedSubdomNode.current) === null || _lastFocusedSubdomNod === void 0 ? void 0 : _lastFocusedSubdomNod[0]) === col && ((_lastFocusedSubdomNod2 = lastFocusedSubdomNode.current) === null || _lastFocusedSubdomNod2 === void 0 ? void 0 : _lastFocusedSubdomNod2[1]) === row) return;
+          lastFocusedSubdomNode.current = [col, row];
           return onCellFocused === null || onCellFocused === void 0 ? void 0 : onCellFocused([col, row]);
         },
         ref: focused ? focusElement : undefined,
         tabIndex: -1
-      }, getRowData(getCellContent([col, row])));
+      }, getRowData(cellContent));
     })))));
-  }, [cellXOffset, cellYOffset, mappedColumns, dragAndDropState, focusElement, getCellContent, selectedCell === null || selectedCell === void 0 ? void 0 : selectedCell.cell, translateX, width], 200);
+  }, [width, mappedColumns, cellXOffset, dragAndDropState, translateX, rows, cellYOffset, accessibilityHeight, selection, focusElement, getCellContent, canvasRef, onKeyDown, getBoundsForItem, onCellFocused], 200);
   const stickyShadow = React.useMemo(() => {
     if (!mappedColumns[0].sticky) {
       return null;
@@ -793,8 +858,8 @@ const DataGrid = (p, forwardedRef) => {
       position: "absolute",
       top: 0,
       left: stickyX,
-      width: style.width - stickyX,
-      height: style.height,
+      width: width - stickyX,
+      height: height,
       opacity: cellXOffset > freezeColumns || translateX !== 0 ? 1 : 0,
       pointerEvents: "none",
       boxShadow: "inset 13px 0 10px -13px rgba(0, 0, 0, 0.2)",
@@ -803,18 +868,19 @@ const DataGrid = (p, forwardedRef) => {
     return React.createElement("div", {
       style: props
     });
-  }, [cellXOffset, dragAndDropState, freezeColumns, mappedColumns, style.height, style.width, translateX]);
+  }, [cellXOffset, dragAndDropState, freezeColumns, mappedColumns, height, width, translateX]);
   const overlayStyle = React.useMemo(() => ({
     position: "absolute",
     top: 0,
-    left: 0,
-    width: style.width
-  }), [style.width]);
+    left: 0
+  }), []);
   return React.createElement(React.Fragment, null, React.createElement("canvas", {
     "data-testid": "data-grid-canvas",
     tabIndex: 0,
     onKeyDown: onKeyDownImpl,
     onKeyUp: onKeyUpImpl,
+    onFocus: onCanvasFocused,
+    onBlur: onCanvasBlur,
     className: className,
     ref: refImpl,
     style: style

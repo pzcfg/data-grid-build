@@ -1,7 +1,7 @@
-import { EditPencil } from "../../common/utils";
+import { EditPencil } from "../../common/utils.js";
 import * as React from "react";
-import GrowingEntry from "../../growing-entry/growing-entry";
-import { UriOverlayEditorStyle } from "./uri-overlay-editor-style";
+import GrowingEntry from "../../growing-entry/growing-entry.js";
+import { UriOverlayEditorStyle } from "./uri-overlay-editor-style.js";
 
 const UriOverlayEditor = p => {
   const {
@@ -35,6 +35,7 @@ const UriOverlayEditor = p => {
     className: "edit-icon",
     onClick: onEditClick
   }, React.createElement(EditPencil, null)), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

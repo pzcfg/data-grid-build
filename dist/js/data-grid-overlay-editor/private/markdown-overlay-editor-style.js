@@ -1,5 +1,5 @@
-import { GrowingEntryStyle } from "../../growing-entry/growing-entry-style";
-import { styled } from "../../common/styles";
+import { GrowingEntryStyle } from "../../growing-entry/growing-entry-style.js";
+import { styled } from "../../common/styles.js";
 export const MarkdownOverlayEditorStyle = styled.div`
     min-width: ${p => p.targetRect.width}px;
     width: 100%;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
+exports.DataEditorContainer = void 0;
 
 var _styles = require("../common/styles");
 
@@ -15,12 +15,26 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function toCss(x) {
+  if (typeof x === "string") return x;
+  return `${x}px`;
+}
+
 const Wrapper = _styles.styled.div`
-    overflow: hidden;
     position: relative;
 
-    width: ${p => p.width}px;
-    height: ${p => p.height}px;
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 100%;
+    max-height: 100%;
+
+    width: ${p => p.innerWidth};
+    height: ${p => p.innerHeight};
+
+    overflow: hidden;
+    overflow: clip;
+
+    contain: strict;
 
     > :first-child {
         position: absolute;
@@ -39,10 +53,9 @@ const DataEditorContainer = p => {
     ...rest
   } = p;
   return React.createElement(Wrapper, _extends({
-    width: width,
-    height: height
+    innerHeight: toCss(height),
+    innerWidth: toCss(width)
   }, rest), children);
 };
 
-var _default = DataEditorContainer;
-exports.default = _default;
+exports.DataEditorContainer = DataEditorContainer;

@@ -6,17 +6,14 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {
   ImageOverlayEditor: true,
   MarkdownDiv: true,
-  DataEditorContainer: true,
+  TextCellEntry: true,
   parseToRgba: true,
   measureTextCached: true,
-  TextCellEntry: true
+  getMiddleCenterBias: true,
+  getDefaultTheme: true,
+  useColumnSizer: true,
+  useCustomCells: true
 };
-Object.defineProperty(exports, "DataEditorContainer", {
-  enumerable: true,
-  get: function () {
-    return _dataGridContainer.default;
-  }
-});
 Object.defineProperty(exports, "ImageOverlayEditor", {
   enumerable: true,
   get: function () {
@@ -36,6 +33,18 @@ Object.defineProperty(exports, "TextCellEntry", {
   }
 });
 exports.default = void 0;
+Object.defineProperty(exports, "getDefaultTheme", {
+  enumerable: true,
+  get: function () {
+    return _styles.getDataEditorTheme;
+  }
+});
+Object.defineProperty(exports, "getMiddleCenterBias", {
+  enumerable: true,
+  get: function () {
+    return _dataGridLib.getMiddleCenterBias;
+  }
+});
 Object.defineProperty(exports, "measureTextCached", {
   enumerable: true,
   get: function () {
@@ -46,6 +55,18 @@ Object.defineProperty(exports, "parseToRgba", {
   enumerable: true,
   get: function () {
     return _colorParser.parseToRgba;
+  }
+});
+Object.defineProperty(exports, "useColumnSizer", {
+  enumerable: true,
+  get: function () {
+    return _useColumnSizer.useColumnSizer;
+  }
+});
+Object.defineProperty(exports, "useCustomCells", {
+  enumerable: true,
+  get: function () {
+    return _useCustomCells.useCustomCells;
   }
 });
 
@@ -63,10 +84,6 @@ Object.keys(_dataEditor).forEach(function (key) {
   });
 });
 
-var _imageOverlayEditor = _interopRequireDefault(require("./data-grid-overlay-editor/private/image-overlay-editor"));
-
-var _markdownDiv = _interopRequireDefault(require("./markdown-div/markdown-div"));
-
 var _dataGridTypes = require("./data-grid/data-grid-types");
 
 Object.keys(_dataGridTypes).forEach(function (key) {
@@ -81,13 +98,21 @@ Object.keys(_dataGridTypes).forEach(function (key) {
   });
 });
 
-var _dataGridContainer = _interopRequireDefault(require("./data-editor-container/data-grid-container"));
+var _imageOverlayEditor = _interopRequireDefault(require("./data-grid-overlay-editor/private/image-overlay-editor"));
+
+var _markdownDiv = _interopRequireDefault(require("./markdown-div/markdown-div"));
+
+var _growingEntry = _interopRequireDefault(require("./growing-entry/growing-entry"));
 
 var _colorParser = require("./data-grid/color-parser");
 
 var _dataGridLib = require("./data-grid/data-grid-lib");
 
-var _growingEntry = _interopRequireDefault(require("./growing-entry/growing-entry"));
+var _styles = require("./common/styles");
+
+var _useColumnSizer = require("./data-editor/use-column-sizer");
+
+var _useCustomCells = require("./data-editor/use-custom-cells");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

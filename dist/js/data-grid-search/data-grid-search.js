@@ -1,8 +1,8 @@
 import * as React from "react";
-import { GridCellKind } from "../data-grid/data-grid-types";
-import ScrollingDataGrid from "../scrolling-data-grid/scrolling-data-grid";
-import { SearchWrapper } from "./data-grid-search-style";
-import { assert } from "../common/support";
+import { GridCellKind } from "../data-grid/data-grid-types.js";
+import ScrollingDataGrid from "../scrolling-data-grid/scrolling-data-grid.js";
+import { SearchWrapper } from "./data-grid-search-style.js";
+import { assert } from "../common/support.js";
 const upArrow = React.createElement("svg", {
   className: "button-icon",
   viewBox: "0 0 512 512"
@@ -42,19 +42,19 @@ const DataGridSearch = p => {
   const {
     getCellsForSelection,
     onSearchResultsChanged,
-    searchColOffset,
     showSearch = false,
     onSearchClose,
     canvasRef,
     cellYOffset,
     rows,
-    columns,
-    getCellContent
+    columns
   } = p;
+  const [searchID] = React.useState(() => "search-box-" + Math.round(Math.random() * 1000));
   const [searchString, setSearchString] = React.useState("");
   const [searchStatus, setSearchStatus] = React.useState();
   const searchStatusRef = React.useRef(searchStatus);
   searchStatusRef.current = searchStatus;
+  const abortControllerRef = React.useRef(new AbortController());
   const inputRef = React.useRef(null);
   const searchHandle = React.useRef();
   const [searchResults, setSearchResults] = React.useState([]);
@@ -62,30 +62,9 @@ const DataGridSearch = p => {
     if (searchHandle.current !== undefined) {
       window.cancelAnimationFrame(searchHandle.current);
       searchHandle.current = undefined;
+      abortControllerRef.current.abort();
     }
   }, []);
-  const getCellsForSelectionMangled = React.useCallback(selection => {
-    if (getCellsForSelection !== undefined) return getCellsForSelection(selection.range);
-
-    if (selection.range === undefined) {
-      return [[getCellContent(selection.cell)]];
-    }
-
-    const range = selection.range;
-    const result = [];
-
-    for (let row = range.y; row < range.y + range.height; row++) {
-      const inner = [];
-
-      for (let col = range.x; col < range.x + range.width; col++) {
-        inner.push(getCellContent([col + searchColOffset, row]));
-      }
-
-      result.push(inner);
-    }
-
-    return result;
-  }, [getCellContent, getCellsForSelection, searchColOffset]);
   const cellYOffsetRef = React.useRef(cellYOffset);
   cellYOffsetRef.current = cellYOffset;
   const beginSearch = React.useCallback(str => {
@@ -97,20 +76,23 @@ const DataGridSearch = p => {
     setSearchResults([]);
     const runningResult = [];
 
-    const tick = () => {
+    const tick = async () => {
       var _searchStatusRef$curr, _searchStatusRef$curr2;
 
+      if (getCellsForSelection === undefined) return;
       const tStart = performance.now();
       const rowsLeft = rows - rowsSearched;
-      const data = getCellsForSelectionMangled({
-        cell: [0, 0],
-        range: {
-          x: 0,
-          y: startY,
-          width: columns.length - searchColOffset,
-          height: Math.min(searchStride, rowsLeft, rows - startY)
-        }
-      });
+      let data = getCellsForSelection({
+        x: 0,
+        y: startY,
+        width: columns.length,
+        height: Math.min(searchStride, rowsLeft, rows - startY)
+      }, abortControllerRef.current.signal);
+
+      if (typeof data === "function") {
+        data = await data();
+      }
+
       let added = false;
       data.forEach((d, row) => d.forEach((cell, col) => {
         let testString;
@@ -127,17 +109,21 @@ const DataGridSearch = p => {
             break;
 
           case GridCellKind.Boolean:
-            testString = cell.data.toString();
+            testString = typeof cell.data === "boolean" ? cell.data.toString() : undefined;
             break;
 
           case GridCellKind.Image:
           case GridCellKind.Bubble:
             testString = cell.data.join("🐳");
             break;
+
+          case GridCellKind.Custom:
+            testString = cell.copyData;
+            break;
         }
 
         if (testString !== undefined && regex.test(testString)) {
-          runningResult.push([col + searchColOffset, row + startY]);
+          runningResult.push([col, row + startY]);
           added = true;
         }
       }));
@@ -175,7 +161,7 @@ const DataGridSearch = p => {
 
     cancelSearch();
     searchHandle.current = window.requestAnimationFrame(tick);
-  }, [cancelSearch, columns.length, getCellsForSelectionMangled, onSearchResultsChanged, rows, searchColOffset]);
+  }, [cancelSearch, columns.length, getCellsForSelection, onSearchResultsChanged, rows]);
   const onClose = React.useCallback(() => {
     var _canvasRef$current;
 
@@ -280,6 +266,8 @@ const DataGridSearch = p => {
     }, React.createElement("div", {
       className: "search-bar-inner"
     }, React.createElement("input", {
+      id: searchID,
+      "aria-hidden": !showSearch,
       "data-testid": "search-input",
       ref: inputRef,
       onChange: onSearchChange,
@@ -287,40 +275,59 @@ const DataGridSearch = p => {
       tabIndex: showSearch ? undefined : -1,
       onKeyDownCapture: onSearchKeyDown
     }), React.createElement("button", {
+      "aria-label": "Previous Result",
+      "aria-hidden": !showSearch,
       tabIndex: showSearch ? undefined : -1,
       onClick: onPrev,
       disabled: ((_searchStatus$results = searchStatus === null || searchStatus === void 0 ? void 0 : searchStatus.results) !== null && _searchStatus$results !== void 0 ? _searchStatus$results : 0) === 0
     }, upArrow), React.createElement("button", {
+      "aria-label": "Next Result",
+      "aria-hidden": !showSearch,
       tabIndex: showSearch ? undefined : -1,
       onClick: onNext,
       disabled: ((_searchStatus$results2 = searchStatus === null || searchStatus === void 0 ? void 0 : searchStatus.results) !== null && _searchStatus$results2 !== void 0 ? _searchStatus$results2 : 0) === 0
     }, downArrow), onSearchClose !== undefined && React.createElement("button", {
+      "aria-label": "Close Search",
+      "aria-hidden": !showSearch,
       "data-testid": "search-close-button",
       tabIndex: showSearch ? undefined : -1,
       onClick: onClose
-    }, closeX)), searchStatus !== undefined && React.createElement(React.Fragment, null, React.createElement("div", {
+    }, closeX)), searchStatus !== undefined ? React.createElement(React.Fragment, null, React.createElement("div", {
       className: "search-status"
     }, React.createElement("div", {
       "data-testid": "search-result-area"
     }, resultString)), React.createElement("div", {
       className: "search-progress",
       style: progressStyle
-    })));
-  }, [onClose, onNext, onPrev, onSearchChange, onSearchClose, onSearchKeyDown, rows, searchStatus, searchString, showSearch]);
+    })) : React.createElement("div", {
+      className: "search-status"
+    }, React.createElement("label", {
+      htmlFor: searchID
+    }, "Type to search")));
+  }, [onClose, onNext, onPrev, onSearchChange, onSearchClose, onSearchKeyDown, rows, searchStatus, searchString, showSearch, searchID]);
   return React.createElement(React.Fragment, null, React.createElement(ScrollingDataGrid, {
+    accessibilityHeight: p.accessibilityHeight,
     cellXOffset: p.cellXOffset,
     cellYOffset: p.cellYOffset,
     columns: p.columns,
     enableGroups: p.enableGroups,
     freezeColumns: p.freezeColumns,
+    preventDiagonalScrolling: p.preventDiagonalScrolling,
     getCellContent: p.getCellContent,
     groupHeaderHeight: p.groupHeaderHeight,
+    onCanvasFocused: p.onCanvasFocused,
+    onCanvasBlur: p.onCanvasBlur,
+    isFocused: p.isFocused,
     headerHeight: p.headerHeight,
+    isFilling: p.isFilling,
+    fillHandle: p.fillHandle,
     lastRowSticky: p.lastRowSticky,
+    firstColAccessible: p.firstColAccessible,
     lockColumns: p.lockColumns,
     rowHeight: p.rowHeight,
     onMouseMove: p.onMouseMove,
     rows: p.rows,
+    highlightRegions: p.highlightRegions,
     verticalBorder: p.verticalBorder,
     canvasRef: p.canvasRef,
     className: p.className,
@@ -329,13 +336,18 @@ const DataGridSearch = p => {
     drawHeader: p.drawHeader,
     experimental: p.experimental,
     getGroupDetails: p.getGroupDetails,
+    getRowThemeOverride: p.getRowThemeOverride,
     gridRef: p.gridRef,
     headerIcons: p.headerIcons,
     isDraggable: p.isDraggable,
+    minColumnWidth: p.minColumnWidth,
     maxColumnWidth: p.maxColumnWidth,
     onCellFocused: p.onCellFocused,
     onColumnMoved: p.onColumnMoved,
     onColumnResized: p.onColumnResized,
+    onColumnResize: p.onColumnResize,
+    onColumnResizeStart: p.onColumnResizeStart,
+    onColumnResizeEnd: p.onColumnResizeEnd,
     onDragStart: p.onDragStart,
     onHeaderMenuClick: p.onHeaderMenuClick,
     onItemHovered: p.onItemHovered,
@@ -345,13 +357,12 @@ const DataGridSearch = p => {
     onRowMoved: p.onRowMoved,
     onVisibleRegionChanged: p.onVisibleRegionChanged,
     overscrollX: p.overscrollX,
+    overscrollY: p.overscrollY,
     rightElement: p.rightElement,
     rightElementSticky: p.rightElementSticky,
     scrollRef: p.scrollRef,
     scrollToEnd: p.scrollToEnd,
-    selectedCell: p.selectedCell,
-    selectedColumns: p.selectedColumns,
-    selectedRows: p.selectedRows,
+    selection: p.selection,
     showMinimap: p.showMinimap,
     smoothScrollX: p.smoothScrollX,
     smoothScrollY: p.smoothScrollY,

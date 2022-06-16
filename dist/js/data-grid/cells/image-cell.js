@@ -1,17 +1,19 @@
 import * as React from "react";
-import ImageOverlayEditor from "../../data-grid-overlay-editor/private/image-overlay-editor";
-import { drawImage } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import ImageOverlayEditor from "../../data-grid-overlay-editor/private/image-overlay-editor.js";
+import { drawImage } from "../data-grid-lib.js";
+import { GridCellKind } from "../data-grid-types.js";
 export const imageCellRenderer = {
   getAccessibilityString: c => c.data.join(", "),
   kind: GridCellKind.Image,
   needsHover: false,
+  useLabel: false,
   needsHoverPosition: false,
   render: a => {
     var _a$cell$displayData;
 
     return drawImage(a, (_a$cell$displayData = a.cell.displayData) !== null && _a$cell$displayData !== void 0 ? _a$cell$displayData : a.cell.data);
   },
+  measure: (_ctx, cell) => cell.data.length * 50,
   onDelete: c => ({ ...c,
     data: []
   }),

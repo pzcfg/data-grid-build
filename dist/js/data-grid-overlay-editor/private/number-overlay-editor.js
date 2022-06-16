@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NumberOverlayEditorStyle } from "./number-overlay-editor-style";
+import { NumberOverlayEditorStyle } from "./number-overlay-editor-style.js";
 import NumberFormat from "react-number-format";
 
 function getDecimalSeparator() {
@@ -24,11 +24,12 @@ const NumberOverlayEditor = p => {
   } = p;
   return React.createElement(NumberOverlayEditorStyle, null, React.createElement(NumberFormat, {
     autoFocus: true,
+    className: "gdg-input",
     onFocus: e => e.target.setSelectionRange(highlight ? 0 : e.target.value.length, e.target.value.length),
     disabled: disabled === true,
     thousandSeparator: getThousandSeprator(),
     decimalSeparator: getDecimalSeparator(),
-    value: value !== null && value !== void 0 ? value : "",
+    value: Object.is(value, -0) ? "-" : value !== null && value !== void 0 ? value : "",
     onValueChange: onChange,
     onKeyDown: onKeyDown
   }));

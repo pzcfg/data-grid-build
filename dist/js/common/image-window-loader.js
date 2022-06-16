@@ -1,4 +1,4 @@
-import throttle from "lodash/throttle";
+import throttle from "lodash/throttle.js";
 const rowShift = 1 << 16;
 const imgPool = [];
 
@@ -25,7 +25,7 @@ class ImageWindowLoader {
     this.imageLoaded = () => undefined;
 
     this.loadedLocations = [];
-    this.window = {
+    this.visibleWindow = {
       x: 0,
       y: 0,
       width: 0,
@@ -36,8 +36,8 @@ class ImageWindowLoader {
     this.isInWindow = packed => {
       const col = unpackCol(packed);
       const row = unpackRow(packed, col);
-      if (col < this.freezeCols) return true;
-      const w = this.window;
+      const w = this.visibleWindow;
+      if (col < this.freezeCols && row >= w.y && row <= w.y + w.height) return true;
       return col >= w.x && col <= w.x + w.width && row >= w.y && row <= w.y + w.height;
     };
 
@@ -78,21 +78,21 @@ class ImageWindowLoader {
     this.imageLoaded = imageLoaded;
   }
 
-  setWindow(window, freezeCols) {
-    if (this.window.x === window.x && this.window.y === window.y && this.window.width === window.width && this.window.height === window.height && this.freezeCols === freezeCols) return;
-    this.window = window;
+  setWindow(newWindow, freezeCols) {
+    if (this.visibleWindow.x === newWindow.x && this.visibleWindow.y === newWindow.y && this.visibleWindow.width === newWindow.width && this.visibleWindow.height === newWindow.height && this.freezeCols === freezeCols) return;
+    this.visibleWindow = newWindow;
     this.freezeCols = freezeCols;
     this.clearOutOfWindow();
   }
 
   loadOrGetImage(url, col, row) {
-    const key = `${url}`;
+    const key = url;
     const current = this.cache[key];
 
     if (current !== undefined) {
       const packed = packColRowToNumber(col, row);
 
-      if (current.img === undefined && !current.cells.includes(packed)) {
+      if (!current.cells.includes(packed)) {
         current.cells.push(packed);
       }
 
@@ -100,6 +100,7 @@ class ImageWindowLoader {
     } else {
       var _imgPool$pop;
 
+      let loaded = false;
       const img = (_imgPool$pop = imgPool.pop()) !== null && _imgPool$pop !== void 0 ? _imgPool$pop : new Image();
       let canceled = false;
       const result = {
@@ -109,12 +110,19 @@ class ImageWindowLoader {
         cancel: () => {
           if (canceled) return;
           canceled = true;
-          imgPool.unshift(img);
+
+          if (imgPool.length < 12) {
+            imgPool.unshift(img);
+          } else if (!loaded) {
+            img.src = "";
+          }
         }
       };
+      const loadPromise = new Promise(r => img.onload = () => r(null));
       requestAnimationFrame(async () => {
         try {
           img.src = url;
+          await loadPromise;
           await img.decode();
           const toWrite = this.cache[key];
 
@@ -125,6 +133,7 @@ class ImageWindowLoader {
               this.loadedLocations.push(unpackNumberToColRow(packed));
             }
 
+            loaded = true;
             this.sendLoaded();
           }
         } catch (e) {

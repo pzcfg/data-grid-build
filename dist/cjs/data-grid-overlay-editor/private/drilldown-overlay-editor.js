@@ -65,6 +65,7 @@ const DrilldownOverlayEditor = p => {
   }, d.img !== undefined && React.createElement("img", {
     src: d.img
   }), React.createElement("div", null, d.text))), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

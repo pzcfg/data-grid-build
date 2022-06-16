@@ -1,5 +1,5 @@
-import { styled } from "../common/styles";
-import { disabledProps } from "../common/utils";
+import { styled } from "../common/styles.js";
+import { disabledProps } from "../common/utils.js";
 export const SearchWrapper = styled.div`
     position: absolute;
     top: 4px;
@@ -11,7 +11,7 @@ export const SearchWrapper = styled.div`
     padding: 8px;
     border: 1px solid ${p => p.theme.borderColor};
 
-    font-size: 13px;
+    font-size: ${p => p.theme.editorFontSize};
 
     transform: translateX(${p => p.showSearch ? 0 : 400}px);
     transition: transform 0.15s;
@@ -21,7 +21,7 @@ export const SearchWrapper = styled.div`
     }
 
     .search-status {
-        margin-top: 4px;
+        padding-top: 4px;
         font-size: 11px;
     }
 
@@ -37,6 +37,7 @@ export const SearchWrapper = styled.div`
     input {
         width: 220px;
         color: ${p => p.theme.textDark};
+        background-color: ${p => p.theme.bgCell};
         border: none;
         border-width: 0;
         outline: none;

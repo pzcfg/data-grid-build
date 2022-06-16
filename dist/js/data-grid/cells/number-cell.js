@@ -1,7 +1,7 @@
 import * as React from "react";
-import NumberOverlayEditor from "../../data-grid-overlay-editor/private/number-overlay-editor";
-import { drawTextCell, prepTextCell } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import { drawTextCell, prepTextCell } from "../data-grid-lib.js";
+import { GridCellKind } from "../data-grid-types.js";
+const NumberOverlayEditor = React.lazy(async () => await import("../../data-grid-overlay-editor/private/number-overlay-editor.js"));
 export const numberCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -11,8 +11,10 @@ export const numberCellRenderer = {
   kind: GridCellKind.Number,
   needsHover: false,
   needsHoverPosition: false,
+  useLabel: true,
   renderPrep: prepTextCell,
-  render: a => drawTextCell(a, a.cell.displayData),
+  render: a => drawTextCell(a, a.cell.displayData, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.displayData).width + 16,
   onDelete: c => ({ ...c,
     data: undefined
   }),
@@ -23,7 +25,9 @@ export const numberCellRenderer = {
       onKeyDown,
       value
     } = p;
-    return React.createElement(NumberOverlayEditor, {
+    return React.createElement(React.Suspense, {
+      fallback: null
+    }, React.createElement(NumberOverlayEditor, {
       highlight: isHighlighted,
       disabled: value.readonly === true,
       value: value.data,
@@ -31,6 +35,6 @@ export const numberCellRenderer = {
       onChange: x => onChange({ ...value,
         data: x.floatValue
       })
-    });
+    }));
   }
 };

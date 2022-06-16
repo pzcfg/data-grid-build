@@ -1,7 +1,7 @@
 import * as React from "react";
-import { GridColumn, Rectangle, GridSelection, GridMouseEventArgs, GridDragEventArgs, GridKeyEventArgs, InnerGridCell, CompactSelection, DrawCustomCellCallback, DrawHeaderCallback } from "./data-grid-types";
+import { Rectangle, GridSelection, GridMouseEventArgs, GridDragEventArgs, GridKeyEventArgs, InnerGridCell, CompactSelection, DrawCustomCellCallback, Item, DrawHeaderCallback, SizedGridColumn } from "./data-grid-types";
 import { SpriteMap } from "./data-grid-sprites";
-import { GroupDetailsCallback } from "./data-grid-render";
+import { GetRowThemeCallback, GroupDetailsCallback, Highlight } from "./data-grid-render";
 export interface DataGridProps {
     readonly width: number;
     readonly height: number;
@@ -9,12 +9,16 @@ export interface DataGridProps {
     readonly cellYOffset: number;
     readonly translateX?: number;
     readonly translateY?: number;
+    readonly accessibilityHeight: number;
     readonly freezeColumns: number;
     readonly lastRowSticky: boolean;
+    readonly firstColAccessible: boolean;
     readonly allowResize?: boolean;
     readonly isResizing: boolean;
     readonly isDragging: boolean;
-    readonly columns: readonly GridColumn[];
+    readonly isFilling: boolean;
+    readonly isFocused: boolean;
+    readonly columns: readonly SizedGridColumn[];
     readonly rows: number;
     readonly headerHeight: number;
     readonly groupHeaderHeight: number;
@@ -23,19 +27,22 @@ export interface DataGridProps {
     readonly canvasRef?: React.MutableRefObject<HTMLCanvasElement | null>;
     readonly eventTargetRef?: React.MutableRefObject<HTMLDivElement | null>;
     readonly className?: string;
-    readonly getCellContent: (cell: readonly [number, number]) => InnerGridCell;
+    readonly getCellContent: (cell: Item) => InnerGridCell;
     readonly getGroupDetails?: GroupDetailsCallback;
+    readonly getRowThemeOverride?: GetRowThemeCallback;
     readonly onHeaderMenuClick?: (col: number, screenPosition: Rectangle) => void;
-    readonly selectedRows?: CompactSelection;
-    readonly selectedColumns?: CompactSelection;
-    readonly selectedCell?: GridSelection;
-    readonly prelightCells?: readonly (readonly [number, number])[];
+    readonly selection: GridSelection;
+    readonly prelightCells?: readonly Item[];
+    readonly highlightRegions?: readonly Highlight[];
+    readonly fillHandle?: boolean;
     readonly disabledRows?: CompactSelection;
     readonly onItemHovered?: (args: GridMouseEventArgs) => void;
     readonly onMouseMove: (args: GridMouseEventArgs) => void;
     readonly onMouseDown?: (args: GridMouseEventArgs) => void;
     readonly onMouseUp?: (args: GridMouseEventArgs, isOutside: boolean) => void;
-    readonly onCellFocused?: (args: readonly [number, number]) => void;
+    readonly onCanvasFocused?: () => void;
+    readonly onCanvasBlur?: () => void;
+    readonly onCellFocused?: (args: Item) => void;
     readonly onMouseMoveRaw?: (event: MouseEvent) => void;
     readonly onKeyDown?: (event: GridKeyEventArgs) => void;
     readonly onKeyUp?: (event: GridKeyEventArgs) => void;
@@ -51,13 +58,15 @@ export interface DataGridProps {
     readonly experimental?: {
         readonly paddingRight?: number;
         readonly paddingBottom?: number;
-        readonly disableFirefoxRescaling?: boolean;
+        readonly enableFirefoxRescaling?: boolean;
         readonly isSubGrid?: boolean;
+        readonly strict?: boolean;
+        readonly scrollbarWidthOverride?: number;
     };
     readonly headerIcons?: SpriteMap;
 }
 declare type DamageUpdateList = readonly {
-    cell: readonly [number, number];
+    cell: Item;
 }[];
 export interface DataGridRef {
     focus: () => void;

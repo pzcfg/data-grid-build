@@ -2,7 +2,7 @@ import _styled2 from "styled-components";
 import _styled from "styled-components";
 import React from "react";
 import { css } from "styled-components";
-import ClickOutsideContainer from "../click-outside-container/click-outside-container";
+import ClickOutsideContainer from "../click-outside-container/click-outside-container.js";
 export const GroupRename = p => {
   const {
     bounds,

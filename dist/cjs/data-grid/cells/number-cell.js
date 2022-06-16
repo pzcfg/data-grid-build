@@ -7,18 +7,15 @@ exports.numberCellRenderer = void 0;
 
 var React = _interopRequireWildcard(require("react"));
 
-var _numberOverlayEditor = _interopRequireDefault(require("../../data-grid-overlay-editor/private/number-overlay-editor"));
-
 var _dataGridLib = require("../data-grid-lib");
 
 var _dataGridTypes = require("../data-grid-types");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+const NumberOverlayEditor = React.lazy(async () => await Promise.resolve().then(() => _interopRequireWildcard(require("../../data-grid-overlay-editor/private/number-overlay-editor"))));
 const numberCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -28,8 +25,10 @@ const numberCellRenderer = {
   kind: _dataGridTypes.GridCellKind.Number,
   needsHover: false,
   needsHoverPosition: false,
+  useLabel: true,
   renderPrep: _dataGridLib.prepTextCell,
-  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.displayData),
+  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.displayData, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.displayData).width + 16,
   onDelete: c => ({ ...c,
     data: undefined
   }),
@@ -40,7 +39,9 @@ const numberCellRenderer = {
       onKeyDown,
       value
     } = p;
-    return React.createElement(_numberOverlayEditor.default, {
+    return React.createElement(React.Suspense, {
+      fallback: null
+    }, React.createElement(NumberOverlayEditor, {
       highlight: isHighlighted,
       disabled: value.readonly === true,
       value: value.data,
@@ -48,7 +49,7 @@ const numberCellRenderer = {
       onChange: x => onChange({ ...value,
         data: x.floatValue
       })
-    });
+    }));
   }
 };
 exports.numberCellRenderer = numberCellRenderer;

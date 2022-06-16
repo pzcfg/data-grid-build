@@ -22,6 +22,7 @@ const BubblesOverlayEditor = p => {
     key: i,
     className: "boe-bubble"
   }, b)), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

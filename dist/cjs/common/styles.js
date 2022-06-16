@@ -32,14 +32,14 @@ const dataEditorBaseTheme = {
   bgBubbleSelected: "#FFFFFF",
   bgSearchResult: "#fff9e3",
   borderColor: "rgba(115, 116, 131, 0.16)",
-  horizontalBorderColor: "rgba(115, 116, 131, 0.16)",
   drilldownBorder: "rgba(0, 0, 0, 0)",
   linkColor: "#4F5DFF",
   cellHorizontalPadding: 8,
   cellVerticalPadding: 3,
   headerFontStyle: "600 13px",
   baseFontStyle: "13px",
-  fontFamily: "Inter, Roboto, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, noto, arial, sans-serif"
+  fontFamily: "Inter, Roboto, -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, noto, arial, sans-serif",
+  editorFontSize: "13px"
 };
 const styled = _styledComponents.default;
 exports.styled = styled;

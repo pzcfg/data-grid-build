@@ -14,9 +14,7 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
 
     display: flex;
     flex-direction: column;
-    ${p => !p.unstyled && `
     overflow: hidden;
-    `}
     box-sizing: border-box;
 
     --overlay-top: ${p => p.targetRect.y}px;
@@ -29,18 +27,8 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
     max-width: 400px;
     max-height: calc(100vh - ${p => p.targetRect.y + 10}px);
 
-    ${p => !p.unstyled && `
-    border-radius: 2px;
-    background-color: ${p.theme.bgCell}};
-
-    box-shadow: 0 0 0 1px ${p.theme.accentColor}, 0px 0px 1px rgba(62, 65, 86, 0.4),
-        0px 6px 12px rgba(62, 65, 86, 0.15);
-    `}
-
     font-family: ${p => p.theme.fontFamily};
-    font-size: 13px;
-
-    ${p => p.pad && `padding: ${Math.max(0, (p.targetRect.height - 28) / 2)}px 8.5px 3px;`}
+    font-size: ${p => p.theme.editorFontSize};
 
     @keyframes glide_fade_in {
         from {
@@ -52,42 +40,46 @@ const DataGridOverlayEditorStyle = _styles.styled.div`
         }
     }
 
-    animation: glide_fade_in 60ms 1;
+    &.gdg-style {
+        border-radius: 2px;
+        background-color: ${p => p.theme.bgCell};
+        ${p => p.pad && `padding: ${Math.max(0, (p.targetRect.height - 28) / 2)}px 8.5px 3px;`}
+
+        box-shadow: 0 0 0 1px ${p => p.theme.accentColor}, 0px 0px 1px rgba(62, 65, 86, 0.4),
+            0px 6px 12px rgba(62, 65, 86, 0.15);
+
+        animation: glide_fade_in 60ms 1;
+    }
 
     .clip-region {
         display: flex;
         flex-direction: column;
-        ${p => !p.unstyled && `
         overflow-y: auto;
         overflow-x: hidden;
         border-radius: 2px;
-        overflow: hidden;
-        `}
-
-        ${p => !p.unstyled && `
-        input {
-            margin-top: -2.5px;
-            margin-left: 1px;
-
-            width: 100%;
-
-            border: none;
-            border-width: 0;
-            outline: none;
-        }
-        `}
-
-        textarea {
-            margin-top: -0.5px;
-            margin-left: 1px;
-
-            border: none;
-            border-width: 0;
-            outline: none;
-        }
+        flex-grow: 1;
 
         ${_growingEntryStyle.GrowingEntryStyle} {
             height: 100%;
+        }
+
+        & input.gdg-input {
+            margin-top: -1.5px;
+            margin-left: 1px;
+
+            width: 100%;
+            border: none;
+            border-width: 0;
+            outline: none;
+        }
+
+        & textarea.gdg-input {
+            margin-top: 0.5px;
+            margin-left: 1px;
+
+            border: none;
+            border-width: 0;
+            outline: none;
         }
     }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { MarkdownOverlayEditor } from "../../data-grid-overlay-editor/private/markdown-overlay-editor";
-import { drawTextCell, prepTextCell } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import { MarkdownOverlayEditor } from "../../data-grid-overlay-editor/private/markdown-overlay-editor.js";
+import { drawTextCell, prepTextCell } from "../data-grid-lib.js";
+import { GridCellKind } from "../data-grid-types.js";
 export const markdownCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -12,7 +12,8 @@ export const markdownCellRenderer = {
   needsHover: false,
   needsHoverPosition: false,
   renderPrep: prepTextCell,
-  render: a => drawTextCell(a, a.cell.data),
+  measure: () => 200,
+  render: a => drawTextCell(a, a.cell.data, a.cell.contentAlign),
   onDelete: c => ({ ...c,
     data: ""
   }),

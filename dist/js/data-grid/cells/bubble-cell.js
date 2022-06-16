@@ -1,7 +1,7 @@
 import * as React from "react";
-import BubblesOverlayEditor from "../../data-grid-overlay-editor/private/bubbles-overlay-editor";
-import { drawBubbles } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import BubblesOverlayEditor from "../../data-grid-overlay-editor/private/bubbles-overlay-editor.js";
+import { drawBubbles } from "../data-grid-lib.js";
+import { GridCellKind } from "../data-grid-types.js";
 export const bubbleCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -10,7 +10,9 @@ export const bubbleCellRenderer = {
   },
   kind: GridCellKind.Bubble,
   needsHover: false,
+  useLabel: false,
   needsHoverPosition: false,
+  measure: (ctx, cell) => cell.data.reduce((acc, data) => ctx.measureText(data).width + acc, 0) + 16,
   render: a => drawBubbles(a, a.cell.data),
   getEditor: () => p => {
     const {

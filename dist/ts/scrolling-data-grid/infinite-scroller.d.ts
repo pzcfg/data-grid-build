@@ -2,6 +2,7 @@ import type { Rectangle } from "..";
 import * as React from "react";
 interface Props {
     readonly className?: string;
+    readonly preventDiagonalScrolling?: boolean;
     readonly draggable: boolean;
     readonly paddingRight?: number;
     readonly paddingBottom?: number;

@@ -1,15 +1,15 @@
-import type { Rectangle } from "../data-grid/data-grid-types";
+import type { Item, Rectangle } from "../data-grid/data-grid-types";
 declare class ImageWindowLoader {
     private imageLoaded;
     private loadedLocations;
-    private window;
+    private visibleWindow;
     private freezeCols;
     private isInWindow;
     private cache;
-    setCallback(imageLoaded: (locations: readonly (readonly [number, number])[]) => void): void;
+    setCallback(imageLoaded: (locations: readonly Item[]) => void): void;
     private sendLoaded;
     private clearOutOfWindow;
-    setWindow(window: Rectangle, freezeCols: number): void;
+    setWindow(newWindow: Rectangle, freezeCols: number): void;
     loadOrGetImage(url: string, col: number, row: number): HTMLImageElement | undefined;
 }
 export default ImageWindowLoader;

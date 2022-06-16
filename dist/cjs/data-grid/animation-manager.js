@@ -3,83 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ease = exports.AnimationManager = void 0;
+exports.AnimationManager = void 0;
+exports.easeOutCubic = easeOutCubic;
 
 var _clamp = _interopRequireDefault(require("lodash/clamp"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const hoverTime = 80;
-const epsilon = 1e-6;
 
-class Easing {
-  constructor(p1x, p1y, p2x, p2y) {
-    this.ax = 0;
-    this.ay = 0;
-    this.bx = 0;
-    this.by = 0;
-    this.cx = 0;
-    this.cy = 0;
-    this.cx = 3.0 * p1x;
-    this.bx = 3.0 * (p2x - p1x) - this.cx;
-    this.ax = 1.0 - this.cx - this.bx;
-    this.cy = 3.0 * p1y;
-    this.by = 3.0 * (p2y - p1y) - this.cy;
-    this.ay = 1.0 - this.cy - this.by;
-  }
-
-  sampleCurveX(t) {
-    return ((this.ax * t + this.bx) * t + this.cx) * t;
-  }
-
-  sampleCurveY(t) {
-    return ((this.ay * t + this.by) * t + this.cy) * t;
-  }
-
-  sampleCurveDerivativeX(t) {
-    return (3.0 * this.ax * t + 2.0 * this.bx) * t + this.cx;
-  }
-
-  solveCurveX(x) {
-    let t0;
-    let t1;
-    let t2;
-    let x2;
-    let d2;
-    let i;
-
-    for (t2 = x, i = 0; i < 8; i++) {
-      x2 = this.sampleCurveX(t2) - x;
-      if (Math.abs(x2) < epsilon) return t2;
-      d2 = this.sampleCurveDerivativeX(t2);
-      if (Math.abs(d2) < epsilon) break;
-      t2 = t2 - x2 / d2;
-    }
-
-    t0 = 0.0;
-    t1 = 1.0;
-    t2 = x;
-    if (t2 < t0) return t0;
-    if (t2 > t1) return t1;
-
-    while (t0 < t1) {
-      x2 = this.sampleCurveX(t2);
-      if (Math.abs(x2 - x) < epsilon) return t2;
-      if (x > x2) t0 = t2;else t1 = t2;
-      t2 = (t1 - t0) * 0.5 + t0;
-    }
-
-    return t2;
-  }
-
-  solve(x) {
-    return this.sampleCurveY(this.solveCurveX(x));
-  }
-
+function easeOutCubic(x) {
+  const x1 = x - 1;
+  return x1 * x1 * x1 + 1;
 }
-
-const ease = new Easing(0.25, 0.1, 0.25, 1);
-exports.ease = ease;
 
 class AnimationManager {
   constructor(callback) {
@@ -126,7 +62,7 @@ class AnimationManager {
       }
 
       return this.leavingItems.map(x => ({ ...x,
-        hoverAmount: ease.solve(x.hoverAmount)
+        hoverAmount: easeOutCubic(x.hoverAmount)
       }));
     };
 

@@ -5,21 +5,7 @@ declare type StateItem = {
 };
 export declare type HoverValues = readonly Readonly<StateItem>[];
 export declare type StepCallback = (values: HoverValues) => void;
-declare class Easing {
-    private ax;
-    private ay;
-    private bx;
-    private by;
-    private cx;
-    private cy;
-    constructor(p1x: number, p1y: number, p2x: number, p2y: number);
-    private sampleCurveX;
-    private sampleCurveY;
-    private sampleCurveDerivativeX;
-    private solveCurveX;
-    solve(x: number): number;
-}
-export declare const ease: Easing;
+export declare function easeOutCubic(x: number): number;
 export declare class AnimationManager {
     private callback;
     constructor(callback: StepCallback);

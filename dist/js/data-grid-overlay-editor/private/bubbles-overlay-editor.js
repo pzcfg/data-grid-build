@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BubblesOverlayEditorStyle } from "./bubbles-overlay-editor-style";
+import { BubblesOverlayEditorStyle } from "./bubbles-overlay-editor-style.js";
 
 const BubblesOverlayEditor = p => {
   const {
@@ -10,6 +10,7 @@ const BubblesOverlayEditor = p => {
     key: i,
     className: "boe-bubble"
   }, b)), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

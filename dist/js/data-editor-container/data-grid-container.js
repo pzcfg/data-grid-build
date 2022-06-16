@@ -1,13 +1,28 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import { styled } from "../common/styles";
+import { styled } from "../common/styles.js";
 import * as React from "react";
+
+function toCss(x) {
+  if (typeof x === "string") return x;
+  return `${x}px`;
+}
+
 const Wrapper = styled.div`
-    overflow: hidden;
     position: relative;
 
-    width: ${p => p.width}px;
-    height: ${p => p.height}px;
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 100%;
+    max-height: 100%;
+
+    width: ${p => p.innerWidth};
+    height: ${p => p.innerHeight};
+
+    overflow: hidden;
+    overflow: clip;
+
+    contain: strict;
 
     > :first-child {
         position: absolute;
@@ -17,8 +32,7 @@ const Wrapper = styled.div`
         height: 100%;
     }
 `;
-
-const DataEditorContainer = p => {
+export const DataEditorContainer = p => {
   const {
     width,
     height,
@@ -26,9 +40,7 @@ const DataEditorContainer = p => {
     ...rest
   } = p;
   return React.createElement(Wrapper, _extends({
-    width: width,
-    height: height
+    innerHeight: toCss(height),
+    innerWidth: toCss(width)
   }, rest), children);
 };
-
-export default DataEditorContainer;

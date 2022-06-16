@@ -10,7 +10,7 @@ export declare class SpriteManager {
     private spriteList;
     private headerIcons;
     constructor(headerIcons: SpriteMap | undefined);
-    drawSprite(sprite: HeaderIcon | string, variant: SpriteVariant, ctx: CanvasRenderingContext2D, x: number, y: number, size: number, theme: Theme): void;
+    drawSprite(sprite: HeaderIcon | string, variant: SpriteVariant, ctx: CanvasRenderingContext2D, x: number, y: number, size: number, theme: Theme, alpha?: number): void;
     buildSpriteMap(theme: Theme, cols: readonly GridColumn[]): Promise<boolean>;
 }
 export {};

@@ -1,9 +1,10 @@
-import { drawNewRowCell } from "../data-grid-lib";
-import { InnerGridCellKind } from "../data-grid-types";
+import { drawNewRowCell } from "../data-grid-lib.js";
+import { InnerGridCellKind } from "../data-grid-types.js";
 export const newRowCellRenderer = {
   getAccessibilityString: () => "",
   kind: InnerGridCellKind.NewRow,
   needsHover: true,
   needsHoverPosition: false,
-  render: a => drawNewRowCell(a, a.cell.hint, a.cell.isFirst, a.cell.icon)
+  measure: () => 200,
+  render: a => drawNewRowCell(a, a.cell.hint, a.cell.icon)
 };

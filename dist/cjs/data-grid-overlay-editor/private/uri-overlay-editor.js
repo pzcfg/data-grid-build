@@ -51,6 +51,7 @@ const UriOverlayEditor = p => {
     className: "edit-icon",
     onClick: onEditClick
   }, React.createElement(_utils.EditPencil, null)), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

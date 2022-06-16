@@ -23,12 +23,14 @@ const imageCellRenderer = {
   getAccessibilityString: c => c.data.join(", "),
   kind: _dataGridTypes.GridCellKind.Image,
   needsHover: false,
+  useLabel: false,
   needsHoverPosition: false,
   render: a => {
     var _a$cell$displayData;
 
     return (0, _dataGridLib.drawImage)(a, (_a$cell$displayData = a.cell.displayData) !== null && _a$cell$displayData !== void 0 ? _a$cell$displayData : a.cell.data);
   },
+  measure: (_ctx, cell) => cell.data.length * 50,
   onDelete: c => ({ ...c,
     data: []
   }),

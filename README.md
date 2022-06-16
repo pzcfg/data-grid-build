@@ -4,11 +4,11 @@
 </h1>
 <p align="center">A relatively small HTML5 Canvas based data editor supporting <b>millions</b> of rows, <b>rapid</b> updating, and fully <b>native scrolling</b>. We built <a href="https://grid.glideapps.com" target="_blank">Data Grid</a> as the basis for the <a href="https://docs.glideapps.com/all/reference/data-editor/introduction-to-the-data-editor" target="_blank">Glide Data Editor</a>.</p>
 
-[![Version](https://img.shields.io/badge/latest-v3.2.1-blue?style=for-the-badge&logo=none)](https://github.com/glideapps/glide-data-grid/releases)
+[![Version](https://img.shields.io/npm/v/@glideapps/glide-data-grid?color=blue&label=latest&style=for-the-badge)](https://github.com/glideapps/glide-data-grid/releases)
 [![React 16+](https://img.shields.io/badge/React-16+-00ADD8?style=for-the-badge&logo=react)](https://reactjs.org)
-![Code Coverage](https://img.shields.io/coveralls/github/glideapps/glide-data-grid?color=457aba&label=Cover&style=for-the-badge)
-[![Bundle Size](https://img.shields.io/badge/Bundle-45.4kb-success?style=for-the-badge&logo=none)](https://bundlephobia.com/package/@glideapps/glide-data-grid)
-[![License MIT](https://img.shields.io/badge/license-mit-red?style=for-the-badge&logo=none)](https://github.com/glideapps/glide-data-grid/blob/main/LICENSE)
+[![Code Coverage](https://img.shields.io/coveralls/github/glideapps/glide-data-grid?color=457aba&label=Cover&style=for-the-badge)](https://coveralls.io/github/glideapps/glide-data-grid)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@glideapps/glide-data-grid?color=success&label=bundle&style=for-the-badge)](https://bundlephobia.com/package/@glideapps/glide-data-grid)
+[![License](https://img.shields.io/github/license/glideapps/glide-data-grid?color=red&style=for-the-badge)](https://github.com/glideapps/glide-data-grid/blob/main/LICENSE)
 [![Made By Glide](https://img.shields.io/badge/❤_Made_by-Glide-11CCE5?style=for-the-badge&logo=none)](https://www.glideapps.com/jobs)
 
 ![Data Grid](https://raw.githubusercontent.com/glideapps/glide-data-grid/master/data-grid.jpg)
@@ -26,6 +26,7 @@ Lot's of fun examples are in our [Storybook](https://glideapps.github.io/glide-d
 -   **Editing is built in**.
 -   **Resizable and movable columns**.
 -   **Variable sized rows**.
+-   **Merged cells**.
 -   **Single and multi-select rows, cells, and columns**.
 -   **Cell rendering can be fully customized**.
 
@@ -46,10 +47,7 @@ npm i lodash marked react-responsive-carousel styled-components
 Create a new `DataEditor` wherever you need to display lots and lots of data
 
 ```tsx
-// The container is not required, but is convenient for getting started
-<DataEditorContainer width={1000} height={700}>
-    <DataEditor getCellContent={getData} columns={columns} rows={numRows} />
-</DataEditorContainer>
+<DataEditor getCellContent={getData} columns={columns} rows={numRows} />
 ```
 
 Making your columns is easy
@@ -67,7 +65,7 @@ Last provide data to the grid
 ```ts
 // If fetching data is slow you can use the DataEditor ref to send updates for cells
 // once data is loaded.
-function getData([col, row]: readonly [number, number]): GridCell {
+function getData([col, row]: Item): GridCell {
     const person = getData(row);
 
     if (col === 0) {
@@ -75,12 +73,14 @@ function getData([col, row]: readonly [number, number]): GridCell {
             kind: GridCellKind.Text,
             data: person.firstName,
             allowOverlay: false,
+            displayData: person.firstName
         };
     } else if (col === 1) {
         return {
             kind: GridCellKind.Text,
             data: person.lastName,
             allowOverlay: false,
+            displayData: person.lastName
         };
     } else {
         throw new Error();
@@ -114,7 +114,7 @@ Data Grid is agnostic about the way you load/store/generate/mutate your data. Wh
 
 **Does it do sorting, searching, and filtering?**
 
-Search is included. You provide the trigger, we do the search. [Example](https://glideapps.github.io/glide-data-grid/?path=/story/dataeditor--built-in-search) in our storybook.
+Search is included. You provide the trigger, we do the search. [Example](https://glideapps.github.io/glide-data-grid/?path=/story/glide-data-grid-docs--search) in our storybook.
 
 Filtering and sorting are something you would have to implement with your data source. There are hooks for adding column header menus if you want that.
 
@@ -126,10 +126,49 @@ Yes!
 
 **Can I render my own cells?**
 
-Yes, but the renderer has to use HTML Canvas. [Simple example](https://glideapps.github.io/glide-data-grid/?path=/story/dataeditor--draw-custom-cells) in our Storybook.
+Yes, but the renderer has to use HTML Canvas. [Simple example](https://glideapps.github.io/glide-data-grid/?path=/story/glide-data-grid-dataeditor-demos--draw-custom-cells) in our Storybook.
 
 **Why does Data Grid use HTML Canvas?**
 
 Originally we had implemented our Grid using virtualized rendering. We virtualized both in the horizontal and vertical direction using [react-virtualized](https://github.com/bvaughn/react-virtualized). The problem is simply scrolling performance. Once you need to load/unload hundreds of DOM elements per frame nothing can save you.
 
 There are some hacks you can do like setting timers and entering into a "low fidelity" rendering mode where you only render a single element per cell. This works okay until you want to show hundreds of cells and you are right back to choppy scrolling. It also doesn't really look or feel great.
+
+**I want to use this with Next.js / Vercel but I'm getting weird errors**
+
+The easiest way to use the grid with Next is to create a component which wraps up your grid and then import it as a dynamic.
+
+home.tsx
+```tsx
+import type { NextPage } from "next";
+import dynamic from "next/dynamic";
+import styles from "../styles/Home.module.css";
+
+const Grid = dynamic(
+    () => {
+        return import("../components/Grid");
+    },
+    { ssr: false }
+);
+
+export const Home: NextPage = () => {
+    return (
+        <div className={styles.container}>
+            <main className={styles.main}>
+                <h1 className={styles.title}>Hi</h1>
+                <Grid />
+            </main>
+        </div>
+    );
+};
+```
+
+grid.tsx
+```tsx
+import React from "react";
+import DataEditor from "@glideapps/glide-data-grid";
+
+export default function Grid() {
+    return <DataEditor {...args} />;
+}
+```

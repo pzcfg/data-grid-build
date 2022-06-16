@@ -1,17 +1,6 @@
-import { InnerGridCell } from "../data-grid-types";
+import { GridCellKind, InnerGridCell, InnerGridCellKind } from "../data-grid-types";
 import { InternalCellRenderer } from "./cell-types";
-export declare const CellRenderers: {
-    marker: InternalCellRenderer<InnerGridCell>;
-    "new-row": InternalCellRenderer<InnerGridCell>;
-    boolean: InternalCellRenderer<InnerGridCell>;
-    bubble: InternalCellRenderer<InnerGridCell>;
-    drilldown: InternalCellRenderer<InnerGridCell>;
-    image: InternalCellRenderer<InnerGridCell>;
-    loading: InternalCellRenderer<InnerGridCell>;
-    markdown: InternalCellRenderer<InnerGridCell>;
-    number: InternalCellRenderer<InnerGridCell>;
-    protected: InternalCellRenderer<InnerGridCell>;
-    "row-id": InternalCellRenderer<InnerGridCell>;
-    text: InternalCellRenderer<InnerGridCell>;
-    uri: InternalCellRenderer<InnerGridCell>;
-};
+declare const asCollapsed: (x: any) => InternalCellRenderer<InnerGridCell>;
+declare type RendererKinds = InnerGridCellKind | Exclude<GridCellKind, GridCellKind.Custom>;
+export declare const CellRenderers: Record<RendererKinds, ReturnType<typeof asCollapsed>>;
+export {};

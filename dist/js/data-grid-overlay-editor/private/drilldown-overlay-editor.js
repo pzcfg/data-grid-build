@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled } from "../../common/styles";
+import { styled } from "../../common/styles.js";
 const DrilldownOverlayEditorStyle = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -52,6 +52,7 @@ const DrilldownOverlayEditor = p => {
   }, d.img !== undefined && React.createElement("img", {
     src: d.img
   }), React.createElement("div", null, d.text))), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

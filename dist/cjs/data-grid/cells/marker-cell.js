@@ -15,6 +15,8 @@ const markerCellRenderer = {
   needsHover: true,
   needsHoverPosition: false,
   renderPrep: _dataGridLib.prepMarkerRowCell,
+  renderDeprep: _dataGridLib.deprepMarkerRowCell,
+  measure: () => 44,
   render: a => (0, _dataGridLib.drawMarkerRowCell)(a, a.cell.row, a.cell.checked, a.cell.markerKind)
 };
 exports.markerCellRenderer = markerCellRenderer;

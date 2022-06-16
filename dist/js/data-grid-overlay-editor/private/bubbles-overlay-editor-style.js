@@ -1,4 +1,4 @@
-import { styled } from "../../common/styles";
+import { styled } from "../../common/styles.js";
 export const BubblesOverlayEditorStyle = styled.div`
     display: flex;
     flex-wrap: wrap;

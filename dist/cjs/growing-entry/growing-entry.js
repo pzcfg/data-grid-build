@@ -18,11 +18,14 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 const GrowingEntry = props => {
+  var _rest$className;
+
   const {
     placeholder,
     value,
     onKeyDown,
     highlight,
+    altNewline,
     ...rest
   } = props;
   const {
@@ -40,11 +43,19 @@ const GrowingEntry = props => {
     ta.focus();
     ta.setSelectionRange(highlight ? 0 : length, length);
   }, []);
+  const onKeyDownInner = React.useCallback(e => {
+    if (e.key === "Enter" && e.shiftKey && altNewline === true) {
+      return;
+    }
+
+    onKeyDown === null || onKeyDown === void 0 ? void 0 : onKeyDown(e);
+  }, [altNewline, onKeyDown]);
   return React.createElement(_growingEntryStyle.GrowingEntryStyle, null, React.createElement(_growingEntryStyle.ShadowBox, {
     className: className
   }, useText + "\n"), React.createElement(_growingEntryStyle.InputBox, _extends({}, rest, {
+    className: ((_rest$className = rest.className) !== null && _rest$className !== void 0 ? _rest$className : "") + " gdg-input",
     ref: inputRef,
-    onKeyDown: onKeyDown,
+    onKeyDown: onKeyDownInner,
     value: useText,
     placeholder: placeholder,
     dir: "auto"

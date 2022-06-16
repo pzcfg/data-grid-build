@@ -33,7 +33,8 @@ const ImageOverlayEditor = p => {
 
   const allowMove = filtered.length > 1;
   return React.createElement(_imageOverlayEditorStyle.ImageOverlayEditorStyle, {
-    onKeyDown: onKeyDown
+    onKeyDown: onKeyDown,
+    "data-testid": "GDG-default-image-overlay-editor"
   }, React.createElement(_reactResponsiveCarousel.Carousel, {
     showArrows: allowMove,
     showThumbs: false,
@@ -55,6 +56,7 @@ const ImageOverlayEditor = p => {
     className: "edit-icon",
     onClick: onEditClick
   }, React.createElement(_utils.EditPencil, null)), React.createElement("textarea", {
+    className: "gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

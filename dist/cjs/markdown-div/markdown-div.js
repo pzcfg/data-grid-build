@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _marked = _interopRequireDefault(require("marked"));
+var _marked = require("marked");
 
 var _markdownContainer = require("./private/markdown-container");
 
@@ -33,7 +33,7 @@ class MarkdownDiv extends _react.default.PureComponent {
       contents,
       createNode
     } = this.props;
-    const innerHTML = (0, _marked.default)(contents);
+    const innerHTML = (0, _marked.marked)(contents);
     const childRange = document.createRange();
     childRange.selectNodeContents(targetElement);
     childRange.deleteContents();

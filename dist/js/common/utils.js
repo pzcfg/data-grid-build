@@ -1,6 +1,6 @@
 import * as React from "react";
 import { css } from "styled-components";
-import debounce from "lodash/debounce";
+import debounce from "lodash/debounce.js";
 export function useEventListener(eventName, handler, element, passive, capture) {
   var _capture;
 
@@ -78,9 +78,19 @@ export const Checkmark = props => {
 };
 export function useDebouncedMemo(factory, deps, time) {
   const [state, setState] = React.useState(factory);
-  const debouncedSetState = React.useRef(debounce(setState, time));
-  React.useEffect(() => {
-    debouncedSetState.current(() => factory());
+  const mountedRef = React.useRef(true);
+  React.useEffect(() => () => {
+    mountedRef.current = false;
+  }, []);
+  const debouncedSetState = React.useRef(debounce(x => {
+    if (mountedRef.current) {
+      setState(x);
+    }
+  }, time));
+  React.useLayoutEffect(() => {
+    if (mountedRef.current) {
+      debouncedSetState.current(() => factory());
+    }
   }, deps);
   return state;
 }
@@ -90,4 +100,33 @@ const rtl = new RegExp("^[^" + ltrRange + "]*[" + rtlRange + "]");
 const ltr = new RegExp("^[^" + rtlRange + "]*[" + ltrRange + "]");
 export function direction(value) {
   return rtl.test(value) ? "rtl" : ltr.test(value) ? "ltr" : "neutral";
+}
+let scrollbarWidthCache = undefined;
+export function getScrollBarWidth() {
+  if (scrollbarWidthCache !== undefined) return scrollbarWidthCache;
+  const inner = document.createElement("p");
+  inner.style.width = "100%";
+  inner.style.height = "200px";
+  const outer = document.createElement("div");
+  outer.id = "testScrollbar";
+  outer.style.position = "absolute";
+  outer.style.top = "0px";
+  outer.style.left = "0px";
+  outer.style.visibility = "hidden";
+  outer.style.width = "200px";
+  outer.style.height = "150px";
+  outer.style.overflow = "hidden";
+  outer.appendChild(inner);
+  document.body.appendChild(outer);
+  const w1 = inner.offsetWidth;
+  outer.style.overflow = "scroll";
+  let w2 = inner.offsetWidth;
+
+  if (w1 === w2) {
+    w2 = outer.clientWidth;
+  }
+
+  document.body.removeChild(outer);
+  scrollbarWidthCache = w1 - w2;
+  return scrollbarWidthCache;
 }

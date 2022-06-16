@@ -1,6 +1,6 @@
 import React from "react";
-import marked from "marked";
-import { MarkdownContainer } from "./private/markdown-container";
+import { marked } from "marked";
+import { MarkdownContainer } from "./private/markdown-container.js";
 export default class MarkdownDiv extends React.PureComponent {
   constructor() {
     super(...arguments);

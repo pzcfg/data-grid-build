@@ -29,6 +29,7 @@ export interface Theme {
     headerFontStyle: string;
     baseFontStyle: string;
     fontFamily: string;
+    editorFontSize: string;
 }
 export declare const styled: ThemedStyledInterface<Theme>;
 export declare function getDataEditorTheme(): Theme;

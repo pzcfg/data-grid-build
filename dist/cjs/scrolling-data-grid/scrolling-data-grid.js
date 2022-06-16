@@ -50,9 +50,11 @@ const GridScroller = p => {
     onVisibleRegionChanged,
     scrollToEnd,
     scrollRef,
+    preventDiagonalScrolling,
     rightElement,
     rightElementSticky,
     overscrollX,
+    overscrollY,
     showMinimap = false,
     ...dataGridProps
   } = p;
@@ -84,12 +86,14 @@ const GridScroller = p => {
     }
   }
 
+  if (overscrollY !== undefined) {
+    height += overscrollY;
+  }
+
   const lastArgs = React.useRef();
   const processArgs = React.useCallback(() => {
     const args = lastArgs.current;
     if (args === undefined) return;
-    setClientHeight(args.height);
-    setClientWidth(args.width);
     let x = 0;
     let tx = 0;
     let cellRight = 0;
@@ -188,6 +192,9 @@ const GridScroller = p => {
       lastX.current = tx;
       lastY.current = ty;
     }
+
+    setClientHeight(args.height);
+    setClientWidth(args.width);
   }, [columns, rowHeight, rows, onVisibleRegionChanged, freezeColumns, smoothScrollX, smoothScrollY]);
   const onScrollUpdate = React.useCallback(args => {
     lastArgs.current = args;
@@ -253,6 +260,7 @@ const GridScroller = p => {
     scrollRef: scrollRef,
     minimap: minimap,
     className: className,
+    preventDiagonalScrolling: preventDiagonalScrolling,
     draggable: dataGridProps.isDraggable === true,
     scrollWidth: width + (paddingRight !== null && paddingRight !== void 0 ? paddingRight : 0),
     scrollHeight: height + (paddingBottom !== null && paddingBottom !== void 0 ? paddingBottom : 0),

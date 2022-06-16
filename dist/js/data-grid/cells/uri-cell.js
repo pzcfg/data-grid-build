@@ -1,7 +1,7 @@
 import * as React from "react";
-import UriOverlayEditor from "../../data-grid-overlay-editor/private/uri-overlay-editor";
-import { drawTextCell, prepTextCell } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import UriOverlayEditor from "../../data-grid-overlay-editor/private/uri-overlay-editor.js";
+import { drawTextCell, prepTextCell } from "../data-grid-lib.js";
+import { GridCellKind } from "../data-grid-types.js";
 export const uriCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -11,8 +11,10 @@ export const uriCellRenderer = {
   kind: GridCellKind.Uri,
   needsHover: false,
   needsHoverPosition: false,
+  useLabel: true,
   renderPrep: prepTextCell,
-  render: a => drawTextCell(a, a.cell.data),
+  render: a => drawTextCell(a, a.cell.data, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.data).width + 16,
   onDelete: c => ({ ...c,
     data: ""
   }),

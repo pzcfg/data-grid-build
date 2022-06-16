@@ -29,7 +29,9 @@ const textCellRenderer = {
   needsHover: false,
   needsHoverPosition: false,
   renderPrep: _dataGridLib.prepTextCell,
-  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.displayData),
+  useLabel: true,
+  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.displayData, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.displayData).width + 16,
   onDelete: c => ({ ...c,
     data: ""
   }),
@@ -45,6 +47,7 @@ const textCellRenderer = {
       autoFocus: value.readonly !== true,
       disabled: value.readonly === true,
       onKeyDown: onKeyDown,
+      altNewline: true,
       value: value.data,
       onChange: e => onChange({ ...value,
         data: e.target.value

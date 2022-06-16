@@ -27,7 +27,8 @@ const markdownCellRenderer = {
   needsHover: false,
   needsHoverPosition: false,
   renderPrep: _dataGridLib.prepTextCell,
-  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.data),
+  measure: () => 200,
+  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.data, a.cell.contentAlign),
   onDelete: c => ({ ...c,
     data: ""
   }),

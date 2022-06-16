@@ -39,11 +39,12 @@ const NumberOverlayEditor = p => {
   } = p;
   return React.createElement(_numberOverlayEditorStyle.NumberOverlayEditorStyle, null, React.createElement(_reactNumberFormat.default, {
     autoFocus: true,
+    className: "gdg-input",
     onFocus: e => e.target.setSelectionRange(highlight ? 0 : e.target.value.length, e.target.value.length),
     disabled: disabled === true,
     thousandSeparator: getThousandSeprator(),
     decimalSeparator: getDecimalSeparator(),
-    value: value !== null && value !== void 0 ? value : "",
+    value: Object.is(value, -0) ? "-" : value !== null && value !== void 0 ? value : "",
     onValueChange: onChange,
     onKeyDown: onKeyDown
   }));

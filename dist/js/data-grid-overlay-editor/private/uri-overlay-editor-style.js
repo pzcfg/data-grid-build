@@ -1,15 +1,18 @@
-import { styled } from "../../common/styles";
+import { styled } from "../../common/styles.js";
 export const UriOverlayEditorStyle = styled.div`
     display: flex;
 
     flex-grow: 1;
 
     align-items: center;
-    padding-top: 2px;
+
+    min-height: 21px;
 
     .link-area {
         flex-grow: 1;
         flex-shrink: 1;
+
+        cursor: pointer;
 
         margin-right: 8px;
         overflow: hidden;

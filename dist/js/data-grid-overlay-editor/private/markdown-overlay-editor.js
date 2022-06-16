@@ -1,8 +1,8 @@
 import * as React from "react";
-import MarkdownDiv from "../../markdown-div/markdown-div";
-import GrowingEntry from "../../growing-entry/growing-entry";
-import { MarkdownOverlayEditorStyle } from "./markdown-overlay-editor-style";
-import { EditPencil, Checkmark } from "../../common/utils";
+import MarkdownDiv from "../../markdown-div/markdown-div.js";
+import GrowingEntry from "../../growing-entry/growing-entry.js";
+import { MarkdownOverlayEditorStyle } from "./markdown-overlay-editor-style.js";
+import { EditPencil, Checkmark } from "../../common/utils.js";
 export const MarkdownOverlayEditor = p => {
   const {
     markdown,
@@ -26,7 +26,11 @@ export const MarkdownOverlayEditor = p => {
     }, React.createElement(GrowingEntry, {
       autoFocus: true,
       highlight: false,
-      onKeyDown: onKeyDown,
+      onKeyDown: e => {
+        if (e.key !== "Enter") {
+          onKeyDown(e);
+        }
+      },
       value: markdown,
       onChange: onChange
     }), React.createElement("div", {
@@ -46,7 +50,7 @@ export const MarkdownOverlayEditor = p => {
     className: `edit-icon edit-hover ${addLeftPad}`,
     onClick: onEditClick
   }, React.createElement(EditPencil, null))), React.createElement("textarea", {
-    className: "md-edit-textarea",
+    className: "md-edit-textarea gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

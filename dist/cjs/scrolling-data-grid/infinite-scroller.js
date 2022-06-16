@@ -25,6 +25,10 @@ const ScrollRegionStyle = _styles.styled.div`
         transform: translate3d(0, 0, 0);
     }
 
+    .hidden {
+        visibility: hidden;
+    }
+
     .dvn-scroll-inner {
         display: flex;
         pointer-events: none;
@@ -68,6 +72,7 @@ const InfiniteScroller = p => {
     update,
     draggable,
     className,
+    preventDiagonalScrolling = false,
     paddingBottom = 0,
     paddingRight = 0,
     rightElement,
@@ -87,10 +92,40 @@ const InfiniteScroller = p => {
     if (el === null || scrollToEnd !== true) return;
     el.scrollLeft = el.scrollWidth - el.clientWidth;
   }, [scrollToEnd]);
+  const lastScrollPosition = React.useRef({
+    scrollLeft: 0,
+    scrollTop: 0,
+    lockDirection: undefined
+  });
+  const resetHandle = React.useRef(0);
   const onScroll = React.useCallback(() => {
+    var _lock$, _lock$2;
+
     const el = scroller.current;
     if (el === null) return;
-    const newY = el.scrollTop;
+    let scrollTop = el.scrollTop;
+    let scrollLeft = el.scrollLeft;
+    const lastScrollTop = lastScrollPosition.current.scrollTop;
+    const lastScrollLeft = lastScrollPosition.current.scrollLeft;
+    const dx = scrollLeft - lastScrollLeft;
+    const dy = scrollTop - lastScrollTop;
+
+    if (dx !== 0 && dy !== 0 && preventDiagonalScrolling) {
+      if (lastScrollPosition.current.lockDirection === undefined) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+          lastScrollPosition.current.lockDirection = [lastScrollLeft, undefined];
+        } else {
+          lastScrollPosition.current.lockDirection = [undefined, lastScrollTop];
+        }
+      }
+    }
+
+    const lock = lastScrollPosition.current.lockDirection;
+    scrollLeft = (_lock$ = lock === null || lock === void 0 ? void 0 : lock[0]) !== null && _lock$ !== void 0 ? _lock$ : scrollLeft;
+    scrollTop = (_lock$2 = lock === null || lock === void 0 ? void 0 : lock[1]) !== null && _lock$2 !== void 0 ? _lock$2 : scrollTop;
+    lastScrollPosition.current.scrollLeft = scrollLeft;
+    lastScrollPosition.current.scrollTop = scrollTop;
+    const newY = Math.max(0, scrollTop);
     const delta = lastScrollY.current - newY;
     const scrollableHeight = el.scrollHeight - el.clientHeight;
     const maxFakeY = Math.max(0, scrollHeight - el.clientHeight);
@@ -102,17 +137,43 @@ const InfiniteScroller = p => {
       offsetY.current = recomputed - newY;
     }
 
+    if (resetHandle.current > 0) {
+      window.clearTimeout(resetHandle.current);
+    }
+
+    if (lock !== undefined) {
+      resetHandle.current = window.setTimeout(() => {
+        var _lastScrollPosition$c;
+
+        const [lx, ly] = (_lastScrollPosition$c = lastScrollPosition.current.lockDirection) !== null && _lastScrollPosition$c !== void 0 ? _lastScrollPosition$c : [];
+
+        if (lx !== undefined) {
+          el.scrollLeft = lx;
+        } else if (ly !== undefined) {
+          el.scrollTop = ly;
+        }
+
+        lastScrollPosition.current.lockDirection = undefined;
+        resetHandle.current = 0;
+      }, 200);
+    }
+
     update({
-      x: el.scrollLeft,
+      x: Math.max(0, scrollLeft),
       y: Math.min(maxFakeY, newY + offsetY.current),
-      width: el.clientWidth,
-      height: el.clientHeight
+      width: el.clientWidth - paddingRight,
+      height: el.clientHeight - paddingBottom
     });
-  }, [paddingBottom, paddingRight, scrollHeight, update]);
+  }, [paddingBottom, paddingRight, scrollHeight, update, preventDiagonalScrolling]);
+  const onScrollRef = React.useRef(onScroll);
+  onScrollRef.current = onScroll;
   const lastProps = React.useRef();
   const nomEvent = React.useCallback(e => {
     e.stopPropagation();
   }, []);
+  React.useEffect(() => {
+    onScroll();
+  }, [onScroll, paddingBottom, paddingRight]);
   const setRefs = React.useCallback(instance => {
     scroller.current = instance;
 
@@ -122,13 +183,20 @@ const InfiniteScroller = p => {
   }, [scrollRef]);
   let key = 0;
   let h = 0;
+  padders.push(React.createElement("div", {
+    key: key++,
+    style: {
+      width: scrollWidth,
+      height: 0
+    }
+  }));
 
   while (h < scrollHeight) {
     const toAdd = Math.min(5000000, scrollHeight - h);
     padders.push(React.createElement("div", {
       key: key++,
       style: {
-        width: scrollWidth,
+        width: 0,
         height: toAdd
       }
     }));
@@ -143,7 +211,7 @@ const InfiniteScroller = p => {
     if (props.width === 0 || props.height === 0) return null;
 
     if (((_lastProps$current = lastProps.current) === null || _lastProps$current === void 0 ? void 0 : _lastProps$current.height) !== props.height || ((_lastProps$current2 = lastProps.current) === null || _lastProps$current2 === void 0 ? void 0 : _lastProps$current2.width) !== props.width) {
-      window.setTimeout(onScroll, 0);
+      window.setTimeout(() => onScrollRef.current(), 0);
       lastProps.current = props;
     }
 
@@ -162,7 +230,7 @@ const InfiniteScroller = p => {
       className: "dvn-scroller " + (className !== null && className !== void 0 ? className : ""),
       onScroll: onScroll
     }, React.createElement("div", {
-      className: "dvn-scroll-inner"
+      className: "dvn-scroll-inner" + (rightElement === undefined ? " hidden" : "")
     }, React.createElement("div", {
       className: "dvn-stack"
     }, padders), rightElement !== undefined && React.createElement(React.Fragment, null, React.createElement("div", {

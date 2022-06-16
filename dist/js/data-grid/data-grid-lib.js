@@ -1,5 +1,7 @@
-import { degreesToRadians, direction } from "../common/utils";
+import { BooleanEmpty, BooleanIndeterminate } from "./data-grid-types.js";
+import { degreesToRadians, direction } from "../common/utils.js";
 import React from "react";
+import { assertNever } from "../common/support.js";
 export function useMappedColumns(columns, freezeColumns) {
   return React.useMemo(() => columns.map((c, i) => ({ ...c,
     sourceIndex: i,
@@ -8,6 +10,48 @@ export function useMappedColumns(columns, freezeColumns) {
 }
 export function isGroupEqual(left, right) {
   return (left !== null && left !== void 0 ? left : "") === (right !== null && right !== void 0 ? right : "");
+}
+export function cellIsSelected(location, cell, selection) {
+  if ((selection === null || selection === void 0 ? void 0 : selection.current) === undefined) return false;
+  const [col, row] = selection.current.cell;
+  const [cellCol, cellRow] = location;
+  if (cellRow !== row) return false;
+
+  if (cell.span === undefined) {
+    return col === cellCol;
+  }
+
+  return col >= cell.span[0] && col <= cell.span[1];
+}
+
+function cellIsInRect(location, cell, rect) {
+  const startX = rect.x;
+  const endX = rect.x + rect.width - 1;
+  const startY = rect.y;
+  const endY = rect.y + rect.height - 1;
+  const [cellCol, cellRow] = location;
+  if (cellRow < startY || cellRow > endY) return false;
+
+  if (cell.span === undefined) {
+    return cellCol >= startX && cellCol <= endX;
+  }
+
+  const [spanStart, spanEnd] = cell.span;
+  return spanStart >= startX && spanStart <= endX || spanEnd >= startX && spanStart <= endX || spanStart < startX && spanEnd > endX;
+}
+
+export function cellIsInRange(location, cell, selection) {
+  let result = 0;
+  if (selection.current === undefined) return result;
+  if (cellIsInRect(location, cell, selection.current.range)) result++;
+
+  for (const r of selection.current.rangeStack) {
+    if (cellIsInRect(location, cell, r)) {
+      result++;
+    }
+  }
+
+  return result;
 }
 
 function remapForDnDState(columns, dndState) {
@@ -138,8 +182,13 @@ async function clearCacheOnLoad() {
 }
 
 void clearCacheOnLoad();
+
+function makeCacheKey(s, ctx, baseline, font) {
+  return `${s}_${font !== null && font !== void 0 ? font : ctx.font}_${baseline}`;
+}
+
 export function measureTextCached(s, ctx, font) {
-  const key = `${s}_${font !== null && font !== void 0 ? font : ctx.font}`;
+  const key = makeCacheKey(s, ctx, "middle", font);
   let metrics = metricsCache[key];
 
   if (metrics === undefined) {
@@ -155,7 +204,41 @@ export function measureTextCached(s, ctx, font) {
 
   return metrics;
 }
-export function drawWithLastUpdate(args, lastUpdate, frameTime, draw) {
+export function getMiddleCenterBias(ctx, font) {
+  if (typeof font !== "string") {
+    font = `${font.baseFontStyle} ${font.fontFamily}`;
+  }
+
+  return getMiddleCenterBiasInner(ctx, font);
+}
+
+function loadMetric(ctx, baseline) {
+  const sample = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  ctx.save();
+  ctx.textBaseline = baseline;
+  const result = ctx.measureText(sample);
+  ctx.restore();
+  return result;
+}
+
+const biasCache = [];
+
+function getMiddleCenterBiasInner(ctx, font) {
+  for (const x of biasCache) {
+    if (x.key === font) return x.val;
+  }
+
+  const alphabeticMetrics = loadMetric(ctx, "alphabetic");
+  const middleMetrics = loadMetric(ctx, "middle");
+  const bias = -(middleMetrics.actualBoundingBoxDescent - alphabeticMetrics.actualBoundingBoxDescent) + alphabeticMetrics.actualBoundingBoxAscent / 2;
+  biasCache.push({
+    key: font,
+    val: bias
+  });
+  return bias;
+}
+
+export function drawWithLastUpdate(args, lastUpdate, frameTime, lastPrep, draw) {
   const {
     ctx,
     x,
@@ -166,7 +249,6 @@ export function drawWithLastUpdate(args, lastUpdate, frameTime, draw) {
   } = args;
   let progress = Number.MAX_SAFE_INTEGER;
   const animTime = 500;
-  let forcePrep = false;
 
   if (lastUpdate !== undefined) {
     progress = frameTime - lastUpdate;
@@ -177,21 +259,32 @@ export function drawWithLastUpdate(args, lastUpdate, frameTime, draw) {
       ctx.fillStyle = theme.bgSearchResult;
       ctx.fillRect(x, y, width, height);
       ctx.globalAlpha = 1;
-      forcePrep = true;
+
+      if (lastPrep !== undefined) {
+        lastPrep.fillStyle = theme.bgSearchResult;
+      }
     }
   }
 
-  draw(forcePrep);
+  draw();
   return progress < animTime;
 }
-export function prepTextCell(args, overrideColor) {
+export function prepTextCell(args, lastPrep, overrideColor) {
   const {
     ctx,
     theme
   } = args;
-  ctx.fillStyle = overrideColor !== null && overrideColor !== void 0 ? overrideColor : theme.textDark;
+  const result = lastPrep !== null && lastPrep !== void 0 ? lastPrep : {};
+  const newFill = overrideColor !== null && overrideColor !== void 0 ? overrideColor : theme.textDark;
+
+  if (newFill !== result.fillStyle) {
+    ctx.fillStyle = newFill;
+    result.fillStyle = newFill;
+  }
+
+  return result;
 }
-export function drawTextCell(args, data) {
+export function drawTextCell(args, data, contentAlign) {
   const {
     ctx,
     x,
@@ -200,17 +293,44 @@ export function drawTextCell(args, data) {
     h,
     theme
   } = args;
-  data = data.split(/\r?\n/)[0].slice(0, Math.round(w / 4));
-  const dir = direction(data);
 
-  if (dir === "rtl") {
-    const textWidth = measureTextCached(data, ctx, `${theme.baseFontStyle} ${theme.fontFamily}`).width;
-    ctx.fillText(data, x + w - theme.cellHorizontalPadding - textWidth + 0.5, y + h / 2);
-  } else {
-    ctx.fillText(data, x + theme.cellHorizontalPadding + 0.5, y + h / 2);
+  if (data.includes("\n")) {
+    data = data.split(/\r?\n/)[0];
+  }
+
+  const max = w / 4;
+
+  if (data.length > max) {
+    data = data.slice(0, max);
+  }
+
+  if (data.length > 0) {
+    let changed = false;
+
+    if (contentAlign === undefined && direction(data) === "rtl") {
+      ctx.textAlign = "right";
+      changed = true;
+    } else if (contentAlign !== undefined && contentAlign !== "left") {
+      ctx.textAlign = contentAlign;
+      changed = true;
+    }
+
+    const bias = getMiddleCenterBias(ctx, theme);
+
+    if (contentAlign === "right") {
+      ctx.fillText(data, x + w - (theme.cellHorizontalPadding + 0.5), y + h / 2 + bias);
+    } else if (contentAlign === "center") {
+      ctx.fillText(data, x + w / 2, y + h / 2 + bias);
+    } else {
+      ctx.fillText(data, x + theme.cellHorizontalPadding + 0.5, y + h / 2 + bias);
+    }
+
+    if (changed) {
+      ctx.textAlign = "start";
+    }
   }
 }
-export function drawNewRowCell(args, data, isFirst, icon) {
+export function drawNewRowCell(args, data, icon) {
   const {
     ctx,
     x,
@@ -218,7 +338,8 @@ export function drawNewRowCell(args, data, isFirst, icon) {
     w,
     h,
     hoverAmount,
-    theme
+    theme,
+    spriteManager
   } = args;
   ctx.beginPath();
   ctx.globalAlpha = hoverAmount;
@@ -227,41 +348,34 @@ export function drawNewRowCell(args, data, isFirst, icon) {
   ctx.fill();
   ctx.globalAlpha = 1;
   ctx.beginPath();
-  const finalLineSize = 12;
-  const lineSize = isFirst ? finalLineSize : hoverAmount * finalLineSize;
-  const xTranslate = isFirst ? 0 : (1 - hoverAmount) * finalLineSize * 0.5;
-  const padPlus = theme.cellHorizontalPadding + 4;
+  const alwaysShowIcon = data !== "";
 
-  if (icon !== null && icon !== void 0 && icon.path) {
-    if (isFirst) {
-      var _icon$x, _icon$y;
+  if (icon !== undefined) {
+    const padding = 8;
+    const size = h - padding;
+    const px = x + padding / 2;
+    const py = y + padding / 2;
+    spriteManager.drawSprite(icon, "normal", ctx, px, py, size, theme, alwaysShowIcon ? 1 : hoverAmount);
+  } else {
+    const finalLineSize = 12;
+    const lineSize = alwaysShowIcon ? finalLineSize : hoverAmount * finalLineSize;
+    const xTranslate = alwaysShowIcon ? 0 : (1 - hoverAmount) * finalLineSize * 0.5;
+    const padPlus = theme.cellHorizontalPadding + 4;
 
-      ctx.save();
-      ctx.fillStyle = theme.bgIconHeader;
-      ctx.translate(x + padPlus + ((_icon$x = icon.x) !== null && _icon$x !== void 0 ? _icon$x : 0), y + ((_icon$y = icon.y) !== null && _icon$y !== void 0 ? _icon$y : 0));
-      ctx.fill(icon.path, 'evenodd');
-      ctx.restore();
+    if (lineSize > 0) {
+      ctx.moveTo(x + padPlus + xTranslate, y + h / 2);
+      ctx.lineTo(x + padPlus + xTranslate + lineSize, y + h / 2);
+      ctx.moveTo(x + padPlus + xTranslate + lineSize * 0.5, y + h / 2 - lineSize * 0.5);
+      ctx.lineTo(x + padPlus + xTranslate + lineSize * 0.5, y + h / 2 + lineSize * 0.5);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = theme.bgIconHeader;
+      ctx.lineCap = "round";
+      ctx.stroke();
     }
-  } else if (lineSize > 0) {
-    ctx.moveTo(x + padPlus + xTranslate, y + h / 2);
-    ctx.lineTo(x + padPlus + xTranslate + lineSize, y + h / 2);
-    ctx.moveTo(x + padPlus + xTranslate + lineSize * 0.5, y + h / 2 - lineSize * 0.5);
-    ctx.lineTo(x + padPlus + xTranslate + lineSize * 0.5, y + h / 2 + lineSize * 0.5);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = theme.bgIconHeader;
-    ctx.lineCap = "round";
-    ctx.stroke();
   }
 
   ctx.fillStyle = theme.textMedium;
-  ctx.font = '400 14px Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
-
-  if ((icon === null || icon === void 0 ? void 0 : icon.width) !== undefined) {
-    ctx.fillText(data, icon.width + x + theme.cellHorizontalPadding * 2 + 0.5, y + h / 2);
-  } else {
-    ctx.fillText(data, 24 + x + theme.cellHorizontalPadding + 0.5, y + h / 2);
-  }
-
+  ctx.fillText(data, 24 + x + theme.cellHorizontalPadding + 0.5, y + h / 2 + getMiddleCenterBias(ctx, theme));
   ctx.beginPath();
 }
 
@@ -272,35 +386,78 @@ function drawCheckbox(ctx, theme, checked, x, y, width, height, highlighted) {
   const centerY = y + height / 2;
   const hovered = Math.abs(hoverX - width / 2) < 10 && Math.abs(hoverY - height / 2) < 10;
 
-  if (checked) {
-    ctx.beginPath();
-    roundedRect(ctx, centerX - 9, centerY - 9, 18, 18, 4);
-    ctx.fillStyle = highlighted ? theme.accentColor : theme.textLight;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(centerX - 8 + 3.65005, centerY - 8 + 7.84995);
-    ctx.lineTo(centerX - 8 + 6.37587, centerY - 8 + 10.7304);
-    ctx.lineTo(centerX - 8 + 11.9999, centerY - 8 + 4.74995);
-    ctx.strokeStyle = theme.accentFg;
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-    ctx.lineWidth = 1.9;
-    ctx.stroke();
-  } else {
-    ctx.beginPath();
-    roundedRect(ctx, centerX - 8.5, centerY - 8.5, 17, 17, 4);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = hovered ? theme.textMedium : theme.textLight;
-    ctx.stroke();
+  switch (checked) {
+    case true:
+      {
+        ctx.beginPath();
+        roundedRect(ctx, centerX - 9, centerY - 9, 18, 18, 4);
+        ctx.fillStyle = highlighted ? theme.accentColor : theme.textMedium;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(centerX - 8 + 3.65005, centerY - 8 + 7.84995);
+        ctx.lineTo(centerX - 8 + 6.37587, centerY - 8 + 10.7304);
+        ctx.lineTo(centerX - 8 + 11.9999, centerY - 8 + 4.74995);
+        ctx.strokeStyle = theme.bgCell;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.lineWidth = 1.9;
+        ctx.stroke();
+        break;
+      }
+
+    case BooleanEmpty:
+    case false:
+      {
+        ctx.beginPath();
+        roundedRect(ctx, centerX - 8.5, centerY - 8.5, 17, 17, 4);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = hovered ? theme.textDark : theme.textMedium;
+        ctx.stroke();
+        break;
+      }
+
+    case BooleanIndeterminate:
+      {
+        ctx.beginPath();
+        roundedRect(ctx, centerX - 8.5, centerY - 8.5, 17, 17, 4);
+        ctx.fillStyle = hovered ? theme.textMedium : theme.textLight;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(centerX - 4, centerY);
+        ctx.lineTo(centerX + 4, centerY);
+        ctx.strokeStyle = theme.bgCell;
+        ctx.lineCap = "round";
+        ctx.lineWidth = 1.9;
+        ctx.stroke();
+        break;
+      }
+
+    default:
+      assertNever(checked);
   }
 }
 
-export function prepMarkerRowCell(args) {
+export function prepMarkerRowCell(args, lastPrep) {
   const {
     ctx,
     theme
   } = args;
-  ctx.font = `9px ${theme.fontFamily}`;
+  const newFont = `9px ${theme.fontFamily}`;
+  const result = lastPrep !== null && lastPrep !== void 0 ? lastPrep : {};
+
+  if ((result === null || result === void 0 ? void 0 : result.font) !== newFont) {
+    ctx.font = newFont;
+    result.font = newFont;
+  }
+
+  ctx.textAlign = "center";
+  return result;
+}
+export function deprepMarkerRowCell(args) {
+  const {
+    ctx
+  } = args;
+  ctx.textAlign = "start";
 }
 export function drawMarkerRowCell(args, index, checked, markerKind) {
   const {
@@ -321,16 +478,15 @@ export function drawMarkerRowCell(args, index, checked, markerKind) {
   }
 
   if (markerKind === "number" || markerKind === "both" && !checked) {
-    const text = (index + 1).toString();
-    const w = measureTextCached(text, ctx, `9px ${theme.fontFamily}`).width;
-    const start = x + (width - w) / 2;
+    const text = index.toString();
+    const start = x + width / 2;
 
     if (markerKind === "both" && hoverAmount !== 0) {
       ctx.globalAlpha = 1 - hoverAmount;
     }
 
     ctx.fillStyle = theme.textLight;
-    ctx.fillText(text, start, y + height / 2);
+    ctx.fillText(text, start, y + height / 2 + getMiddleCenterBias(ctx, `9px ${theme.fontFamily}`));
 
     if (hoverAmount !== 0) {
       ctx.globalAlpha = 1;
@@ -396,6 +552,10 @@ function roundedRect(ctx, x, y, width, height, radius) {
 }
 
 export function drawBoolean(args, data, canEdit) {
+  if (!canEdit && data === BooleanEmpty) {
+    return;
+  }
+
   const {
     ctx,
     hoverAmount,
@@ -409,7 +569,17 @@ export function drawBoolean(args, data, canEdit) {
     hoverY
   } = args;
   const hoverEffect = 0.35;
-  ctx.globalAlpha = canEdit ? 1 - hoverEffect + hoverEffect * hoverAmount : 0.4;
+  let alpha = canEdit ? 1 - hoverEffect + hoverEffect * hoverAmount : 0.4;
+
+  if (data === BooleanEmpty) {
+    alpha *= hoverAmount;
+  }
+
+  if (alpha === 0) {
+    return;
+  }
+
+  ctx.globalAlpha = alpha;
   drawCheckbox(ctx, theme, data, x, y, w, h, highlighted, hoverX, hoverY);
   ctx.globalAlpha = 1;
 }
@@ -449,9 +619,66 @@ export function drawBubbles(args, data) {
   renderBoxes.forEach((rectInfo, i) => {
     ctx.beginPath();
     ctx.fillStyle = theme.textBubble;
-    ctx.fillText(data[i], rectInfo.x + bubblePad, y + h / 2);
+    ctx.fillText(data[i], rectInfo.x + bubblePad, y + h / 2 + getMiddleCenterBias(ctx, theme));
   });
 }
+const drilldownCache = {};
+
+function getAndCacheDrilldownBorder(bgCell, border) {
+  const dpr = Math.ceil(window.devicePixelRatio);
+  const targetHeight = 24;
+  const shadowBlur = 5;
+  const middleWidth = 4;
+  const innerHeight = (targetHeight + shadowBlur * 2) * dpr;
+  const innerWidth = innerHeight + middleWidth * dpr;
+  const sideWidth = innerHeight / 2;
+  const key = `${bgCell},${border},${dpr}`;
+
+  if (drilldownCache[key] !== undefined) {
+    return {
+      el: drilldownCache[key],
+      height: innerHeight,
+      width: innerWidth,
+      middleWidth: middleWidth * dpr,
+      sideWidth
+    };
+  }
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  if (ctx === null) return null;
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  ctx.scale(dpr, dpr);
+  drilldownCache[key] = canvas;
+  ctx.beginPath();
+  roundedRect(ctx, shadowBlur, shadowBlur, targetHeight + middleWidth, targetHeight, 6);
+  ctx.shadowColor = "rgba(24, 25, 34, 0.4)";
+  ctx.shadowBlur = 1;
+  ctx.fillStyle = bgCell;
+  ctx.fill();
+  ctx.shadowColor = "rgba(24, 25, 34, 0.3)";
+  ctx.shadowOffsetY = 1;
+  ctx.shadowBlur = 5;
+  ctx.fillStyle = bgCell;
+  ctx.fill();
+  ctx.shadowOffsetY = 0;
+  ctx.shadowBlur = 0;
+  ctx.shadowBlur = 0;
+  ctx.beginPath();
+  roundedRect(ctx, shadowBlur + 0.5, shadowBlur + 0.5, targetHeight + middleWidth, targetHeight, 6);
+  ctx.strokeStyle = border;
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  return {
+    el: canvas,
+    height: innerHeight,
+    width: innerWidth,
+    sideWidth,
+    middleWidth: middleWidth * dpr
+  };
+}
+
 export function drawDrilldownCell(args, data) {
   const {
     x,
@@ -468,6 +695,7 @@ export function drawDrilldownCell(args, data) {
   const bubblePad = 8;
   const bubbleMargin = itemMargin;
   let renderX = x + theme.cellHorizontalPadding;
+  const tileMap = getAndCacheDrilldownBorder(theme.bgCell, theme.drilldownBorder);
   const renderBoxes = [];
 
   for (const el of data) {
@@ -491,29 +719,27 @@ export function drawDrilldownCell(args, data) {
     renderX += renderWidth + bubbleMargin;
   }
 
+  if (tileMap !== null) {
+    const {
+      el,
+      height,
+      middleWidth,
+      sideWidth,
+      width
+    } = tileMap;
+    renderBoxes.forEach(rectInfo => {
+      const rx = Math.floor(rectInfo.x);
+      const rw = Math.floor(rectInfo.width);
+      ctx.imageSmoothingEnabled = false;
+      const maxSideWidth = Math.min(17, rw / 2 + 5);
+      ctx.drawImage(el, 0, 0, sideWidth, height, rx - 5, y + h / 2 - 17, maxSideWidth, 34);
+      if (rectInfo.width > 24) ctx.drawImage(el, sideWidth, 0, middleWidth, height, rx + 12, y + h / 2 - 17, rw - 24, 34);
+      ctx.drawImage(el, width - sideWidth, 0, sideWidth, height, rx + rw - (maxSideWidth - 5), y + h / 2 - 17, maxSideWidth, 34);
+      ctx.imageSmoothingEnabled = true;
+    });
+  }
+
   ctx.beginPath();
-  renderBoxes.forEach(rectInfo => {
-    roundedRect(ctx, Math.floor(rectInfo.x), y + (h - bubbleHeight) / 2, Math.floor(rectInfo.width), bubbleHeight, 6);
-  });
-  ctx.shadowColor = "rgba(24, 25, 34, 0.4)";
-  ctx.shadowBlur = 1;
-  ctx.fillStyle = theme.bgCell;
-  ctx.fill();
-  ctx.shadowColor = "rgba(24, 25, 34, 0.2)";
-  ctx.shadowOffsetY = 1;
-  ctx.shadowBlur = 5;
-  ctx.fillStyle = theme.bgCell;
-  ctx.fill();
-  ctx.shadowOffsetY = 0;
-  ctx.shadowBlur = 0;
-  ctx.shadowBlur = 0;
-  ctx.beginPath();
-  renderBoxes.forEach(rectInfo => {
-    roundedRect(ctx, Math.floor(rectInfo.x) + 0.5, Math.floor(y + (h - bubbleHeight) / 2) + 0.5, Math.round(rectInfo.width), bubbleHeight, 6);
-  });
-  ctx.strokeStyle = theme.drilldownBorder;
-  ctx.lineWidth = 1;
-  ctx.stroke();
   renderBoxes.forEach((rectInfo, i) => {
     const d = data[i];
     let drawX = rectInfo.x + bubblePad;
@@ -548,7 +774,7 @@ export function drawDrilldownCell(args, data) {
 
     ctx.beginPath();
     ctx.fillStyle = theme.textBubble;
-    ctx.fillText(d.text, drawX, y + h / 2);
+    ctx.fillText(d.text, drawX, y + h / 2 + getMiddleCenterBias(ctx, theme));
   });
 }
 export function drawImage(args, data) {
@@ -597,7 +823,7 @@ export function roundedPoly(ctx, points, radiusAll) {
     };
   };
 
-  let radius = radiusAll;
+  let radius;
   const len = points.length;
   let p1 = points[len - 1];
 
@@ -654,4 +880,88 @@ export function roundedPoly(ctx, points, radiusAll) {
   }
 
   ctx.closePath();
+}
+export function computeBounds(col, row, width, height, groupHeaderHeight, totalHeaderHeight, cellXOffset, cellYOffset, translateX, translateY, rows, freezeColumns, lastRowSticky, mappedColumns, rowHeight) {
+  const result = {
+    x: 0,
+    y: totalHeaderHeight + translateY,
+    width: 0,
+    height: 0
+  };
+  const headerHeight = totalHeaderHeight - groupHeaderHeight;
+
+  if (col >= freezeColumns) {
+    const dir = cellXOffset > col ? -1 : 1;
+    const freezeWidth = getStickyWidth(mappedColumns);
+    result.x += freezeWidth + translateX;
+
+    for (let i = cellXOffset; i !== col; i += dir) {
+      result.x += mappedColumns[dir === 1 ? i : i - 1].width * dir;
+    }
+  } else {
+    for (let i = 0; i < col; i++) {
+      result.x += mappedColumns[i].width;
+    }
+  }
+
+  result.width = mappedColumns[col].width + 1;
+
+  if (row === -1) {
+    result.y = groupHeaderHeight;
+    result.height = headerHeight;
+  } else if (row === -2) {
+    result.y = 0;
+    result.height = groupHeaderHeight;
+    let start = col;
+    const group = mappedColumns[col].group;
+    const sticky = mappedColumns[col].sticky;
+
+    while (start > 0 && isGroupEqual(mappedColumns[start - 1].group, group) && mappedColumns[start - 1].sticky === sticky) {
+      const c = mappedColumns[start - 1];
+      result.x -= c.width;
+      result.width += c.width;
+      start--;
+    }
+
+    let end = col;
+
+    while (end + 1 < mappedColumns.length && isGroupEqual(mappedColumns[end + 1].group, group) && mappedColumns[end + 1].sticky === sticky) {
+      const c = mappedColumns[end + 1];
+      result.width += c.width;
+      end++;
+    }
+
+    if (!sticky) {
+      const freezeWidth = getStickyWidth(mappedColumns);
+      const clip = result.x - freezeWidth;
+
+      if (clip < 0) {
+        result.x -= clip;
+        result.width += clip;
+      }
+
+      if (result.x + result.width > width) {
+        result.width = width - result.x;
+      }
+    }
+  } else if (lastRowSticky && row === rows - 1) {
+    const stickyHeight = typeof rowHeight === "number" ? rowHeight : rowHeight(row);
+    result.y = height - stickyHeight;
+    result.height = stickyHeight;
+  } else {
+    const dir = cellYOffset > row ? -1 : 1;
+
+    if (typeof rowHeight === "number") {
+      const delta = row - cellYOffset;
+      result.y += delta * rowHeight;
+    } else {
+      for (let r = cellYOffset; r !== row; r += dir) {
+        result.y += rowHeight(r) * dir;
+      }
+    }
+
+    result.height = (typeof rowHeight === "number" ? rowHeight : rowHeight(row)) + 1;
+  }
+
+  return result;
 }

@@ -1,6 +1,9 @@
 let _Symbol$iterator;
 
-import { assertNever, proveType } from "../common/support";
+import { assertNever, proveType } from "../common/support.js";
+import has from "lodash/has.js";
+export const BooleanEmpty = null;
+export const BooleanIndeterminate = undefined;
 export let GridCellKind;
 
 (function (GridCellKind) {
@@ -51,8 +54,15 @@ export let GridColumnIcon;
   GridColumnIcon["ProtectedColumnOverlay"] = "protectedColumnOverlay";
 })(GridColumnIcon || (GridColumnIcon = {}));
 
+export function isSizedGridColumn(c) {
+  return "width" in c;
+}
+export async function resolveCellsThunk(thunk) {
+  if (typeof thunk === "object") return thunk;
+  return await thunk();
+}
 export function isEditableGridCell(cell) {
-  if (cell.kind === GridCellKind.Loading || cell.kind === GridCellKind.Bubble || cell.kind === GridCellKind.RowID || cell.kind === GridCellKind.Protected || cell.kind === GridCellKind.Drilldown || cell.kind === GridCellKind.Custom) {
+  if (cell.kind === GridCellKind.Loading || cell.kind === GridCellKind.Bubble || cell.kind === GridCellKind.RowID || cell.kind === GridCellKind.Protected || cell.kind === GridCellKind.Drilldown) {
     return false;
   }
 
@@ -71,13 +81,27 @@ export function isInnerOnlyCell(cell) {
   return cell.kind === InnerGridCellKind.Marker || cell.kind === InnerGridCellKind.NewRow;
 }
 export function isReadWriteCell(cell) {
-  if (!isEditableGridCell(cell) || cell.kind === GridCellKind.Image || cell.kind === GridCellKind.Boolean) return false;
+  if (!isEditableGridCell(cell) || cell.kind === GridCellKind.Image) return false;
 
-  if (cell.kind === GridCellKind.Text || cell.kind === GridCellKind.Number || cell.kind === GridCellKind.Markdown || cell.kind === GridCellKind.Uri) {
+  if (cell.kind === GridCellKind.Text || cell.kind === GridCellKind.Number || cell.kind === GridCellKind.Markdown || cell.kind === GridCellKind.Uri || cell.kind === GridCellKind.Custom || cell.kind === GridCellKind.Boolean) {
     return cell.readonly !== true;
   }
 
   assertNever(cell);
+}
+export function isObjectEditorCallbackResult(obj) {
+  if (has(obj, "editor")) {
+    return true;
+  }
+
+  return false;
+}
+export function booleanCellIsEditable(cell) {
+  if (cell.readonly === true) return false;
+  if (cell.readonly === false) return true;
+  if (cell.allowEdit === true) return true;
+  if (cell.allowEdit === false) return false;
+  return true;
 }
 export let InnerGridCellKind;
 
@@ -129,25 +153,24 @@ export class CompactSelection {
 
     this.remove = selection => {
       const items = [...this.items];
+      const selMin = typeof selection === "number" ? selection : selection[0];
+      const selMax = typeof selection === "number" ? selection + 1 : selection[1];
 
       for (const [i, slice] of items.entries()) {
         const [start, end] = slice;
 
-        if (start <= selection && end > selection) {
-          const left = [start, selection];
-          const right = [selection + 1, end];
+        if (start <= selMax && selMin <= end) {
           const toAdd = [];
 
-          if (left[0] !== left[1]) {
-            toAdd.push(left);
+          if (start < selMin) {
+            toAdd.push([start, selMin]);
           }
 
-          if (right[0] !== right[1]) {
-            toAdd.push(right);
+          if (selMax < end) {
+            toAdd.push([selMax, end]);
           }
 
           items.splice(i, 1, ...toAdd);
-          break;
         }
       }
 
@@ -176,6 +199,27 @@ export class CompactSelection {
     this.hasAll = index => {
       for (let x = index[0]; x < index[1]; x++) {
         if (!this.hasIndex(x)) return false;
+      }
+
+      return true;
+    };
+
+    this.some = predicate => {
+      for (const i of this) {
+        if (predicate(i)) return true;
+      }
+
+      return false;
+    };
+
+    this.equals = other => {
+      if (other === this) return true;
+      if (other.items.length !== this.items.length) return false;
+
+      for (let i = 0; i < this.items.length; i++) {
+        const left = other.items[i];
+        const right = this.items[i];
+        if (left[0] !== right[0] || left[1] !== right[1]) return false;
       }
 
       return true;

@@ -1,5 +1,8 @@
-import { drawBoolean } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import { drawBoolean } from "../data-grid-lib.js";
+import { GridCellKind, booleanCellIsEditable } from "../data-grid-types.js";
+export function toggleBoolean(data) {
+  return data !== true;
+}
 export const booleanCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -8,15 +11,17 @@ export const booleanCellRenderer = {
   },
   kind: GridCellKind.Boolean,
   needsHover: true,
+  useLabel: false,
   needsHoverPosition: true,
-  render: a => drawBoolean(a, a.cell.data, a.cell.allowEdit),
+  measure: () => 50,
+  render: a => drawBoolean(a, a.cell.data, booleanCellIsEditable(a.cell)),
   onDelete: c => ({ ...c,
     data: false
   }),
   onClick: (cell, x, y, bounds) => {
-    if (Math.abs(x - bounds.width / 2) <= 10 && Math.abs(y - bounds.height / 2) <= 10) {
+    if (booleanCellIsEditable(cell) && Math.abs(x - bounds.width / 2) <= 10 && Math.abs(y - bounds.height / 2) <= 10) {
       return { ...cell,
-        data: !cell.data
+        data: toggleBoolean(cell.data)
       };
     }
 

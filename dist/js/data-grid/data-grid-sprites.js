@@ -1,5 +1,5 @@
-import { assert } from "../common/support";
-import { sprites } from "./sprites";
+import { assert } from "../common/support.js";
+import { sprites } from "./sprites.js";
 const variantList = ["normal", "selected", "special"];
 const renderSize = 40;
 
@@ -36,6 +36,7 @@ export class SpriteManager {
   }
 
   drawSprite(sprite, variant, ctx, x, y, size, theme) {
+    let alpha = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 1;
     if (this.spriteCanvas === undefined) throw new Error();
     const spriteIndex = this.spriteList.indexOf(sprite);
     if (spriteIndex === -1) throw new Error(`Unknown header icon: ${sprite}`);
@@ -43,7 +44,16 @@ export class SpriteManager {
     const variantIndex = this.colorMap.indexOf(makeExtraMapIndex(bgColor, fgColor));
     const xOffset = spriteIndex * renderSize;
     const yOffset = Math.max(0, variantIndex * renderSize);
+
+    if (alpha < 1) {
+      ctx.globalAlpha = alpha;
+    }
+
     ctx.drawImage(this.spriteCanvas, xOffset, yOffset, renderSize, renderSize, x, y, size, size);
+
+    if (alpha < 1) {
+      ctx.globalAlpha = 1;
+    }
   }
 
   async buildSpriteMap(theme, cols) {

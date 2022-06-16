@@ -27,7 +27,9 @@ const bubbleCellRenderer = {
   },
   kind: _dataGridTypes.GridCellKind.Bubble,
   needsHover: false,
+  useLabel: false,
   needsHoverPosition: false,
+  measure: (ctx, cell) => cell.data.reduce((acc, data) => ctx.measureText(data).width + acc, 0) + 16,
   render: a => (0, _dataGridLib.drawBubbles)(a, a.cell.data),
   getEditor: () => p => {
     const {

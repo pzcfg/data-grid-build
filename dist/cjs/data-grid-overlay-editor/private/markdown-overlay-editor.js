@@ -44,7 +44,11 @@ const MarkdownOverlayEditor = p => {
     }, React.createElement(_growingEntry.default, {
       autoFocus: true,
       highlight: false,
-      onKeyDown: onKeyDown,
+      onKeyDown: e => {
+        if (e.key !== "Enter") {
+          onKeyDown(e);
+        }
+      },
       value: markdown,
       onChange: onChange
     }), React.createElement("div", {
@@ -64,7 +68,7 @@ const MarkdownOverlayEditor = p => {
     className: `edit-icon edit-hover ${addLeftPad}`,
     onClick: onEditClick
   }, React.createElement(_utils.EditPencil, null))), React.createElement("textarea", {
-    className: "md-edit-textarea",
+    className: "md-edit-textarea gdg-input",
     autoFocus: true,
     onKeyDown: onKeyDown
   }));

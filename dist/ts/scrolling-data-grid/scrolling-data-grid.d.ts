@@ -9,6 +9,8 @@ export interface ScrollingDataGridProps extends Props {
     readonly smoothScrollX?: boolean;
     readonly smoothScrollY?: boolean;
     readonly overscrollX?: number;
+    readonly overscrollY?: number;
+    readonly preventDiagonalScrolling?: boolean;
     readonly rightElementSticky?: boolean;
     readonly rightElement?: React.ReactNode;
     readonly showMinimap?: boolean;

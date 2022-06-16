@@ -1,7 +1,7 @@
 import * as React from "react";
-import GrowingEntry from "../../growing-entry/growing-entry";
-import { drawTextCell, prepTextCell } from "../data-grid-lib";
-import { GridCellKind } from "../data-grid-types";
+import GrowingEntry from "../../growing-entry/growing-entry.js";
+import { drawTextCell, prepTextCell } from "../data-grid-lib.js";
+import { GridCellKind } from "../data-grid-types.js";
 export const textCellRenderer = {
   getAccessibilityString: c => {
     var _c$data$toString, _c$data;
@@ -12,7 +12,9 @@ export const textCellRenderer = {
   needsHover: false,
   needsHoverPosition: false,
   renderPrep: prepTextCell,
-  render: a => drawTextCell(a, a.cell.displayData),
+  useLabel: true,
+  render: a => drawTextCell(a, a.cell.displayData, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.displayData).width + 16,
   onDelete: c => ({ ...c,
     data: ""
   }),
@@ -28,6 +30,7 @@ export const textCellRenderer = {
       autoFocus: value.readonly !== true,
       disabled: value.readonly === true,
       onKeyDown: onKeyDown,
+      altNewline: true,
       value: value.data,
       onChange: e => onChange({ ...value,
         data: e.target.value

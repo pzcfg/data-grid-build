@@ -28,8 +28,10 @@ const uriCellRenderer = {
   kind: _dataGridTypes.GridCellKind.Uri,
   needsHover: false,
   needsHoverPosition: false,
+  useLabel: true,
   renderPrep: _dataGridLib.prepTextCell,
-  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.data),
+  render: a => (0, _dataGridLib.drawTextCell)(a, a.cell.data, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.data).width + 16,
   onDelete: c => ({ ...c,
     data: ""
   }),

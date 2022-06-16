@@ -10,3 +10,4 @@ export declare const EditPencil: React.FunctionComponent<Partial<SpriteProps>>;
 export declare const Checkmark: React.FunctionComponent<Partial<SpriteProps>>;
 export declare function useDebouncedMemo<T>(factory: () => T, deps: React.DependencyList | undefined, time: number): T;
 export declare function direction(value: string): "rtl" | "ltr" | "neutral";
+export declare function getScrollBarWidth(): number;

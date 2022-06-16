@@ -35,3 +35,14 @@ export function withAlpha(color, alpha) {
   const [r, g, b] = parseToRgba(color);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+export function blend(color, background) {
+  if (background === undefined) return color;
+  const [r, g, b, a] = parseToRgba(color);
+  if (a === 1) return color;
+  const [br, bg, bb, ba] = parseToRgba(background);
+  const ao = a + ba * (1 - a);
+  const ro = (a * r + ba * br * (1 - a)) / ao;
+  const go = (a * g + ba * bg * (1 - a)) / ao;
+  const bo = (a * b + ba * bb * (1 - a)) / ao;
+  return `rgba(${ro}, ${go}, ${bo}, ${ao})`;
+}
