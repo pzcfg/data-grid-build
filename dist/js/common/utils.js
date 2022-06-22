@@ -1,6 +1,6 @@
 import * as React from "react";
 import { css } from "styled-components";
-import debounce from "lodash/debounce.js";
+import debounce from "https://esm.run/lodash/debounce.js";
 export function useEventListener(eventName, handler, element, passive, capture) {
   var _capture;
 

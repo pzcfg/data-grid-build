@@ -5,7 +5,7 @@ import { computeBounds, getColumnIndexForX, getEffectiveColumns, getRowIndexForY
 import { GridCellKind, InnerGridCellKind, CompactSelection, isReadWriteCell, isInnerOnlyCell, booleanCellIsEditable } from "./data-grid-types.js";
 import { SpriteManager } from "./data-grid-sprites.js";
 import { useDebouncedMemo, useEventListener } from "../common/utils.js";
-import makeRange from "lodash/range.js";
+import makeRange from "https://esm.run/lodash/range.js";
 import { drawCell, drawGrid, getActionBoundsForGroup, getHeaderMenuBounds, pointInRect } from "./data-grid-render.js";
 import { AnimationManager } from "./animation-manager.js";
 import { browserIsFirefox } from "../common/browser-detect.js";

@@ -19,7 +19,7 @@ var _dataGridSprites = require("./data-grid-sprites");
 
 var _utils = require("../common/utils");
 
-var _range = _interopRequireDefault(require("lodash/range"));
+var _range = _interopRequireDefault(require("https://esm.run/lodash/range"));
 
 var _dataGridRender = require("./data-grid-render");
 

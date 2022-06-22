@@ -18,7 +18,7 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 var _reactVirtualizedAutoSizer = _interopRequireDefault(require("react-virtualized-auto-sizer"));
 
-var _isArray = _interopRequireDefault(require("lodash/isArray"));
+var _isArray = _interopRequireDefault(require("https://esm.run/lodash/isArray"));
 
 var _support = require("../../common/support");
 

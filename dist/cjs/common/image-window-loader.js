@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _throttle = _interopRequireDefault(require("lodash/throttle"));
+var _throttle = _interopRequireDefault(require("https://esm.run/lodash/throttle"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

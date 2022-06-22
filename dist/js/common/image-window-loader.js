@@ -1,4 +1,4 @@
-import throttle from "lodash/throttle.js";
+import throttle from "https://esm.run/lodash/throttle.js";
 const rowShift = 1 << 16;
 const imgPool = [];
 

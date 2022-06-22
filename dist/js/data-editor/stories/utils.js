@@ -3,7 +3,7 @@ import { GridCellKind, GridColumnIcon, isEditableGridCell, isTextEditableGridCel
 import faker from "faker";
 import styled from "styled-components";
 import AutoSizer from "react-virtualized-auto-sizer";
-import isArray from "lodash/isArray.js";
+import isArray from "https://esm.run/lodash/isArray.js";
 import { assertNever } from "../../common/support.js";
 import { browserIsFirefox } from "../../common/browser-detect.js";
 faker.seed(1337);

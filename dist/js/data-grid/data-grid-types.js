@@ -1,7 +1,7 @@
 let _Symbol$iterator;
 
 import { assertNever, proveType } from "../common/support.js";
-import has from "lodash/has.js";
+import has from "https://esm.run/lodash/has.js";
 export const BooleanEmpty = null;
 export const BooleanIndeterminate = undefined;
 export let GridCellKind;

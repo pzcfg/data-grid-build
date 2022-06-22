@@ -15,7 +15,7 @@ exports.resolveCellsThunk = resolveCellsThunk;
 
 var _support = require("../common/support");
 
-var _has = _interopRequireDefault(require("lodash/has"));
+var _has = _interopRequireDefault(require("https://esm.run/lodash/has"));
 
 let _Symbol$iterator;
 

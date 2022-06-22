@@ -15,7 +15,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _styledComponents = require("styled-components");
 
-var _debounce = _interopRequireDefault(require("lodash/debounce"));
+var _debounce = _interopRequireDefault(require("https://esm.run/lodash/debounce"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

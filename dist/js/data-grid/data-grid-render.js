@@ -1,4 +1,4 @@
-import groupBy from "lodash/groupBy.js";
+import groupBy from "https://esm.run/lodash/groupBy.js";
 import { GridCellKind, isInnerOnlyCell } from "./data-grid-types.js";
 import { getEffectiveColumns, getStickyWidth, roundedPoly, drawWithLastUpdate, isGroupEqual, cellIsSelected, cellIsInRange, computeBounds, getMiddleCenterBias } from "./data-grid-lib.js";
 import { blend, withAlpha } from "./color-parser.js";

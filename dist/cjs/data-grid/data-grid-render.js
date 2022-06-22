@@ -9,7 +9,7 @@ exports.getActionBoundsForGroup = getActionBoundsForGroup;
 exports.getHeaderMenuBounds = getHeaderMenuBounds;
 exports.pointInRect = pointInRect;
 
-var _groupBy = _interopRequireDefault(require("lodash/groupBy"));
+var _groupBy = _interopRequireDefault(require("https://esm.run/lodash/groupBy"));
 
 var _dataGridTypes = require("./data-grid-types");
 
