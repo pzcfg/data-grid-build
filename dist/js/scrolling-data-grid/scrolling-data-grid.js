@@ -4,7 +4,7 @@ import * as React from "react";
 import styled from "styled-components";
 import DataGridDnd from "../data-grid-dnd/data-grid-dnd.js";
 import { InfiniteScroller } from "./infinite-scroller.js";
-import clamp from "lodash/clamp.js";
+import clamp from "https://esm.run/lodash/clamp.js";
 const MinimapStyle = styled.div.withConfig({
   displayName: "scrolling-data-grid__MinimapStyle",
   componentId: "sc-r4h7c0-0"

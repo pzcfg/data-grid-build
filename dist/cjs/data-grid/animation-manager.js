@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.AnimationManager = void 0;
 exports.easeOutCubic = easeOutCubic;
 
-var _clamp = _interopRequireDefault(require("lodash/clamp"));
+var _clamp = _interopRequireDefault(require("https://esm.run/lodash/clamp"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

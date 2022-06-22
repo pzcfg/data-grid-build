@@ -1,4 +1,4 @@
-import clamp from "lodash/clamp.js";
+import clamp from "https://esm.run/lodash/clamp.js";
 const hoverTime = 80;
 export function easeOutCubic(x) {
   const x1 = x - 1;

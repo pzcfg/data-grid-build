@@ -2,7 +2,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 import * as React from "react";
 import { assertNever, maybe } from "../common/support.js";
-import clamp from "lodash/clamp.js";
+import clamp from "https://esm.run/lodash/clamp.js";
 import uniq from "lodash/uniq.js";
 import flatten from "lodash/flatten.js";
 import range from "lodash/range.js";

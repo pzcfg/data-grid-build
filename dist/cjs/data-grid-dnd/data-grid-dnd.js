@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _clamp = _interopRequireDefault(require("lodash/clamp"));
+var _clamp = _interopRequireDefault(require("https://esm.run/lodash/clamp"));
 
 var React = _interopRequireWildcard(require("react"));
 

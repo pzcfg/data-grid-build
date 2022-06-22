@@ -1,4 +1,4 @@
-import clamp from "lodash/clamp.js";
+import clamp from "https://esm.run/lodash/clamp.js";
 import * as React from "react";
 import DataGrid from "../data-grid/data-grid.js";
 let warned = false;

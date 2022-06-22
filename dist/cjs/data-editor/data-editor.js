@@ -9,7 +9,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _support = require("../common/support");
 
-var _clamp = _interopRequireDefault(require("lodash/clamp"));
+var _clamp = _interopRequireDefault(require("https://esm.run/lodash/clamp"));
 
 var _uniq = _interopRequireDefault(require("lodash/uniq"));
 

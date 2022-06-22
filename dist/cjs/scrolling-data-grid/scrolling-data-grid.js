@@ -13,7 +13,7 @@ var _dataGridDnd = _interopRequireDefault(require("../data-grid-dnd/data-grid-dn
 
 var _infiniteScroller = require("./infinite-scroller");
 
-var _clamp = _interopRequireDefault(require("lodash/clamp"));
+var _clamp = _interopRequireDefault(require("https://esm.run/lodash/clamp"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
