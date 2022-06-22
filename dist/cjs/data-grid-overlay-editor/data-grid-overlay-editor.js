@@ -9,7 +9,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _reactDom = require("react-dom");
 
-var _styledComponents = require("styled-components");
+var _styledComponents = require("https://esm.run/styled-components");
 
 var _clickOutsideContainer = _interopRequireDefault(require("../click-outside-container/click-outside-container"));
 

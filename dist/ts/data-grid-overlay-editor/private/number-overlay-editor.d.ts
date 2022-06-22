@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { NumberFormatValues } from "react-number-format";
+import type { NumberFormatValues } from "https://esm.run/react-number-format";
 interface Props {
     value: number | undefined;
     disabled?: boolean;

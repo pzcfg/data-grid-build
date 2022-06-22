@@ -1,4 +1,4 @@
-import baseStyled from "styled-components";
+import baseStyled from "https://esm.run/styled-components";
 const dataEditorBaseTheme = {
   accentColor: "#4F5DFF",
   accentFg: "#FFFFFF",

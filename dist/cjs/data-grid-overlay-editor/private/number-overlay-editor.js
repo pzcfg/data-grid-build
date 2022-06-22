@@ -9,7 +9,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _numberOverlayEditorStyle = require("./number-overlay-editor-style");
 
-var _reactNumberFormat = _interopRequireDefault(require("react-number-format"));
+var _reactNumberFormat = _interopRequireDefault(require("https://esm.run/react-number-format"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

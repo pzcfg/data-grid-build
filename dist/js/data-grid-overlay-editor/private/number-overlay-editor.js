@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NumberOverlayEditorStyle } from "./number-overlay-editor-style.js";
-import NumberFormat from "react-number-format";
+import NumberFormat from "https://esm.run/react-number-format";
 
 function getDecimalSeparator() {
   var _Intl$NumberFormat, _Intl$NumberFormat$fo, _Intl$NumberFormat$fo2;

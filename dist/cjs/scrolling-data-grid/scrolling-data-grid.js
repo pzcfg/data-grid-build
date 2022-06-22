@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var React = _interopRequireWildcard(require("react"));
 
-var _styledComponents = _interopRequireDefault(require("styled-components"));
+var _styledComponents = _interopRequireDefault(require("https://esm.run/styled-components"));
 
 var _dataGridDnd = _interopRequireDefault(require("../data-grid-dnd/data-grid-dnd"));
 

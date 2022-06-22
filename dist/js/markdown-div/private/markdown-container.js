@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "https://esm.run/styled-components";
 export const MarkdownContainer = styled.div.withConfig({
   displayName: "markdown-container__MarkdownContainer",
   componentId: "sc-rncfxa-0"

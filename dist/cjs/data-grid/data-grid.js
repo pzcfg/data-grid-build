@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var React = _interopRequireWildcard(require("react"));
 
-var _styledComponents = require("styled-components");
+var _styledComponents = require("https://esm.run/styled-components");
 
 var _imageWindowLoader = _interopRequireDefault(require("../common/image-window-loader"));
 

@@ -1,6 +1,6 @@
 import { styled } from "../common/styles.js";
 import * as React from "react";
-import AutoSizer from "react-virtualized-auto-sizer";
+import AutoSizer from "https://esm.run/react-virtualized-auto-sizer";
 import { browserIsSafari } from "../common/browser-detect.js";
 export const ScrollRegionStyle = styled.div`
     .dvn-scroller {

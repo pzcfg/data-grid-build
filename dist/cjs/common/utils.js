@@ -13,7 +13,7 @@ exports.useEventListener = useEventListener;
 
 var React = _interopRequireWildcard(require("react"));
 
-var _styledComponents = require("styled-components");
+var _styledComponents = require("https://esm.run/styled-components");
 
 var _debounce = _interopRequireDefault(require("https://esm.run/lodash/debounce"));
 

@@ -3,5 +3,5 @@ interface Props {
     targetRect: Rectangle;
     pad: boolean;
 }
-export declare const DataGridOverlayEditorStyle: import("styled-components").StyledComponent<"div", import("../common/styles").Theme, Props, never>;
+export declare const DataGridOverlayEditorStyle: import("https://esm.run/styled-components").StyledComponent<"div", import("../common/styles").Theme, Props, never>;
 export {};

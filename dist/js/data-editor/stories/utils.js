@@ -1,8 +1,8 @@
 import * as React from "react";
 import { GridCellKind, GridColumnIcon, isEditableGridCell, isTextEditableGridCell } from "../../data-grid/data-grid-types.js";
-import faker from "faker";
-import styled from "styled-components";
-import AutoSizer from "react-virtualized-auto-sizer";
+import faker from "https://esm.run/faker";
+import styled from "https://esm.run/styled-components";
+import AutoSizer from "https://esm.run/react-virtualized-auto-sizer";
 import isArray from "https://esm.run/lodash/isArray.js";
 import { assertNever } from "../../common/support.js";
 import { browserIsFirefox } from "../../common/browser-detect.js";

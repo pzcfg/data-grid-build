@@ -27,7 +27,7 @@ var _dataGridSearch = _interopRequireDefault(require("../data-grid-search/data-g
 
 var _browserDetect = require("../common/browser-detect");
 
-var _styledComponents = require("styled-components");
+var _styledComponents = require("https://esm.run/styled-components");
 
 var _styles = require("../common/styles");
 

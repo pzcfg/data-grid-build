@@ -7,7 +7,7 @@ exports.ShadowBox = exports.InputBox = exports.GrowingEntryStyle = void 0;
 
 var _styles = require("../common/styles");
 
-var _styledComponents = require("styled-components");
+var _styledComponents = require("https://esm.run/styled-components");
 
 const inputProps = (0, _styledComponents.css)(["font-size:", ";line-height:16px;font-family:", ";color:", ";padding:0;margin:0;"], p => p.theme.editorFontSize, p => p.theme.fontFamily, p => p.theme.textDark);
 const InputBox = _styles.styled.textarea`

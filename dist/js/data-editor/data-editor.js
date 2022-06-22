@@ -11,7 +11,7 @@ import DataGridOverlayEditor from "../data-grid-overlay-editor/data-grid-overlay
 import { GridCellKind, isEditableGridCell, isReadWriteCell, InnerGridCellKind, CompactSelection, isInnerOnlyCell, isObjectEditorCallbackResult, BooleanIndeterminate, BooleanEmpty } from "../data-grid/data-grid-types.js";
 import DataGridSearch from "../data-grid-search/data-grid-search.js";
 import { browserIsOSX } from "../common/browser-detect.js";
-import { ThemeProvider, useTheme } from "styled-components";
+import { ThemeProvider, useTheme } from "https://esm.run/styled-components";
 import { getDataEditorTheme } from "../common/styles.js";
 import { getScrollBarWidth, useEventListener } from "../common/utils.js";
 import { CellRenderers } from "../data-grid/cells/index.js";

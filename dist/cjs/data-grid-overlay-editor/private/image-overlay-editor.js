@@ -9,7 +9,7 @@ var React = _interopRequireWildcard(require("react"));
 
 var _imageOverlayEditorStyle = require("./image-overlay-editor-style");
 
-var _reactResponsiveCarousel = require("react-responsive-carousel");
+var _reactResponsiveCarousel = require("https://esm.run/react-responsive-carousel");
 
 var _utils = require("../../common/utils");
 

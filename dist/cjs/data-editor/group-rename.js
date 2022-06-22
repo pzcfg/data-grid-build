@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GroupRename = void 0;
 
-var _styledComponents = _interopRequireWildcard(require("styled-components"));
+var _styledComponents = _interopRequireWildcard(require("https://esm.run/styled-components"));
 
 var _react = _interopRequireDefault(require("react"));
 

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getDataEditorTheme = getDataEditorTheme;
 exports.styled = void 0;
 
-var _styledComponents = _interopRequireDefault(require("styled-components"));
+var _styledComponents = _interopRequireDefault(require("https://esm.run/styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

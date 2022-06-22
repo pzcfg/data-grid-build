@@ -1,4 +1,4 @@
-import { ThemedStyledInterface } from "styled-components";
+import { ThemedStyledInterface } from "https://esm.run/styled-components";
 export interface Theme {
     accentColor: string;
     accentFg: string;

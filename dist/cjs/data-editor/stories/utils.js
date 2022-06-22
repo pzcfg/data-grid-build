@@ -12,11 +12,11 @@ var React = _interopRequireWildcard(require("react"));
 
 var _dataGridTypes = require("../../data-grid/data-grid-types");
 
-var _faker = _interopRequireDefault(require("faker"));
+var _faker = _interopRequireDefault(require("https://esm.run/faker"));
 
-var _styledComponents = _interopRequireDefault(require("styled-components"));
+var _styledComponents = _interopRequireDefault(require("https://esm.run/styled-components"));
 
-var _reactVirtualizedAutoSizer = _interopRequireDefault(require("react-virtualized-auto-sizer"));
+var _reactVirtualizedAutoSizer = _interopRequireDefault(require("https://esm.run/react-virtualized-auto-sizer"));
 
 var _isArray = _interopRequireDefault(require("https://esm.run/lodash/isArray"));
 

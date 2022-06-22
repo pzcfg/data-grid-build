@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTheme } from "styled-components";
+import { useTheme } from "https://esm.run/styled-components";
 import ImageWindowLoader from "../common/image-window-loader.js";
 import { computeBounds, getColumnIndexForX, getEffectiveColumns, getRowIndexForY, getStickyWidth, useMappedColumns } from "./data-grid-lib.js";
 import { GridCellKind, InnerGridCellKind, CompactSelection, isReadWriteCell, isInnerOnlyCell, booleanCellIsEditable } from "./data-grid-types.js";

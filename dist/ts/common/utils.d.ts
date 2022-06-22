@@ -5,7 +5,7 @@ export interface SpriteProps {
     fgColor: string;
     bgColor: string;
 }
-export declare const disabledProps: import("styled-components").FlattenSimpleInterpolation;
+export declare const disabledProps: import("https://esm.run/styled-components").FlattenSimpleInterpolation;
 export declare const EditPencil: React.FunctionComponent<Partial<SpriteProps>>;
 export declare const Checkmark: React.FunctionComponent<Partial<SpriteProps>>;
 export declare function useDebouncedMemo<T>(factory: () => T, deps: React.DependencyList | undefined, time: number): T;

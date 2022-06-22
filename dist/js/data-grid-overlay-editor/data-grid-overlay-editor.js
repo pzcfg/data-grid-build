@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "https://esm.run/styled-components";
 import ClickOutsideContainer from "../click-outside-container/click-outside-container.js";
 import { CellRenderers } from "../data-grid/cells/index.js";
 import { GridCellKind, isObjectEditorCallbackResult } from "../data-grid/data-grid-types.js";

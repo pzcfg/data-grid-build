@@ -1,5 +1,5 @@
 import React from "react";
-import { marked } from "marked";
+import { marked } from "https://esm.run/marked";
 import { MarkdownContainer } from "./private/markdown-container.js";
 export default class MarkdownDiv extends React.PureComponent {
   constructor() {

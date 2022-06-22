@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ImageOverlayEditorStyle } from "./image-overlay-editor-style.js";
-import { Carousel } from "react-responsive-carousel";
+import { Carousel } from "https://esm.run/react-responsive-carousel";
 import { EditPencil } from "../../common/utils.js";
 
 const ImageOverlayEditor = p => {

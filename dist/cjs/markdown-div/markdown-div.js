@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _marked = require("marked");
+var _marked = require("https://esm.run/marked");
 
 var _markdownContainer = require("./private/markdown-container");
 

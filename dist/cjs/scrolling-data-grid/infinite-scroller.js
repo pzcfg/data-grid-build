@@ -9,7 +9,7 @@ var _styles = require("../common/styles");
 
 var React = _interopRequireWildcard(require("react"));
 
-var _reactVirtualizedAutoSizer = _interopRequireDefault(require("react-virtualized-auto-sizer"));
+var _reactVirtualizedAutoSizer = _interopRequireDefault(require("https://esm.run/react-virtualized-auto-sizer"));
 
 var _browserDetect = require("../common/browser-detect");
 
