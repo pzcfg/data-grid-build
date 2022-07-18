@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import ImageWindowLoader from "../common/image-window-loader";
-import type { GridSelection, DrawHeaderCallback, InnerGridCell, Rectangle, CompactSelection, DrawCustomCellCallback, GridColumnIcon, Item, CellList, GridMouseGroupHeaderEventArgs, SizedGridColumn } from "./data-grid-types";
+import type { GridSelection, DrawHeaderCallback, InnerGridCell, Rectangle, CompactSelection, DrawCustomCellCallback, GridColumnIcon, Item, CellList, GridMouseGroupHeaderEventArgs } from "./data-grid-types";
 import { HoverValues } from "./animation-manager";
 import { MappedGridColumn } from "./data-grid-lib";
 import { SpriteManager } from "./data-grid-sprites";
@@ -10,6 +10,7 @@ declare type HoverInfo = readonly [Item, Item];
 export interface Highlight {
     readonly color: string;
     readonly range: Rectangle;
+    readonly style?: "dashed" | "solid";
 }
 interface GroupDetails {
     readonly name: string;
@@ -33,20 +34,19 @@ interface DragAndDropState {
     src: number;
     dest: number;
 }
-export declare function drawCell(ctx: CanvasRenderingContext2D, row: number, cell: InnerGridCell, col: number, x: number, y: number, w: number, h: number, highlighted: boolean, theme: Theme, drawCustomCell: DrawCustomCellCallback | undefined, imageLoader: ImageWindowLoader, spriteManager: SpriteManager, hoverAmount: number, hoverInfo: HoverInfo | undefined, frameTime: number, lastPrep?: PrepResult, enqueue?: (item: Item) => void): PrepResult | undefined;
+export declare function drawCell(ctx: CanvasRenderingContext2D, row: number, cell: InnerGridCell, col: number, x: number, y: number, w: number, h: number, highlighted: boolean, theme: Theme, drawCustomCell: DrawCustomCellCallback | undefined, imageLoader: ImageWindowLoader, spriteManager: SpriteManager, hoverAmount: number, hoverInfo: HoverInfo | undefined, hyperWrapping: boolean, frameTime: number, lastPrep?: PrepResult, enqueue?: (item: Item) => void): PrepResult | undefined;
 export declare function getActionBoundsForGroup(box: Rectangle, actions: NonNullable<GroupDetails["actions"]>): readonly Rectangle[];
 export declare function pointInRect(rect: Rectangle, x: number, y: number): boolean;
 export declare function getHeaderMenuBounds(x: number, y: number, width: number, height: number): Rectangle;
-interface DrawGridArg {
+export interface DrawGridArg {
     readonly canvas: HTMLCanvasElement;
-    readonly buffers: Buffers;
+    readonly headerCanvas: HTMLCanvasElement;
     readonly width: number;
     readonly height: number;
     readonly cellXOffset: number;
     readonly cellYOffset: number;
     readonly translateX: number;
     readonly translateY: number;
-    readonly columns: readonly SizedGridColumn[];
     readonly mappedColumns: readonly MappedGridColumn[];
     readonly enableGroups: boolean;
     readonly freezeColumns: number;
@@ -54,16 +54,15 @@ interface DrawGridArg {
     readonly theme: Theme;
     readonly headerHeight: number;
     readonly groupHeaderHeight: number;
-    readonly selectedRows: CompactSelection;
     readonly disabledRows: CompactSelection;
     readonly rowHeight: number | ((index: number) => number);
     readonly verticalBorder: (col: number) => boolean;
-    readonly selectedColumns: CompactSelection;
     readonly isResizing: boolean;
     readonly isFocused: boolean;
-    readonly selectedCell: GridSelection;
+    readonly selection: GridSelection;
     readonly fillHandle: boolean;
     readonly lastRowSticky: boolean;
+    readonly hyperWrapping: boolean;
     readonly rows: number;
     readonly getCellContent: (cell: Item) => InnerGridCell;
     readonly getGroupDetails: GroupDetailsCallback;
@@ -74,7 +73,6 @@ interface DrawGridArg {
     readonly highlightRegions: readonly Highlight[] | undefined;
     readonly imageLoader: ImageWindowLoader;
     readonly lastBlitData: React.MutableRefObject<BlitData>;
-    readonly canBlit: boolean;
     readonly damage: CellList | undefined;
     readonly hoverValues: HoverValues;
     readonly hoverInfo: HoverInfo | undefined;
@@ -83,8 +81,5 @@ interface DrawGridArg {
     readonly touchMode: boolean;
     readonly enqueue: (item: Item) => void;
 }
-export declare function drawGrid(arg: DrawGridArg): void;
-interface Buffers {
-    overlay: HTMLCanvasElement;
-}
+export declare function drawGrid(arg: DrawGridArg, lastArg: DrawGridArg | undefined): void;
 export {};

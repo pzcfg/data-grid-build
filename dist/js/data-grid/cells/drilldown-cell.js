@@ -8,9 +8,7 @@ export const drilldownCellRenderer = {
   needsHover: false,
   useLabel: false,
   needsHoverPosition: false,
-  measure: (ctx, cell) => {
-    return cell.data.reduce((acc, data) => ctx.measureText(data.text).width + (data.img === undefined ? 0 : 20) + acc, 0) + 16;
-  },
+  measure: (ctx, cell, t) => cell.data.reduce((acc, data) => ctx.measureText(data.text).width + acc + 20 + (data.img !== undefined ? 18 : 0), 0) + 2 * t.cellHorizontalPadding - 4,
   render: a => drawDrilldownCell(a, a.cell.data),
   getEditor: () => p => {
     const {

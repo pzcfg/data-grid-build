@@ -8,7 +8,7 @@ import clamp from "lodash/clamp.js";
 const MinimapStyle = styled.div.withConfig({
   displayName: "scrolling-data-grid__MinimapStyle",
   componentId: "sc-r4h7c0-0"
-})(["position:absolute;right:44px;bottom:44px;background-color:", ";background:linear-gradient(", ",", ");border-radius:4px;z-index:1;box-shadow:0 0 0 1px ", ",0 2px 5px rgba(0,0,0,0.08);overflow:hidden;.header{position:absolute;left:0;top:0;width:100%;height:4px;background-color:", ";box-shadow:0 0 0 1px ", ";}.locationMarker{position:absolute;border:1px solid ", ";background-color:", ";}"], p => p.theme.bgCell, p => p.theme.bgCell, p => p.theme.bgCellMedium, p => p.theme.borderColor, p => p.theme.bgHeader, p => p.theme.borderColor, p => p.theme.accentColor, p => p.theme.accentLight);
+})(["position:absolute;right:44px;bottom:44px;background-color:var(--gdg-bg-cell);background:linear-gradient(var(--gdg-bg-cell),var(--gdg-bg-cell-medium));border-radius:4px;z-index:1;box-shadow:0 0 0 1px var(--gdg-border-color),0 2px 5px rgba(0,0,0,0.08);overflow:hidden;.header{position:absolute;left:0;top:0;width:100%;height:4px;background-color:var(--gdg-bg-header);box-shadow:0 0 0 1px var(--gdg-border-color);}.locationMarker{position:absolute;border:1px solid var(--gdg-accent-color);background-color:var(--gdg-accent-light);}"]);
 
 const GridScroller = p => {
   var _scrollRef$current, _scroller$scrollLeft, _scroller$scrollTop;
@@ -21,7 +21,8 @@ const GridScroller = p => {
     groupHeaderHeight,
     enableGroups,
     freezeColumns,
-    experimental
+    experimental,
+    clientSize
   } = p;
   const {
     paddingRight,
@@ -44,11 +45,11 @@ const GridScroller = p => {
     smoothScrollX = false,
     smoothScrollY = false
   } = p;
-  const [clientWidth, setClientWidth] = React.useState(10);
-  const [clientHeight, setClientHeight] = React.useState(10);
+  const [clientWidth, clientHeight] = clientSize;
   const last = React.useRef();
   const lastX = React.useRef();
   const lastY = React.useRef();
+  const lastSize = React.useRef();
   const width = React.useMemo(() => {
     let r = Math.max(0, overscrollX !== null && overscrollX !== void 0 ? overscrollX : 0);
 
@@ -74,6 +75,8 @@ const GridScroller = p => {
 
   const lastArgs = React.useRef();
   const processArgs = React.useCallback(() => {
+    var _lastSize$current, _lastSize$current2;
+
     const args = lastArgs.current;
     if (args === undefined) return;
     let x = 0;
@@ -163,20 +166,20 @@ const GridScroller = p => {
     };
     const oldRect = last.current;
 
-    if (oldRect === undefined || oldRect.y !== rect.y || oldRect.x !== rect.x || oldRect.height !== rect.height || oldRect.width !== rect.width || lastX.current !== tx || lastY.current !== ty) {
+    if (oldRect === undefined || oldRect.y !== rect.y || oldRect.x !== rect.x || oldRect.height !== rect.height || oldRect.width !== rect.width || lastX.current !== tx || lastY.current !== ty || args.width !== ((_lastSize$current = lastSize.current) === null || _lastSize$current === void 0 ? void 0 : _lastSize$current[0]) || args.height !== ((_lastSize$current2 = lastSize.current) === null || _lastSize$current2 === void 0 ? void 0 : _lastSize$current2[1])) {
+      var _args$paddingRight;
+
       onVisibleRegionChanged === null || onVisibleRegionChanged === void 0 ? void 0 : onVisibleRegionChanged({
         x: cellX,
         y: cellY,
         width: cellRight - cellX,
         height: cellBottom - cellY
-      }, tx, ty);
+      }, args.width, args.height, (_args$paddingRight = args.paddingRight) !== null && _args$paddingRight !== void 0 ? _args$paddingRight : 0, tx, ty);
       last.current = rect;
       lastX.current = tx;
       lastY.current = ty;
+      lastSize.current = [args.width, args.height];
     }
-
-    setClientHeight(args.height);
-    setClientWidth(args.width);
   }, [columns, rowHeight, rows, onVisibleRegionChanged, freezeColumns, smoothScrollX, smoothScrollY]);
   const onScrollUpdate = React.useCallback(args => {
     lastArgs.current = args;

@@ -9,7 +9,7 @@ var _styles = require("../common/styles");
 
 var _styledComponents = require("styled-components");
 
-const inputProps = (0, _styledComponents.css)(["font-size:", ";line-height:16px;font-family:", ";color:", ";padding:0;margin:0;"], p => p.theme.editorFontSize, p => p.theme.fontFamily, p => p.theme.textDark);
+const inputProps = (0, _styledComponents.css)(["font-size:var(--gdg-editor-font-size);line-height:16px;font-family:var(--gdg-font-family);color:var(--gdg-text-dark);padding:0;margin:0;"]);
 const InputBox = _styles.styled.textarea`
     position: absolute;
     left: 0;
@@ -29,10 +29,15 @@ const InputBox = _styles.styled.textarea`
     background-color: transparent;
 
     ::placeholder {
-        color: ${p => p.theme.textLight};
+        color: var(--gdg-text-light);
     }
 
     ${inputProps}
+
+    .invalid & {
+        text-decoration: underline;
+        text-decoration-color: #d60606;
+    }
 `;
 exports.InputBox = InputBox;
 const ShadowBox = _styles.styled.div`

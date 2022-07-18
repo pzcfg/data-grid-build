@@ -13,6 +13,8 @@ var _styledComponents = require("styled-components");
 
 var _clickOutsideContainer = _interopRequireDefault(require("../click-outside-container/click-outside-container"));
 
+var _styles = require("../common/styles");
+
 var _cells = require("../data-grid/cells");
 
 var _dataGridTypes = require("../data-grid/data-grid-types");
@@ -31,7 +33,7 @@ const DataGridOverlayEditor = p => {
   const {
     target,
     content,
-    onFinishEditing,
+    onFinishEditing: onFinishEditingIn,
     forceEditMode,
     initialValue,
     imageEditorOverride,
@@ -40,9 +42,37 @@ const DataGridOverlayEditor = p => {
     className,
     theme,
     id,
+    cell,
+    validateCell,
     provideEditor
   } = p;
-  const [tempValue, setTempValue] = React.useState(forceEditMode ? content : undefined);
+  const [tempValue, setTempValueRaw] = React.useState(forceEditMode ? content : undefined);
+  const lastValueRef = React.useRef(tempValue !== null && tempValue !== void 0 ? tempValue : content);
+  lastValueRef.current = tempValue !== null && tempValue !== void 0 ? tempValue : content;
+  const [isValid, setIsValid] = React.useState(() => {
+    if (validateCell === undefined) return true;
+    if ((0, _dataGridTypes.isEditableGridCell)(content) && (validateCell === null || validateCell === void 0 ? void 0 : validateCell(cell, content, lastValueRef.current)) === false) return false;
+    return true;
+  });
+  const onFinishEditing = React.useCallback((newCell, movement) => {
+    onFinishEditingIn(isValid ? newCell : undefined, movement);
+  }, [isValid, onFinishEditingIn]);
+  const setTempValue = React.useCallback(newVal => {
+    if (validateCell !== undefined && newVal !== undefined && (0, _dataGridTypes.isEditableGridCell)(newVal)) {
+      const validResult = validateCell(cell, newVal, lastValueRef.current);
+
+      if (validResult === false) {
+        setIsValid(false);
+      } else if (typeof validResult === "object") {
+        newVal = validResult;
+        setIsValid(true);
+      } else {
+        setIsValid(true);
+      }
+    }
+
+    setTempValueRaw(newVal);
+  }, [cell, validateCell]);
   const finished = React.useRef(false);
   const customMotion = React.useRef(undefined);
   const onClickOutside = React.useCallback(() => {
@@ -143,7 +173,8 @@ const DataGridOverlayEditor = p => {
       onKeyDown: onKeyDown,
       target: target,
       imageEditorOverride: imageEditorOverride,
-      markdownDivCreateNode: markdownDivCreateNode
+      markdownDivCreateNode: markdownDivCreateNode,
+      isValid: isValid
     });
   }
 
@@ -157,15 +188,22 @@ const DataGridOverlayEditor = p => {
     return null;
   }
 
+  let classWrap = style ? "gdg-style" : "gdg-unstyle";
+
+  if (!isValid) {
+    classWrap += " invalid";
+  }
+
   const portal = (0, _reactDom.createPortal)(React.createElement(_styledComponents.ThemeProvider, {
     theme: theme
   }, React.createElement(_clickOutsideContainer.default, {
+    style: (0, _styles.makeCSSStyle)(theme),
     className: className,
     onClickOutside: onClickOutside
   }, React.createElement(_dataGridOverlayEditorStyle.DataGridOverlayEditorStyle, {
     ref: ref,
     id: id,
-    className: style ? "gdg-style" : "gdg-unstyle",
+    className: classWrap,
     style: styleOverride,
     as: useLabel === true ? "label" : undefined,
     targetRect: target,

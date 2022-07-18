@@ -10,14 +10,14 @@ var _styles = require("../../common/styles");
 const NumberOverlayEditorStyle = _styles.styled.div`
     display: flex;
     margin: 6px 0 3px;
-    color: ${p => p.theme.textDark};
+    color: var(--gdg-text-dark);
 
     > input {
-        font-size: ${p => p.theme.editorFontSize};
+        font-size: var(--gdg-editor-font-size);
         padding: 0;
-        font-family: ${p => p.theme.fontFamily};
-        color: ${p => p.theme.textDark};
-        background-color: ${p => p.theme.bgCell};
+        font-family: var(--gdg-font-family);
+        color: var(--gdg-text-dark);
+        background-color: var(--gdg-bg-cell);
     }
 `;
 exports.NumberOverlayEditorStyle = NumberOverlayEditorStyle;

@@ -11,7 +11,7 @@ var _dataGridTypes = require("../data-grid-types");
 
 const protectedCellRenderer = {
   getAccessibilityString: () => "",
-  measure: () => 150,
+  measure: () => 108,
   kind: _dataGridTypes.GridCellKind.Protected,
   needsHover: false,
   needsHoverPosition: false,

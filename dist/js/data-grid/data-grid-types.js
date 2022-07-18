@@ -55,7 +55,7 @@ export let GridColumnIcon;
 })(GridColumnIcon || (GridColumnIcon = {}));
 
 export function isSizedGridColumn(c) {
-  return "width" in c;
+  return "width" in c && typeof c.width === "number";
 }
 export async function resolveCellsThunk(thunk) {
   if (typeof thunk === "object") return thunk;

@@ -1,6 +1,7 @@
 import { Theme } from "../common/styles";
 import { DrilldownCellData, Item, GridSelection, InnerGridCell, SizedGridColumn, Rectangle, BaseGridCell, BooleanEmpty, BooleanIndeterminate } from "./data-grid-types";
 import { BaseDrawArgs, PrepResult } from "./cells/cell-types";
+import { DrawArgs } from "../data-editor/custom-cell-draw-args";
 export interface MappedGridColumn extends SizedGridColumn {
     sourceIndex: number;
     sticky: boolean;
@@ -23,11 +24,12 @@ export declare function measureTextCached(s: string, ctx: CanvasRenderingContext
 export declare function getMiddleCenterBias(ctx: CanvasRenderingContext2D, font: string | Theme): number;
 export declare function drawWithLastUpdate(args: BaseDrawArgs, lastUpdate: number | undefined, frameTime: number, lastPrep: PrepResult | undefined, draw: () => void): boolean;
 export declare function prepTextCell(args: BaseDrawArgs, lastPrep: PrepResult | undefined, overrideColor?: string): Partial<PrepResult>;
-export declare function drawTextCell(args: BaseDrawArgs, data: string, contentAlign?: BaseGridCell["contentAlign"]): void;
+export declare function drawTextCellExternal(args: DrawArgs, data: string, contentAlign?: BaseGridCell["contentAlign"]): void;
+export declare function drawTextCell(args: Pick<BaseDrawArgs, "x" | "y" | "w" | "h" | "ctx" | "theme">, data: string, contentAlign?: BaseGridCell["contentAlign"], allowWrapping?: boolean, hyperWrapping?: boolean): void;
 export declare function drawNewRowCell(args: BaseDrawArgs, data: string, icon?: string): void;
 export declare function prepMarkerRowCell(args: BaseDrawArgs, lastPrep: PrepResult | undefined): Partial<PrepResult>;
 export declare function deprepMarkerRowCell(args: Pick<BaseDrawArgs, "ctx">): void;
-export declare function drawMarkerRowCell(args: BaseDrawArgs, index: number, checked: boolean, markerKind: "checkbox" | "both" | "number"): void;
+export declare function drawMarkerRowCell(args: BaseDrawArgs, index: number, checked: boolean, markerKind: "checkbox" | "both" | "number", drawHandle: boolean): void;
 export declare function drawProtectedCell(args: BaseDrawArgs): void;
 export declare function drawBoolean(args: BaseDrawArgs, data: boolean | BooleanEmpty | BooleanIndeterminate, canEdit: boolean): void;
 export declare function drawBubbles(args: BaseDrawArgs, data: readonly string[]): void;

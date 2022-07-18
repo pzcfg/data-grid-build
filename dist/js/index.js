@@ -5,7 +5,7 @@ export { default as ImageOverlayEditor } from "./data-grid-overlay-editor/privat
 export { default as MarkdownDiv } from "./markdown-div/markdown-div.js";
 export { default as TextCellEntry } from "./growing-entry/growing-entry.js";
 export { parseToRgba } from "./data-grid/color-parser.js";
-export { measureTextCached, getMiddleCenterBias } from "./data-grid/data-grid-lib.js";
+export { measureTextCached, getMiddleCenterBias, drawTextCellExternal as drawTextCell } from "./data-grid/data-grid-lib.js";
 export { getDataEditorTheme as getDefaultTheme } from "./common/styles.js";
 export { useColumnSizer } from "./data-editor/use-column-sizer.js";
 export { useCustomCells } from "./data-editor/use-custom-cells.js";

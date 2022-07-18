@@ -2,8 +2,9 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { ThemeProvider } from "styled-components";
 import ClickOutsideContainer from "../click-outside-container/click-outside-container.js";
+import { makeCSSStyle } from "../common/styles.js";
 import { CellRenderers } from "../data-grid/cells/index.js";
-import { GridCellKind, isObjectEditorCallbackResult } from "../data-grid/data-grid-types.js";
+import { GridCellKind, isEditableGridCell, isObjectEditorCallbackResult } from "../data-grid/data-grid-types.js";
 import { DataGridOverlayEditorStyle } from "./data-grid-overlay-editor-style.js";
 import { useStayOnScreen } from "./use-stay-on-screen.js";
 
@@ -11,7 +12,7 @@ const DataGridOverlayEditor = p => {
   const {
     target,
     content,
-    onFinishEditing,
+    onFinishEditing: onFinishEditingIn,
     forceEditMode,
     initialValue,
     imageEditorOverride,
@@ -20,9 +21,37 @@ const DataGridOverlayEditor = p => {
     className,
     theme,
     id,
+    cell,
+    validateCell,
     provideEditor
   } = p;
-  const [tempValue, setTempValue] = React.useState(forceEditMode ? content : undefined);
+  const [tempValue, setTempValueRaw] = React.useState(forceEditMode ? content : undefined);
+  const lastValueRef = React.useRef(tempValue !== null && tempValue !== void 0 ? tempValue : content);
+  lastValueRef.current = tempValue !== null && tempValue !== void 0 ? tempValue : content;
+  const [isValid, setIsValid] = React.useState(() => {
+    if (validateCell === undefined) return true;
+    if (isEditableGridCell(content) && (validateCell === null || validateCell === void 0 ? void 0 : validateCell(cell, content, lastValueRef.current)) === false) return false;
+    return true;
+  });
+  const onFinishEditing = React.useCallback((newCell, movement) => {
+    onFinishEditingIn(isValid ? newCell : undefined, movement);
+  }, [isValid, onFinishEditingIn]);
+  const setTempValue = React.useCallback(newVal => {
+    if (validateCell !== undefined && newVal !== undefined && isEditableGridCell(newVal)) {
+      const validResult = validateCell(cell, newVal, lastValueRef.current);
+
+      if (validResult === false) {
+        setIsValid(false);
+      } else if (typeof validResult === "object") {
+        newVal = validResult;
+        setIsValid(true);
+      } else {
+        setIsValid(true);
+      }
+    }
+
+    setTempValueRaw(newVal);
+  }, [cell, validateCell]);
   const finished = React.useRef(false);
   const customMotion = React.useRef(undefined);
   const onClickOutside = React.useCallback(() => {
@@ -123,7 +152,8 @@ const DataGridOverlayEditor = p => {
       onKeyDown: onKeyDown,
       target: target,
       imageEditorOverride: imageEditorOverride,
-      markdownDivCreateNode: markdownDivCreateNode
+      markdownDivCreateNode: markdownDivCreateNode,
+      isValid: isValid
     });
   }
 
@@ -137,15 +167,22 @@ const DataGridOverlayEditor = p => {
     return null;
   }
 
+  let classWrap = style ? "gdg-style" : "gdg-unstyle";
+
+  if (!isValid) {
+    classWrap += " invalid";
+  }
+
   const portal = createPortal(React.createElement(ThemeProvider, {
     theme: theme
   }, React.createElement(ClickOutsideContainer, {
+    style: makeCSSStyle(theme),
     className: className,
     onClickOutside: onClickOutside
   }, React.createElement(DataGridOverlayEditorStyle, {
     ref: ref,
     id: id,
-    className: style ? "gdg-style" : "gdg-unstyle",
+    className: classWrap,
     style: styleOverride,
     as: useLabel === true ? "label" : undefined,
     targetRect: target,

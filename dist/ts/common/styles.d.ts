@@ -1,4 +1,5 @@
 import { ThemedStyledInterface } from "styled-components";
+export declare function makeCSSStyle(theme: Theme): Record<string, string>;
 export interface Theme {
     accentColor: string;
     accentFg: string;
@@ -30,6 +31,7 @@ export interface Theme {
     baseFontStyle: string;
     fontFamily: string;
     editorFontSize: string;
+    lineHeight: number;
 }
 export declare const styled: ThemedStyledInterface<Theme>;
 export declare function getDataEditorTheme(): Theme;

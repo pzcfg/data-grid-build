@@ -60,9 +60,9 @@ exports.GroupRename = GroupRename;
 var _StyledClickOutsideContainer = (0, _styledComponents.default)(_clickOutsideContainer.default).withConfig({
   displayName: "group-rename___StyledClickOutsideContainer",
   componentId: "sc-1luhmq4-0"
-})(["padding:0 8px;display:flex;align-items:center;background-color:", ";"], t => t.theme.bgHeader);
+})(["padding:0 8px;display:flex;align-items:center;background-color:var(--gdg-bg-header);"]);
 
 var _StyledInput = (0, _styledComponents.default)("input").withConfig({
   displayName: "group-rename___StyledInput",
   componentId: "sc-1luhmq4-1"
-})(["flex-grow:1;border:none;outline:none;background-color:", ";border-radius:9px;padding:0 8px;box-shadow:0 0 0 1px ", ";color:", ";min-height:", "px;font:", " ", ";"], t => t.theme.bgHeaderHasFocus, t => t.theme.borderColor, t => t.theme.textGroupHeader, p => p.$_css, t => t.theme.headerFontStyle, t => t.theme.fontFamily);
+})(["flex-grow:1;border:none;outline:none;background-color:var(--gdg-bg-header-has-focus);border-radius:9px;padding:0 8px;box-shadow:0 0 0 1px var(--gdg-border-color);color:var(--gdg-text-group-header);min-height:", "px;font:var(--gdg-header-font-style) var(--gdg-font-family);"], p => p.$_css);

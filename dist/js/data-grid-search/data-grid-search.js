@@ -215,7 +215,7 @@ const DataGridSearch = p => {
     onSearchResultsChanged === null || onSearchResultsChanged === void 0 ? void 0 : onSearchResultsChanged(searchResults, newIndex);
   }, [onSearchResultsChanged, searchResults, searchStatus]);
   const onSearchKeyDown = React.useCallback(event => {
-    if ((event.ctrlKey || event.metaKey) && event.key === "f" || event.key === "Escape") {
+    if ((event.ctrlKey || event.metaKey) && event.nativeEvent.code === "KeyF" || event.key === "Escape") {
       onClose();
       event.stopPropagation();
       event.preventDefault();
@@ -318,6 +318,7 @@ const DataGridSearch = p => {
     onCanvasFocused: p.onCanvasFocused,
     onCanvasBlur: p.onCanvasBlur,
     isFocused: p.isFocused,
+    clientSize: p.clientSize,
     headerHeight: p.headerHeight,
     isFilling: p.isFilling,
     fillHandle: p.fillHandle,
@@ -349,6 +350,9 @@ const DataGridSearch = p => {
     onColumnResizeStart: p.onColumnResizeStart,
     onColumnResizeEnd: p.onColumnResizeEnd,
     onDragStart: p.onDragStart,
+    onDragOverCell: p.onDragOverCell,
+    onDragLeave: p.onDragLeave,
+    onDrop: p.onDrop,
     onHeaderMenuClick: p.onHeaderMenuClick,
     onItemHovered: p.onItemHovered,
     onKeyUp: p.onKeyUp,

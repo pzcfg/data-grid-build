@@ -15,7 +15,9 @@ interface Props {
     readonly minimap?: React.ReactNode;
     readonly style?: React.CSSProperties;
     readonly scrollRef?: React.MutableRefObject<HTMLDivElement | null>;
-    readonly update: (region: Rectangle) => void;
+    readonly update: (region: Rectangle & {
+        paddingRight: number;
+    }) => void;
 }
 export declare const ScrollRegionStyle: import("styled-components").StyledComponent<"div", import("..").Theme, {}, never>;
 export declare const InfiniteScroller: React.FC<Props>;

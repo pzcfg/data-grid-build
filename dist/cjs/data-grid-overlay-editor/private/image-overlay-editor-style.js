@@ -37,7 +37,7 @@ const ImageOverlayEditorStyle = _styles.styled.div`
         right: 0;
         width: 48px;
         height: 48px;
-        color: ${p => p.theme.accentColor};
+        color: var(--gdg-accent-color);
 
         cursor: pointer;
 

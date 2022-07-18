@@ -13,7 +13,7 @@ import { CellRenderers } from "./cells/index.js";
 import { useAnimationQueue } from "./use-animation-queue.js";
 
 const DataGrid = (p, forwardedRef) => {
-  var _p$translateX, _p$translateY, _p$experimental, _eventTargetRef$curre;
+  var _p$translateX, _p$translateY, _p$experimental, _p$experimental3, _eventTargetRef$curre, _eventTargetRef$curre2, _eventTargetRef$curre3, _eventTargetRef$curre4, _eventTargetRef$curre5;
 
   const {
     width,
@@ -63,7 +63,10 @@ const DataGrid = (p, forwardedRef) => {
     verticalBorder,
     drawHeader,
     drawCustomCell,
-    onCellFocused
+    onCellFocused,
+    onDragOverCell,
+    onDrop,
+    onDragLeave
   } = p;
   const translateX = (_p$translateX = p.translateX) !== null && _p$translateX !== void 0 ? _p$translateX : 0;
   const translateY = (_p$translateY = p.translateY) !== null && _p$translateY !== void 0 ? _p$translateY : 0;
@@ -71,7 +74,6 @@ const DataGrid = (p, forwardedRef) => {
   const theme = useTheme();
   const ref = React.useRef(null);
   const imageLoader = React.useMemo(() => new ImageWindowLoader(), []);
-  const canBlit = React.useRef();
   const damageRegion = React.useRef(undefined);
   const [scrolling, setScrolling] = React.useState(false);
   const hoverValues = React.useRef([]);
@@ -109,6 +111,7 @@ const DataGrid = (p, forwardedRef) => {
       const changed = await spriteManager.buildSpriteMap(theme, columns);
 
       if (changed) {
+        lastArgsRef.current = undefined;
         lastDrawRef.current();
       }
     };
@@ -238,24 +241,23 @@ const DataGrid = (p, forwardedRef) => {
   const enqueueRef = React.useRef(_item => {});
   const hoverInfoRef = React.useRef(hoveredItemInfo);
   hoverInfoRef.current = hoveredItemInfo;
+  const lastArgsRef = React.useRef();
   const draw = React.useCallback(() => {
-    var _canBlit$current;
+    var _p$experimental$hyper, _p$experimental2;
 
     const canvas = ref.current;
     const overlay = overlayRef.current;
     if (canvas === null || overlay === null) return;
-    drawGrid({
+    const last = lastArgsRef.current;
+    const current = {
       canvas,
-      buffers: {
-        overlay
-      },
+      headerCanvas: overlay,
       width,
       height,
       cellXOffset,
       cellYOffset,
       translateX: Math.round(translateX),
       translateY: Math.round(translateY),
-      columns,
       mappedColumns,
       enableGroups,
       freezeColumns,
@@ -263,14 +265,12 @@ const DataGrid = (p, forwardedRef) => {
       theme,
       headerHeight,
       groupHeaderHeight,
-      selectedRows: selection.rows,
       disabledRows: disabledRows !== null && disabledRows !== void 0 ? disabledRows : CompactSelection.empty(),
       rowHeight,
       verticalBorder,
-      selectedColumns: selection.columns,
       isResizing,
       isFocused,
-      selectedCell: selection,
+      selection,
       fillHandle,
       lastRowSticky,
       rows,
@@ -285,20 +285,23 @@ const DataGrid = (p, forwardedRef) => {
       highlightRegions,
       imageLoader,
       lastBlitData,
-      canBlit: (_canBlit$current = canBlit.current) !== null && _canBlit$current !== void 0 ? _canBlit$current : false,
       damage: damageRegion.current,
       hoverValues: hoverValues.current,
       hoverInfo: hoverInfoRef.current,
       spriteManager,
       scrolling,
+      hyperWrapping: (_p$experimental$hyper = (_p$experimental2 = p.experimental) === null || _p$experimental2 === void 0 ? void 0 : _p$experimental2.hyperWrapping) !== null && _p$experimental$hyper !== void 0 ? _p$experimental$hyper : false,
       touchMode: lastWasTouch,
       enqueue: enqueueRef.current
-    });
-  }, [width, height, cellXOffset, cellYOffset, translateX, translateY, columns, mappedColumns, enableGroups, freezeColumns, dragAndDropState, theme, headerHeight, isFocused, groupHeaderHeight, selection, disabledRows, rowHeight, verticalBorder, isResizing, fillHandle, lastRowSticky, rows, getCellContent, getGroupDetails, getRowThemeOverride, drawCustomCell, drawHeader, prelightCells, highlightRegions, imageLoader, spriteManager, scrolling, lastWasTouch]);
-  canBlit.current = canBlit.current !== undefined;
-  React.useLayoutEffect(() => {
-    canBlit.current = false;
-  }, [width, height, columns, theme, headerHeight, rowHeight, rows, isFocused, isResizing, verticalBorder, getCellContent, highlightRegions, lastWasTouch, selection, dragAndDropState, prelightCells, scrolling]);
+    };
+
+    if (current.damage === undefined) {
+      lastArgsRef.current = current;
+      drawGrid(current, last);
+    } else {
+      drawGrid(current, undefined);
+    }
+  }, [width, height, cellXOffset, cellYOffset, translateX, translateY, mappedColumns, enableGroups, freezeColumns, dragAndDropState, theme, headerHeight, groupHeaderHeight, disabledRows, rowHeight, verticalBorder, isResizing, isFocused, selection, fillHandle, lastRowSticky, rows, getCellContent, getGroupDetails, getRowThemeOverride, drawCustomCell, drawHeader, prelightCells, highlightRegions, imageLoader, spriteManager, scrolling, (_p$experimental3 = p.experimental) === null || _p$experimental3 === void 0 ? void 0 : _p$experimental3.hyperWrapping, lastWasTouch]);
   const lastDrawRef = React.useRef(draw);
   React.useLayoutEffect(() => {
     draw();
@@ -310,21 +313,16 @@ const DataGrid = (p, forwardedRef) => {
 
       if (((_document = document) === null || _document === void 0 ? void 0 : (_document$fonts = _document.fonts) === null || _document$fonts === void 0 ? void 0 : _document$fonts.ready) === undefined) return;
       await document.fonts.ready;
-      const prev = canBlit.current;
-      canBlit.current = false;
+      lastArgsRef.current = undefined;
       lastDrawRef.current();
-      canBlit.current = prev;
     };
 
     void fn();
   }, []);
   const damageInternal = React.useCallback(locations => {
-    const last = canBlit.current;
-    canBlit.current = false;
     damageRegion.current = locations;
     lastDrawRef.current();
     damageRegion.current = undefined;
-    canBlit.current = last;
   }, []);
   const enqueue = useAnimationQueue(damageInternal);
   enqueueRef.current = enqueue;
@@ -500,13 +498,10 @@ const DataGrid = (p, forwardedRef) => {
   useEventListener("mouseup", onMouseUpImpl, window, false);
   useEventListener("touchend", onMouseUpImpl, window, false);
   const onAnimationFrame = React.useCallback(values => {
-    const last = canBlit.current;
-    canBlit.current = false;
     damageRegion.current = values.map(x => x.item);
     hoverValues.current = values;
     lastDrawRef.current();
     damageRegion.current = undefined;
-    canBlit.current = last;
   }, []);
   const animManagerValue = React.useMemo(() => new AnimationManager(onAnimationFrame), [onAnimationFrame]);
   const animationManager = React.useRef(animManagerValue);
@@ -663,7 +658,7 @@ const DataGrid = (p, forwardedRef) => {
           if (ctx !== null) {
             ctx.fillStyle = theme.bgCell;
             ctx.fillRect(0, 0, offscreen.width, offscreen.height);
-            drawCell(ctx, row, getCellContent([col, row]), 0, 0, 0, boundsForDragTarget.width, boundsForDragTarget.height, false, theme, drawCustomCell, imageLoader, spriteManager, 1, undefined, 0);
+            drawCell(ctx, row, getCellContent([col, row]), 0, 0, 0, boundsForDragTarget.width, boundsForDragTarget.height, false, theme, drawCustomCell, imageLoader, spriteManager, 1, undefined, false, 0);
           }
 
           offscreen.style.left = "-100%";
@@ -680,6 +675,53 @@ const DataGrid = (p, forwardedRef) => {
     }
   }, [isDraggable, getMouseArgsForPosition, onDragStart, getBoundsForItem, theme, getCellContent, drawCustomCell, imageLoader, spriteManager]);
   useEventListener("dragstart", onDragStartImpl, (_eventTargetRef$curre = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current) !== null && _eventTargetRef$curre !== void 0 ? _eventTargetRef$curre : null, false, false);
+  const activeDropTarget = React.useRef();
+  const onDragOverImpl = React.useCallback(event => {
+    var _activeDropTarget$cur;
+
+    const canvas = ref.current;
+
+    if (onDrop !== undefined) {
+      event.preventDefault();
+    }
+
+    if (canvas === null || onDragOverCell === undefined) {
+      return false;
+    }
+
+    const args = getMouseArgsForPosition(canvas, event.clientX, event.clientY);
+    const [rawCol, row] = args.location;
+    const col = rawCol - (firstColAccessible ? 0 : 1);
+    const [activeCol, activeRow] = (_activeDropTarget$cur = activeDropTarget.current) !== null && _activeDropTarget$cur !== void 0 ? _activeDropTarget$cur : [];
+
+    if (activeCol !== col || activeRow !== row) {
+      activeDropTarget.current = [col, row];
+      onDragOverCell([col, row], event.dataTransfer);
+    }
+  }, [firstColAccessible, getMouseArgsForPosition, onDragOverCell, onDrop]);
+  useEventListener("dragover", onDragOverImpl, (_eventTargetRef$curre2 = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current) !== null && _eventTargetRef$curre2 !== void 0 ? _eventTargetRef$curre2 : null, false, false);
+  const onDragEndImpl = React.useCallback(() => {
+    activeDropTarget.current = undefined;
+  }, []);
+  useEventListener("dragend", onDragEndImpl, (_eventTargetRef$curre3 = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current) !== null && _eventTargetRef$curre3 !== void 0 ? _eventTargetRef$curre3 : null, false, false);
+  const onDropImpl = React.useCallback(event => {
+    const canvas = ref.current;
+
+    if (canvas === null || onDrop === undefined) {
+      return false;
+    }
+
+    event.preventDefault();
+    const args = getMouseArgsForPosition(canvas, event.clientX, event.clientY);
+    const [rawCol, row] = args.location;
+    const col = rawCol - (firstColAccessible ? 0 : 1);
+    onDrop([col, row], event.dataTransfer);
+  }, [firstColAccessible, getMouseArgsForPosition, onDrop]);
+  useEventListener("drop", onDropImpl, (_eventTargetRef$curre4 = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current) !== null && _eventTargetRef$curre4 !== void 0 ? _eventTargetRef$curre4 : null, false, false);
+  const onDragLeaveImpl = React.useCallback(() => {
+    onDragLeave === null || onDragLeave === void 0 ? void 0 : onDragLeave();
+  }, [onDragLeave]);
+  useEventListener("dragleave", onDragLeaveImpl, (_eventTargetRef$curre5 = eventTargetRef === null || eventTargetRef === void 0 ? void 0 : eventTargetRef.current) !== null && _eventTargetRef$curre5 !== void 0 ? _eventTargetRef$curre5 : null, false, false);
   const selectionRef = React.useRef(selection);
   selectionRef.current = selection;
   const focusRef = React.useRef(null);

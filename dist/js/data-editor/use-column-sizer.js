@@ -3,15 +3,35 @@ import { CellRenderers } from "../data-grid/cells/index.js";
 import { GridCellKind, isSizedGridColumn, resolveCellsThunk } from "../data-grid/data-grid-types.js";
 const defaultSize = 150;
 
-function measureCell(ctx, cell) {
+function measureCell(ctx, cell, theme) {
   var _r$measure;
 
   if (cell.kind === GridCellKind.Custom) return defaultSize;
   const r = CellRenderers[cell.kind];
-  return (_r$measure = r === null || r === void 0 ? void 0 : r.measure(ctx, cell)) !== null && _r$measure !== void 0 ? _r$measure : defaultSize;
+  return (_r$measure = r === null || r === void 0 ? void 0 : r.measure(ctx, cell, theme)) !== null && _r$measure !== void 0 ? _r$measure : defaultSize;
 }
 
-export function useColumnSizer(columns, rows, getCellsForSelection, minColumnWidth, maxColumnWidth, theme, abortController) {
+export function measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, maxColumnWidth, removeOutliers) {
+  let sizes = [];
+
+  if (selectedData !== undefined) {
+    sizes.push(...selectedData.map(row => row[colIndex]).map(cell => measureCell(ctx, cell, theme)));
+  }
+
+  sizes.push(ctx.measureText(c.title).width + 16 + (c.icon === undefined ? 0 : 28));
+  const average = sizes.reduce((a, b) => a + b) / sizes.length;
+
+  if (sizes.length > 5 && removeOutliers) {
+    sizes = sizes.filter(a => a < average * 2);
+  }
+
+  const biggest = Math.max(...sizes);
+  const final = Math.max(Math.ceil(minColumnWidth), Math.min(Math.floor(maxColumnWidth), Math.ceil(biggest)));
+  return { ...c,
+    width: final
+  };
+}
+export function useColumnSizer(columns, rows, getCellsForSelection, clientWidth, minColumnWidth, maxColumnWidth, theme, abortController) {
   const rowsRef = React.useRef(rows);
   const getCellsForSelectionRef = React.useRef(getCellsForSelection);
   const themeRef = React.useRef(theme);
@@ -77,54 +97,78 @@ export function useColumnSizer(columns, rows, getCellsForSelection, minColumnWid
     void fn();
   }, [abortController.signal, columns]);
   return React.useMemo(() => {
-    if (columns.every(isSizedGridColumn)) {
-      return columns;
-    }
+    const getRaw = () => {
+      if (columns.every(isSizedGridColumn)) {
+        return columns;
+      }
 
-    if (ctx === null) {
-      return columns.map(c => {
+      if (ctx === null) {
+        return columns.map(c => {
+          if (isSizedGridColumn(c)) return c;
+          return { ...c,
+            width: defaultSize
+          };
+        });
+      }
+
+      ctx.font = `${themeRef.current.baseFontStyle} ${themeRef.current.fontFamily}`;
+      return columns.map((c, colIndex) => {
         if (isSizedGridColumn(c)) return c;
-        return { ...c,
-          width: defaultSize
-        };
+
+        if (memoMap.current[c.id] !== undefined) {
+          return { ...c,
+            width: memoMap.current[c.id]
+          };
+        }
+
+        if (selectedData === undefined || lastColumns.current !== columns || c.id === undefined) {
+          return { ...c,
+            width: defaultSize
+          };
+        }
+
+        const r = measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, maxColumnWidth, true);
+        memoMap.current[c.id] = r.width;
+        return r;
       });
+    };
+
+    let result = getRaw();
+    let totalWidth = 0;
+    let totalGrow = 0;
+    const distribute = [];
+
+    for (let i = 0; i < result.length; i++) {
+      const c = result[i];
+      totalWidth += c.width;
+
+      if (c.grow !== undefined && c.grow > 0) {
+        totalGrow += c.grow;
+        distribute.push(i);
+      }
     }
 
-    ctx.font = `${themeRef.current.baseFontStyle} ${themeRef.current.fontFamily}`;
-    return columns.map((c, colIndex) => {
-      if (isSizedGridColumn(c)) return c;
+    if (totalWidth < clientWidth && distribute.length > 0) {
+      const writeable = [...result];
+      const extra = clientWidth - totalWidth;
+      let remaining = extra;
 
-      if (memoMap.current[c.id] !== undefined) {
-        return { ...c,
-          width: memoMap.current[c.id]
+      for (let di = 0; di < distribute.length; di++) {
+        var _result$i$grow;
+
+        const i = distribute[di];
+        const weighted = ((_result$i$grow = result[i].grow) !== null && _result$i$grow !== void 0 ? _result$i$grow : 0) / totalGrow;
+        const toAdd = di === distribute.length - 1 ? remaining : Math.min(remaining, Math.floor(extra * weighted));
+        writeable[i] = { ...result[i],
+          growOffset: toAdd,
+          width: result[i].width + toAdd
         };
+        remaining -= toAdd;
       }
 
-      if (selectedData === undefined || lastColumns.current !== columns || c.id === undefined) {
-        return { ...c,
-          width: defaultSize
-        };
-      }
+      result = writeable;
+    }
 
-      let sizes = [];
-
-      if (selectedData !== undefined) {
-        sizes.push(...selectedData.map(row => row[colIndex]).map(cell => measureCell(ctx, cell)));
-      }
-
-      sizes.push(ctx.measureText(c.title).width + 16 + (c.icon === undefined ? 0 : 28));
-      const average = sizes.reduce((a, b) => a + b) / sizes.length;
-
-      if (sizes.length > 5) {
-        sizes = sizes.filter(a => a < average * 2);
-      }
-
-      const biggest = Math.max(...sizes);
-      const final = Math.max(minColumnWidth, Math.min(maxColumnWidth, Math.ceil(biggest)));
-      memoMap.current[c.id] = final;
-      return { ...c,
-        width: final
-      };
-    });
-  }, [columns, ctx, maxColumnWidth, minColumnWidth, selectedData]);
+    return result;
+  }, [clientWidth, columns, ctx, selectedData, theme, minColumnWidth, maxColumnWidth]);
 }

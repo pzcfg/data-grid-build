@@ -10,6 +10,7 @@ var _exportNames = {
   parseToRgba: true,
   measureTextCached: true,
   getMiddleCenterBias: true,
+  drawTextCell: true,
   getDefaultTheme: true,
   useColumnSizer: true,
   useCustomCells: true
@@ -33,6 +34,12 @@ Object.defineProperty(exports, "TextCellEntry", {
   }
 });
 exports.default = void 0;
+Object.defineProperty(exports, "drawTextCell", {
+  enumerable: true,
+  get: function () {
+    return _dataGridLib.drawTextCellExternal;
+  }
+});
 Object.defineProperty(exports, "getDefaultTheme", {
   enumerable: true,
   get: function () {

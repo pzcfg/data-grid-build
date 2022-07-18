@@ -78,7 +78,7 @@ exports.GridColumnIcon = GridColumnIcon;
 })(GridColumnIcon || (exports.GridColumnIcon = GridColumnIcon = {}));
 
 function isSizedGridColumn(c) {
-  return "width" in c;
+  return "width" in c && typeof c.width === "number";
 }
 
 async function resolveCellsThunk(thunk) {

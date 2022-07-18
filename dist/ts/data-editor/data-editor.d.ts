@@ -5,7 +5,7 @@ import { OverlayImageEditorProps } from "../data-grid-overlay-editor/private/ima
 import { Theme } from "../common/styles";
 import { DataGridRef } from "../data-grid/data-grid";
 import { SelectionBlending } from "../data-grid/use-selection-behavior";
-declare type Props = Omit<DataGridSearchProps, "accessibilityHeight" | "canvasRef" | "cellXOffset" | "cellYOffset" | "className" | "columns" | "disabledRows" | "drawCustomCell" | "enableGroups" | "firstColSticky" | "getCellContent" | "gridRef" | "headerHeight" | "groupHeaderHeight" | "lastRowSticky" | "minColumnWidth" | "maxColumnWidth" | "lockColumns" | "firstColAccessible" | "getCellsForSelection" | "onCellFocused" | "onKeyDown" | "isFilling" | "isFocused" | "onCanvasFocused" | "onCanvasBlur" | "onKeyUp" | "onMouseDown" | "onMouseUp" | "onMouseMove" | "freezeColumns" | "onSearchResultsChanged" | "onVisibleRegionChanged" | "rowHeight" | "verticalBorder" | "scrollRef" | "searchColOffset" | "selection" | "selectedColumns" | "translateX" | "translateY">;
+declare type Props = Omit<DataGridSearchProps, "accessibilityHeight" | "canvasRef" | "cellXOffset" | "cellYOffset" | "className" | "columns" | "disabledRows" | "drawCustomCell" | "enableGroups" | "firstColSticky" | "getCellContent" | "gridRef" | "headerHeight" | "groupHeaderHeight" | "lastRowSticky" | "minColumnWidth" | "maxColumnWidth" | "lockColumns" | "firstColAccessible" | "getCellsForSelection" | "onCellFocused" | "onKeyDown" | "isFilling" | "isFocused" | "onCanvasFocused" | "onCanvasBlur" | "onKeyUp" | "onMouseDown" | "onMouseUp" | "onMouseMove" | "freezeColumns" | "clientSize" | "onSearchResultsChanged" | "onVisibleRegionChanged" | "rowHeight" | "verticalBorder" | "scrollRef" | "searchColOffset" | "selection" | "selectedColumns" | "translateX" | "translateY">;
 declare type ImageEditorType = React.ComponentType<OverlayImageEditorProps>;
 declare type ReplaceReturnType<T extends (...a: any) => any, TNewReturn> = (...a: Parameters<T>) => TNewReturn;
 declare type EmitEvents = "copy" | "paste" | "delete" | "fill-right" | "fill-down";
@@ -41,7 +41,7 @@ export interface DataEditorProps extends Props {
     readonly onHeaderContextMenu?: (colIndex: number, event: HeaderClickedEventArgs) => void;
     readonly onGroupHeaderContextMenu?: (colIndex: number, event: GroupHeaderClickedEventArgs) => void;
     readonly onCellContextMenu?: (cell: Item, event: CellClickedEventArgs) => void;
-    readonly appendRowRef?: React.MutableRefObject<(col: number) => Promise<void> | null>;
+    readonly validateCell?: (cell: Item, newValue: EditableGridCell, prevValue: GridCell) => boolean | EditableGridCell;
     readonly columns: readonly GridColumn[];
     readonly trailingRowOptions?: {
         readonly tint?: boolean;
@@ -92,8 +92,10 @@ export interface DataEditorProps extends Props {
     readonly freezeColumns?: DataGridSearchProps["freezeColumns"];
     readonly verticalBorder?: DataGridSearchProps["verticalBorder"] | boolean;
     readonly onPaste?: ((target: Item, values: readonly (readonly string[])[]) => boolean) | boolean;
+    readonly theme?: Theme;
 }
 export interface DataEditorRef {
+    appendRow: (col: number) => Promise<void>;
     updateCells: DataGridRef["damage"];
     getBounds: DataGridRef["getBounds"];
     focus: DataGridRef["focus"];

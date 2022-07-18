@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Rectangle, GridSelection, GridMouseEventArgs, GridDragEventArgs, GridKeyEventArgs, InnerGridCell, CompactSelection, DrawCustomCellCallback, Item, DrawHeaderCallback, SizedGridColumn } from "./data-grid-types";
+import { Rectangle, GridSelection, GridMouseEventArgs, GridDragEventArgs, GridKeyEventArgs, InnerGridCell, CompactSelection, DrawCustomCellCallback, Item, DrawHeaderCallback, InnerGridColumn } from "./data-grid-types";
 import { SpriteMap } from "./data-grid-sprites";
 import { GetRowThemeCallback, GroupDetailsCallback, Highlight } from "./data-grid-render";
 export interface DataGridProps {
@@ -18,7 +18,7 @@ export interface DataGridProps {
     readonly isDragging: boolean;
     readonly isFilling: boolean;
     readonly isFocused: boolean;
-    readonly columns: readonly SizedGridColumn[];
+    readonly columns: readonly InnerGridColumn[];
     readonly rows: number;
     readonly headerHeight: number;
     readonly groupHeaderHeight: number;
@@ -49,6 +49,9 @@ export interface DataGridProps {
     readonly verticalBorder: (col: number) => boolean;
     readonly isDraggable?: boolean;
     readonly onDragStart?: (args: GridDragEventArgs) => void;
+    readonly onDragOverCell?: (cell: Item, dataTransfer: DataTransfer | null) => void;
+    readonly onDragLeave?: () => void;
+    readonly onDrop?: (cell: Item, dataTransfer: DataTransfer | null) => void;
     readonly drawCustomCell?: DrawCustomCellCallback;
     readonly drawHeader?: DrawHeaderCallback;
     readonly dragAndDropState?: {
@@ -62,6 +65,7 @@ export interface DataGridProps {
         readonly isSubGrid?: boolean;
         readonly strict?: boolean;
         readonly scrollbarWidthOverride?: number;
+        readonly hyperWrapping?: boolean;
     };
     readonly headerIcons?: SpriteMap;
 }

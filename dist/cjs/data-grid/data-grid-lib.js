@@ -15,6 +15,7 @@ exports.drawMarkerRowCell = drawMarkerRowCell;
 exports.drawNewRowCell = drawNewRowCell;
 exports.drawProtectedCell = drawProtectedCell;
 exports.drawTextCell = drawTextCell;
+exports.drawTextCellExternal = drawTextCellExternal;
 exports.drawWithLastUpdate = drawWithLastUpdate;
 exports.getColumnIndexForX = getColumnIndexForX;
 exports.getEffectiveColumns = getEffectiveColumns;
@@ -35,6 +36,8 @@ var _utils = require("../common/utils");
 var _react = _interopRequireDefault(require("react"));
 
 var _support = require("../common/support");
+
+var _multiLineLayout = require("./multi-line-layout");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -221,6 +224,7 @@ async function clearCacheOnLoad() {
   await document.fonts.ready;
   metricsSize = 0;
   metricsCache = {};
+  (0, _multiLineLayout.clearMultilineCache)();
 }
 
 void clearCacheOnLoad();
@@ -329,7 +333,34 @@ function prepTextCell(args, lastPrep, overrideColor) {
   return result;
 }
 
-function drawTextCell(args, data, contentAlign) {
+function drawTextCellExternal(args, data, contentAlign) {
+  const {
+    rect
+  } = args;
+  args.ctx.fillStyle = args.theme.textDark;
+  drawTextCell({
+    ctx: args.ctx,
+    x: rect.x,
+    y: rect.y,
+    h: rect.height,
+    w: rect.width,
+    theme: args.theme
+  }, data, contentAlign);
+}
+
+function drawSingleTextLine(ctx, data, x, y, w, h, bias, theme, contentAlign) {
+  if (contentAlign === "right") {
+    ctx.fillText(data, x + w - (theme.cellHorizontalPadding + 0.5), y + h / 2 + bias);
+  } else if (contentAlign === "center") {
+    ctx.fillText(data, x + w / 2, y + h / 2 + bias);
+  } else {
+    ctx.fillText(data, x + theme.cellHorizontalPadding + 0.5, y + h / 2 + bias);
+  }
+}
+
+function drawTextCell(args, data, contentAlign, allowWrapping, hyperWrapping) {
+  var _allowWrapping;
+
   const {
     ctx,
     x,
@@ -338,21 +369,35 @@ function drawTextCell(args, data, contentAlign) {
     h,
     theme
   } = args;
+  allowWrapping = (_allowWrapping = allowWrapping) !== null && _allowWrapping !== void 0 ? _allowWrapping : false;
 
-  if (data.includes("\n")) {
-    data = data.split(/\r?\n/)[0];
+  if (!allowWrapping) {
+    if (data.includes("\n")) {
+      data = data.split(/\r?\n/)[0];
+    }
+
+    const max = w / 4;
+
+    if (data.length > max) {
+      data = data.slice(0, max);
+    }
   }
 
-  const max = w / 4;
+  const bias = getMiddleCenterBias(ctx, theme);
+  const isRtl = (0, _utils.direction)(data) === "rtl";
 
-  if (data.length > max) {
-    data = data.slice(0, max);
+  if (contentAlign === undefined && isRtl) {
+    contentAlign = "right";
+  }
+
+  if (isRtl) {
+    ctx.direction = "rtl";
   }
 
   if (data.length > 0) {
     let changed = false;
 
-    if (contentAlign === undefined && (0, _utils.direction)(data) === "rtl") {
+    if (contentAlign === "right") {
       ctx.textAlign = "right";
       changed = true;
     } else if (contentAlign !== undefined && contentAlign !== "left") {
@@ -360,18 +405,43 @@ function drawTextCell(args, data, contentAlign) {
       changed = true;
     }
 
-    const bias = getMiddleCenterBias(ctx, theme);
-
-    if (contentAlign === "right") {
-      ctx.fillText(data, x + w - (theme.cellHorizontalPadding + 0.5), y + h / 2 + bias);
-    } else if (contentAlign === "center") {
-      ctx.fillText(data, x + w / 2, y + h / 2 + bias);
+    if (!allowWrapping) {
+      drawSingleTextLine(ctx, data, x, y, w, h, bias, theme, contentAlign);
     } else {
-      ctx.fillText(data, x + theme.cellHorizontalPadding + 0.5, y + h / 2 + bias);
+      const fontStyle = `${theme.fontFamily} ${theme.baseFontStyle}`;
+      const split = (0, _multiLineLayout.splitMultilineText)(ctx, data, fontStyle, w - theme.cellHorizontalPadding * 2, hyperWrapping !== null && hyperWrapping !== void 0 ? hyperWrapping : false);
+      const textMetrics = measureTextCached("ABCi09jgqpy", ctx, fontStyle);
+      const emHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+      const lineHeight = theme.lineHeight * emHeight;
+      const actualHeight = emHeight + lineHeight * (split.length - 1);
+      const mustClip = actualHeight + theme.cellVerticalPadding > h;
+
+      if (mustClip) {
+        ctx.save();
+        ctx.rect(x, y, w, h);
+        ctx.clip();
+      }
+
+      const optimalY = y + h / 2 - actualHeight / 2;
+      let drawY = Math.max(y + theme.cellVerticalPadding, optimalY);
+
+      for (const line of split) {
+        drawSingleTextLine(ctx, line, x, drawY, w, emHeight, bias, theme, contentAlign);
+        drawY += lineHeight;
+        if (drawY > y + h) break;
+      }
+
+      if (mustClip) {
+        ctx.restore();
+      }
     }
 
     if (changed) {
       ctx.textAlign = "start";
+    }
+
+    if (isRtl) {
+      ctx.direction = "inherit";
     }
   }
 }
@@ -507,7 +577,7 @@ function deprepMarkerRowCell(args) {
   ctx.textAlign = "start";
 }
 
-function drawMarkerRowCell(args, index, checked, markerKind) {
+function drawMarkerRowCell(args, index, checked, markerKind, drawHandle) {
   const {
     ctx,
     x,
@@ -521,7 +591,24 @@ function drawMarkerRowCell(args, index, checked, markerKind) {
 
   if (markerKind !== "number" && checkedboxAlpha > 0) {
     ctx.globalAlpha = checkedboxAlpha;
-    drawCheckbox(ctx, theme, checked, x, y, width, height, true);
+    const offsetAmount = 7 * (checked ? hoverAmount : 1);
+    drawCheckbox(ctx, theme, checked, drawHandle ? x + offsetAmount : x, y, drawHandle ? width - offsetAmount : width, height, true);
+
+    if (drawHandle) {
+      ctx.globalAlpha = hoverAmount;
+      ctx.beginPath();
+
+      for (const xOffset of [3, 6]) {
+        for (const yOffset of [-5, -1, 3]) {
+          ctx.rect(x + xOffset, y + height / 2 + yOffset, 2, 2);
+        }
+      }
+
+      ctx.fillStyle = theme.textLight;
+      ctx.fill();
+      ctx.beginPath();
+    }
+
     ctx.globalAlpha = 1;
   }
 
@@ -548,18 +635,8 @@ function drawProtectedCell(args) {
     theme,
     x,
     y,
-    w,
-    h,
-    highlighted
+    h
   } = args;
-
-  if (!highlighted) {
-    ctx.beginPath();
-    ctx.rect(x + 1, y + 1, w - 1, h - 1);
-    ctx.fillStyle = theme.bgCellMedium;
-    ctx.fill();
-  }
-
   ctx.beginPath();
   const radius = 2.5;
   let xStart = x + theme.cellHorizontalPadding + radius;

@@ -154,6 +154,7 @@ interface BaseGridColumn {
     readonly icon?: GridColumnIcon | string;
     readonly overlayIcon?: GridColumnIcon | string;
     readonly hasMenu?: boolean;
+    readonly grow?: number;
     readonly style?: "normal" | "highlight";
     readonly themeOverride?: Partial<Theme>;
     readonly trailingRowOptions?: {
@@ -169,12 +170,15 @@ export interface SizedGridColumn extends BaseGridColumn {
     readonly width: number;
     readonly id?: string;
 }
-interface AutoGridColumn extends BaseGridColumn {
+export interface AutoGridColumn extends BaseGridColumn {
     readonly id: string;
 }
 export declare function resolveCellsThunk(thunk: GetCellsThunk | CellArray): Promise<CellArray>;
 export declare type GetCellsThunk = () => Promise<CellArray>;
 export declare type GridColumn = SizedGridColumn | AutoGridColumn;
+export declare type InnerGridColumn = SizedGridColumn & {
+    growOffset?: number;
+};
 export declare type ReadWriteGridCell = TextCell | NumberCell | MarkdownCell | UriCell | CustomCell | BooleanCell;
 export declare type EditableGridCell = TextCell | ImageCell | BooleanCell | MarkdownCell | UriCell | NumberCell | CustomCell;
 export declare type EditableGridCellKind = EditableGridCell["kind"];
@@ -211,6 +215,7 @@ export interface TextCell extends BaseGridCell {
     readonly displayData: string;
     readonly data: string;
     readonly readonly?: boolean;
+    readonly allowWrapping?: boolean;
 }
 export interface NumberCell extends BaseGridCell {
     readonly kind: GridCellKind.Number;
@@ -306,6 +311,7 @@ export interface MarkerCell extends BaseGridCell {
     readonly kind: InnerGridCellKind.Marker;
     readonly allowOverlay: false;
     readonly row: number;
+    readonly drawHandle: boolean;
     readonly checked: boolean;
     readonly markerKind: "checkbox" | "number" | "both";
 }

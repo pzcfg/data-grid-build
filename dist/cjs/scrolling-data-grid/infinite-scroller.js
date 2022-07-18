@@ -98,8 +98,9 @@ const InfiniteScroller = p => {
     lockDirection: undefined
   });
   const resetHandle = React.useRef(0);
+  const rightWrapRef = React.useRef(null);
   const onScroll = React.useCallback(() => {
-    var _lock$, _lock$2;
+    var _lock$, _lock$2, _rightWrapRef$current, _rightWrapRef$current2;
 
     const el = scroller.current;
     if (el === null) return;
@@ -162,7 +163,8 @@ const InfiniteScroller = p => {
       x: Math.max(0, scrollLeft),
       y: Math.min(maxFakeY, newY + offsetY.current),
       width: el.clientWidth - paddingRight,
-      height: el.clientHeight - paddingBottom
+      height: el.clientHeight - paddingBottom,
+      paddingRight: (_rightWrapRef$current = (_rightWrapRef$current2 = rightWrapRef.current) === null || _rightWrapRef$current2 === void 0 ? void 0 : _rightWrapRef$current2.clientWidth) !== null && _rightWrapRef$current !== void 0 ? _rightWrapRef$current : 0
     });
   }, [paddingBottom, paddingRight, scrollHeight, update, preventDiagonalScrolling]);
   const onScrollRef = React.useRef(onScroll);
@@ -236,6 +238,7 @@ const InfiniteScroller = p => {
     }, padders), rightElement !== undefined && React.createElement(React.Fragment, null, React.createElement("div", {
       className: "dvn-spacer"
     }), React.createElement("div", {
+      ref: rightWrapRef,
       onMouseDown: nomEvent,
       onMouseUp: nomEvent,
       onMouseMove: nomEvent,
@@ -244,6 +247,7 @@ const InfiniteScroller = p => {
         maxHeight: clientHeight - Math.ceil(dpr % 1),
         position: "sticky",
         top: 0,
+        paddingLeft: 1,
         marginBottom: -40,
         marginRight: paddingRight,
         right: rightElementSticky ? paddingRight !== null && paddingRight !== void 0 ? paddingRight : 0 : undefined,

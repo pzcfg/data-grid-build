@@ -305,12 +305,14 @@ export function useMockDataGenerator(numCols) {
   const cols = React.useMemo(() => {
     return colsMap.map(getGridColumn);
   }, [colsMap]);
+  const colsMapRef = React.useRef(colsMap);
+  colsMapRef.current = colsMap;
   const getCellContent = React.useCallback(_ref => {
     let [col, row] = _ref;
     let val = cache.current.get(col, row);
 
     if (val === undefined) {
-      val = colsMap[col].getContent();
+      val = colsMapRef.current[col].getContent();
 
       if (!readonly) {
         if (isTextEditableGridCell(val)) {
@@ -324,7 +326,7 @@ export function useMockDataGenerator(numCols) {
     }
 
     return val;
-  }, [colsMap, readonly]);
+  }, [readonly]);
   const getCellsForSelection = React.useCallback(selection => {
     const result = [];
 

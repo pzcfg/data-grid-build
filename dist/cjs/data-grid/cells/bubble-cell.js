@@ -29,7 +29,7 @@ const bubbleCellRenderer = {
   needsHover: false,
   useLabel: false,
   needsHoverPosition: false,
-  measure: (ctx, cell) => cell.data.reduce((acc, data) => ctx.measureText(data).width + acc, 0) + 16,
+  measure: (ctx, cell, t) => cell.data.reduce((acc, data) => ctx.measureText(data).width + acc + 20, 0) + 2 * t.cellHorizontalPadding - 4,
   render: a => (0, _dataGridLib.drawBubbles)(a, a.cell.data),
   getEditor: () => p => {
     const {

@@ -212,6 +212,8 @@ function decodeHTML(tableEl) {
 }
 
 function copyToClipboard(cells, columnIndexes, e) {
+  var _window$navigator$cli;
+
   function escape(str) {
     if (/[\n"\t]/.test(str)) {
       str = `"${str.replace(/"/g, '""')}"`;
@@ -281,7 +283,9 @@ function copyToClipboard(cells, columnIndexes, e) {
 
   const str = cells.map(row => row.map((a, b) => formatCell(a, b, false)).join("\t")).join("\n");
 
-  if (window.navigator.clipboard.write !== undefined || e !== undefined) {
+  if (((_window$navigator$cli = window.navigator.clipboard) === null || _window$navigator$cli === void 0 ? void 0 : _window$navigator$cli.write) !== undefined || e !== undefined) {
+    var _window$navigator$cli2;
+
     const rootEl = document.createElement("tbody");
 
     for (const row of cells) {
@@ -306,7 +310,7 @@ function copyToClipboard(cells, columnIndexes, e) {
       rootEl.appendChild(rowEl);
     }
 
-    if (window.navigator.clipboard.write !== undefined) {
+    if (((_window$navigator$cli2 = window.navigator.clipboard) === null || _window$navigator$cli2 === void 0 ? void 0 : _window$navigator$cli2.write) !== undefined) {
       void window.navigator.clipboard.write([new ClipboardItem({
         "text/plain": new Blob([str], {
           type: "text/plain"
@@ -321,10 +325,14 @@ function copyToClipboard(cells, columnIndexes, e) {
         e.clipboardData.setData("text/html", `<table>${rootEl.outerHTML}</table>`);
         e.preventDefault();
       } catch {
-        void window.navigator.clipboard.writeText(str);
+        var _window$navigator$cli3;
+
+        void ((_window$navigator$cli3 = window.navigator.clipboard) === null || _window$navigator$cli3 === void 0 ? void 0 : _window$navigator$cli3.writeText(str));
       }
     }
   } else {
-    void window.navigator.clipboard.writeText(str);
+    var _window$navigator$cli4;
+
+    void ((_window$navigator$cli4 = window.navigator.clipboard) === null || _window$navigator$cli4 === void 0 ? void 0 : _window$navigator$cli4.writeText(str));
   }
 }

@@ -21,8 +21,8 @@ const BubblesOverlayEditorStyle = _styles.styled.div`
         padding: 0 8px;
         height: 20px;
 
-        background-color: ${p => p.theme.bgBubble};
-        color: ${p => p.theme.textDark};
+        background-color: var(--gdg-bg-bubble);
+        color: var(--gdg-text-dark);
         margin: 2px;
     }
 

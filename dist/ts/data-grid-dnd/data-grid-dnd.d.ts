@@ -9,10 +9,10 @@ export interface DataGridDndProps extends Props {
      * @deprecated Use onColumnResize instead. It's the same thing, just fixes the naming convention.
      * This will be removed in a future version.
      */
-    readonly onColumnResized?: (column: GridColumn, newSize: number) => void;
-    readonly onColumnResize?: (column: GridColumn, newSize: number) => void;
-    readonly onColumnResizeStart?: (column: GridColumn, newSize: number) => void;
-    readonly onColumnResizeEnd?: (column: GridColumn, newSize: number) => void;
+    readonly onColumnResized?: (column: GridColumn, newSize: number, colIndex: number) => void;
+    readonly onColumnResize?: (column: GridColumn, newSize: number, colIndex: number) => void;
+    readonly onColumnResizeStart?: (column: GridColumn, newSize: number, colIndex: number) => void;
+    readonly onColumnResizeEnd?: (column: GridColumn, newSize: number, colIndex: number) => void;
     readonly gridRef?: React.MutableRefObject<DataGridRef | null>;
     readonly maxColumnWidth: number;
     readonly minColumnWidth: number;

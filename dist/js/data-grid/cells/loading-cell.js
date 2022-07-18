@@ -5,6 +5,6 @@ export const loadingCellRenderer = {
   needsHover: false,
   useLabel: false,
   needsHoverPosition: false,
-  measure: () => 150,
+  measure: () => 120,
   render: () => undefined
 };

@@ -27,14 +27,14 @@ const UriOverlayEditorStyle = _styles.styled.div`
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        color: ${p => p.theme.linkColor};
+        color: var(--gdg-link-color);
         text-decoration: underline !important;
     }
 
     .edit-icon {
         flex-shrink: 0;
         width: 32px;
-        color: ${p => p.theme.accentColor};
+        color: var(--gdg-accent-color);
 
         cursor: pointer;
 
