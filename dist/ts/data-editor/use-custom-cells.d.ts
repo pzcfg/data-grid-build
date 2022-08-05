@@ -1,6 +1,6 @@
 import { CustomCell, GridCell, ProvideEditorCallback } from "../data-grid/data-grid-types";
-import { DrawArgs } from "./custom-cell-draw-args";
-import { DataEditorProps } from "./data-editor";
+import type { DrawArgs } from "./custom-cell-draw-args";
+import type { DataEditorProps } from "./data-editor";
 declare type DrawCallback = NonNullable<DataEditorProps["drawCell"]>;
 export declare type CustomCellRenderer<T extends CustomCell> = {
     isMatch: (cell: CustomCell) => cell is T;

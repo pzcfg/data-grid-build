@@ -1,5 +1,5 @@
 import React from "react";
-import { Rectangle } from "../data-grid/data-grid-types";
+import type { Rectangle } from "../data-grid/data-grid-types";
 interface Props {
     readonly bounds: Rectangle;
     readonly group: string;

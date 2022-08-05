@@ -1,11 +1,10 @@
-import { Item } from "./data-grid-types";
+import type { Item } from "./data-grid-types";
 declare type StateItem = {
     item: Item;
     hoverAmount: number;
 };
 export declare type HoverValues = readonly Readonly<StateItem>[];
 export declare type StepCallback = (values: HoverValues) => void;
-export declare function easeOutCubic(x: number): number;
 export declare class AnimationManager {
     private callback;
     constructor(callback: StepCallback);

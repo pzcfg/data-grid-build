@@ -1,6 +1,8 @@
-import { Rectangle } from "../../data-grid/data-grid-types";
+/// <reference types="react" />
 interface Props {
-    targetRect: Rectangle;
+    targetWidth: number;
 }
-export declare const MarkdownOverlayEditorStyle: import("styled-components").StyledComponent<"div", import("../../common/styles").Theme, Props, never>;
+export declare const MarkdownOverlayEditorStyle: import("@linaria/core").StyledMeta & import("react").FunctionComponent<import("react").ClassAttributes<HTMLDivElement> & import("react").HTMLAttributes<HTMLDivElement> & Props & {
+    as?: import("react").ElementType<any> | undefined;
+}>;
 export {};

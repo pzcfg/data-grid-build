@@ -1,7 +1,11 @@
-import { Rectangle } from "../data-grid/data-grid-types";
+/// <reference types="react" />
 interface Props {
-    targetRect: Rectangle;
-    pad: boolean;
+    targetX: number;
+    targetY: number;
+    targetWidth: number;
+    targetHeight: number;
 }
-export declare const DataGridOverlayEditorStyle: import("styled-components").StyledComponent<"div", import("../common/styles").Theme, Props, never>;
+export declare const DataGridOverlayEditorStyle: import("@linaria/core").StyledMeta & import("react").FunctionComponent<import("react").ClassAttributes<HTMLDivElement> & import("react").HTMLAttributes<HTMLDivElement> & Props & {
+    as?: import("react").ElementType<any> | undefined;
+}>;
 export {};

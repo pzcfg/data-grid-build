@@ -1,4 +1,4 @@
-import { Theme } from "../common/styles";
+import type { Theme } from "../common/styles";
 import type { DataGridSearchProps } from "../data-grid-search/data-grid-search";
 import { CellArray, GridColumn, InnerGridColumn, SizedGridColumn } from "../data-grid/data-grid-types";
 export declare function measureColumn(ctx: CanvasRenderingContext2D, theme: Theme, c: GridColumn, colIndex: number, selectedData: CellArray, minColumnWidth: number, maxColumnWidth: number, removeOutliers: boolean): SizedGridColumn;

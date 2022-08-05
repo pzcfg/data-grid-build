@@ -1,5 +1,5 @@
 import { BooleanCell } from "../data-grid-types";
-import { InternalCellRenderer } from "./cell-types";
+import type { InternalCellRenderer } from "./cell-types";
 /**
  * Checkbox behavior:
  *

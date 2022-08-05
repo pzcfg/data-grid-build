@@ -1,4 +1,4 @@
-import { ThemedStyledInterface } from "styled-components";
+import React from "react";
 export declare function makeCSSStyle(theme: Theme): Record<string, string>;
 export interface Theme {
     accentColor: string;
@@ -33,5 +33,6 @@ export interface Theme {
     editorFontSize: string;
     lineHeight: number;
 }
-export declare const styled: ThemedStyledInterface<Theme>;
 export declare function getDataEditorTheme(): Theme;
+export declare const ThemeContext: React.Context<Theme>;
+export declare function useTheme(): Theme;

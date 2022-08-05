@@ -10,7 +10,10 @@ interface Props {
     readonly scrollWidth: number;
     readonly scrollHeight: number;
     readonly scrollToEnd?: boolean;
-    readonly rightElementSticky?: boolean;
+    readonly rightElementProps?: {
+        readonly sticky?: boolean;
+        readonly fill?: boolean;
+    };
     readonly rightElement?: React.ReactNode;
     readonly minimap?: React.ReactNode;
     readonly style?: React.CSSProperties;
@@ -19,6 +22,5 @@ interface Props {
         paddingRight: number;
     }) => void;
 }
-export declare const ScrollRegionStyle: import("styled-components").StyledComponent<"div", import("..").Theme, {}, never>;
 export declare const InfiniteScroller: React.FC<Props>;
 export {};

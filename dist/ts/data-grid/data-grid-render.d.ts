@@ -1,16 +1,16 @@
 /// <reference types="react" />
-import ImageWindowLoader from "../common/image-window-loader";
-import type { GridSelection, DrawHeaderCallback, InnerGridCell, Rectangle, CompactSelection, DrawCustomCellCallback, GridColumnIcon, Item, CellList, GridMouseGroupHeaderEventArgs } from "./data-grid-types";
-import { HoverValues } from "./animation-manager";
+import type ImageWindowLoader from "../common/image-window-loader";
+import { GridSelection, DrawHeaderCallback, InnerGridCell, Rectangle, CompactSelection, DrawCustomCellCallback, GridColumnIcon, Item, CellList, GridMouseGroupHeaderEventArgs, TrailingRowType } from "./data-grid-types";
+import type { HoverValues } from "./animation-manager";
 import { MappedGridColumn } from "./data-grid-lib";
-import { SpriteManager } from "./data-grid-sprites";
-import { Theme } from "../common/styles";
-import { PrepResult } from "./cells/cell-types";
+import type { SpriteManager } from "./data-grid-sprites";
+import type { Theme } from "../common/styles";
+import type { PrepResult } from "./cells/cell-types";
 declare type HoverInfo = readonly [Item, Item];
 export interface Highlight {
     readonly color: string;
     readonly range: Rectangle;
-    readonly style?: "dashed" | "solid";
+    readonly style?: "dashed" | "solid" | "no-outline";
 }
 interface GroupDetails {
     readonly name: string;
@@ -38,6 +38,7 @@ export declare function drawCell(ctx: CanvasRenderingContext2D, row: number, cel
 export declare function getActionBoundsForGroup(box: Rectangle, actions: NonNullable<GroupDetails["actions"]>): readonly Rectangle[];
 export declare function pointInRect(rect: Rectangle, x: number, y: number): boolean;
 export declare function getHeaderMenuBounds(x: number, y: number, width: number, height: number): Rectangle;
+export declare function drawHeader(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, c: MappedGridColumn, selected: boolean, theme: Theme, isHovered: boolean, hasSelectedCell: boolean, hoverAmount: number, spriteManager: SpriteManager, drawHeaderCallback: DrawHeaderCallback | undefined, touchMode: boolean): void;
 export interface DrawGridArg {
     readonly canvas: HTMLCanvasElement;
     readonly headerCanvas: HTMLCanvasElement;
@@ -61,7 +62,7 @@ export interface DrawGridArg {
     readonly isFocused: boolean;
     readonly selection: GridSelection;
     readonly fillHandle: boolean;
-    readonly lastRowSticky: boolean;
+    readonly lastRowSticky: TrailingRowType;
     readonly hyperWrapping: boolean;
     readonly rows: number;
     readonly getCellContent: (cell: Item) => InnerGridCell;

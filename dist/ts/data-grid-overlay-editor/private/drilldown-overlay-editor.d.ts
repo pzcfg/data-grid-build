@@ -1,4 +1,4 @@
-import { DrilldownCellData } from "../../data-grid/data-grid-types";
+import type { DrilldownCellData } from "../../data-grid/data-grid-types";
 import * as React from "react";
 interface Props {
     readonly drilldowns: readonly DrilldownCellData[];

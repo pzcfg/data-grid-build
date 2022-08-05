@@ -1,4 +1,4 @@
-import { SpriteProps } from "../common/utils";
+import type { SpriteProps } from "../common/utils";
 export declare const sprites: {
     headerRowID: (props: SpriteProps) => string;
     headerNumber: (props: SpriteProps) => string;

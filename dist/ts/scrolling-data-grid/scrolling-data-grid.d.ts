@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGridDndProps } from "../data-grid-dnd/data-grid-dnd";
-import { Rectangle } from "../data-grid/data-grid-types";
+import type { Rectangle } from "../data-grid/data-grid-types";
 declare type Props = Omit<DataGridDndProps, "width" | "height" | "eventTargetRef">;
 export interface ScrollingDataGridProps extends Props {
     readonly onVisibleRegionChanged?: (range: Rectangle, clientWidth: number, clientHeight: number, rightElWidth: number, tx?: number, ty?: number) => void;
@@ -11,7 +11,10 @@ export interface ScrollingDataGridProps extends Props {
     readonly overscrollX?: number;
     readonly overscrollY?: number;
     readonly preventDiagonalScrolling?: boolean;
-    readonly rightElementSticky?: boolean;
+    readonly rightElementProps?: {
+        readonly sticky?: boolean;
+        readonly fill?: boolean;
+    };
     readonly rightElement?: React.ReactNode;
     readonly showMinimap?: boolean;
     readonly clientSize: readonly [number, number];

@@ -8,10 +8,21 @@ export declare type GridColumnWithMockingInfo = GridColumn & {
     getContent(): GridCell;
 };
 export declare function getGridColumn(columnWithMock: GridColumnWithMockingInfo): GridColumn;
-export declare const BeautifulStyle: import("styled-components").StyledComponent<"div", any, {}, never>;
-export declare const PropName: import("styled-components").StyledComponent<"span", any, {}, never>;
-export declare const Description: import("styled-components").StyledComponent<"p", any, {}, never>;
-export declare const MoreInfo: import("styled-components").StyledComponent<"p", any, {}, never>;
+export declare const ColumnAddButton: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
+    as?: React.ElementType<any> | undefined;
+}>;
+export declare const BeautifulStyle: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
+    as?: React.ElementType<any> | undefined;
+}>;
+export declare const PropName: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLSpanElement> & React.HTMLAttributes<HTMLSpanElement> & Record<string, unknown> & {
+    as?: React.ElementType<any> | undefined;
+}>;
+export declare const Description: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLParagraphElement> & React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown> & {
+    as?: React.ElementType<any> | undefined;
+}>;
+export declare const MoreInfo: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLParagraphElement> & React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown> & {
+    as?: React.ElementType<any> | undefined;
+}>;
 interface BeautifulProps {
     title: string;
     description?: React.ReactNode;

@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Theme } from "../common/styles";
-import { EditableGridCell, GridCell, Item, ProvideEditorCallback, Rectangle } from "../data-grid/data-grid-types";
-import { OverlayImageEditorProps } from "./private/image-overlay-editor";
+import { EditableGridCell, GridCell, Item, ProvideEditorCallback, Rectangle, ValidatedGridCell } from "../data-grid/data-grid-types";
+import type { OverlayImageEditorProps } from "./private/image-overlay-editor";
 declare type ImageEditorType = React.ComponentType<OverlayImageEditorProps>;
-export interface DataGridOverlayEditorProps {
+interface DataGridOverlayEditorProps {
     readonly target: Rectangle;
     readonly cell: Item;
     readonly content: GridCell;
@@ -17,7 +17,7 @@ export interface DataGridOverlayEditorProps {
     readonly imageEditorOverride?: ImageEditorType;
     readonly markdownDivCreateNode?: (content: string) => DocumentFragment;
     readonly provideEditor?: ProvideEditorCallback<GridCell>;
-    readonly validateCell?: (cell: Item, newValue: EditableGridCell, prevValue: GridCell) => boolean | EditableGridCell;
+    readonly validateCell?: (cell: Item, newValue: EditableGridCell, prevValue: GridCell) => boolean | ValidatedGridCell;
 }
 declare const DataGridOverlayEditor: React.FunctionComponent<DataGridOverlayEditorProps>;
 export default DataGridOverlayEditor;

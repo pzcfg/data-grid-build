@@ -1,12 +1,16 @@
 import * as React from "react";
-import { EditableGridCell, GridCell, GridSelection, Rectangle, ProvideEditorCallback, DrawCustomCellCallback, GridColumn, GroupHeaderClickedEventArgs, HeaderClickedEventArgs, CellClickedEventArgs, Item } from "../data-grid/data-grid-types";
+import { EditableGridCell, GridCell, GridSelection, Rectangle, ProvideEditorCallback, DrawCustomCellCallback, GridColumn, GroupHeaderClickedEventArgs, HeaderClickedEventArgs, CellClickedEventArgs, Item, ValidatedGridCell } from "../data-grid/data-grid-types";
 import { DataGridSearchProps } from "../data-grid-search/data-grid-search";
-import { OverlayImageEditorProps } from "../data-grid-overlay-editor/private/image-overlay-editor";
+import type { OverlayImageEditorProps } from "../data-grid-overlay-editor/private/image-overlay-editor";
 import { Theme } from "../common/styles";
-import { DataGridRef } from "../data-grid/data-grid";
+import type { DataGridRef } from "../data-grid/data-grid";
 import { SelectionBlending } from "../data-grid/use-selection-behavior";
-declare type Props = Omit<DataGridSearchProps, "accessibilityHeight" | "canvasRef" | "cellXOffset" | "cellYOffset" | "className" | "columns" | "disabledRows" | "drawCustomCell" | "enableGroups" | "firstColSticky" | "getCellContent" | "gridRef" | "headerHeight" | "groupHeaderHeight" | "lastRowSticky" | "minColumnWidth" | "maxColumnWidth" | "lockColumns" | "firstColAccessible" | "getCellsForSelection" | "onCellFocused" | "onKeyDown" | "isFilling" | "isFocused" | "onCanvasFocused" | "onCanvasBlur" | "onKeyUp" | "onMouseDown" | "onMouseUp" | "onMouseMove" | "freezeColumns" | "clientSize" | "onSearchResultsChanged" | "onVisibleRegionChanged" | "rowHeight" | "verticalBorder" | "scrollRef" | "searchColOffset" | "selection" | "selectedColumns" | "translateX" | "translateY">;
+declare type Props = Omit<DataGridSearchProps, "accessibilityHeight" | "canvasRef" | "cellXOffset" | "cellYOffset" | "className" | "clientSize" | "columns" | "disabledRows" | "drawCustomCell" | "enableGroups" | "firstColAccessible" | "firstColSticky" | "freezeColumns" | "getCellContent" | "getCellsForSelection" | "gridRef" | "groupHeaderHeight" | "headerHeight" | "isFilling" | "isFocused" | "lockColumns" | "maxColumnWidth" | "minColumnWidth" | "onCanvasBlur" | "onCanvasFocused" | "onCellFocused" | "onContextMenu" | "onDragEnd" | "onKeyDown" | "onKeyUp" | "onMouseDown" | "onMouseMove" | "onMouseUp" | "onSearchResultsChanged" | "onVisibleRegionChanged" | "rowHeight" | "scrollRef" | "searchColOffset" | "selectedColumns" | "selection" | "theme" | "trailingRowType" | "translateX" | "translateY" | "verticalBorder">;
 declare type ImageEditorType = React.ComponentType<OverlayImageEditorProps>;
+declare type EditListItem = {
+    location: Item;
+    value: EditableGridCell;
+};
 declare type ReplaceReturnType<T extends (...a: any) => any, TNewReturn> = (...a: Parameters<T>) => TNewReturn;
 declare type EmitEvents = "copy" | "paste" | "delete" | "fill-right" | "fill-down";
 interface Keybinds {
@@ -27,10 +31,7 @@ interface Keybinds {
 export interface DataEditorProps extends Props {
     readonly onDelete?: (selection: GridSelection) => boolean | GridSelection;
     readonly onCellEdited?: (cell: Item, newValue: EditableGridCell) => void;
-    readonly onCellsEdited?: (newValues: readonly {
-        location: Item;
-        value: EditableGridCell;
-    }[]) => boolean | void;
+    readonly onCellsEdited?: (newValues: readonly EditListItem[]) => boolean | void;
     readonly onRowAppended?: () => Promise<"top" | "bottom" | number | undefined> | void;
     readonly onHeaderClicked?: (colIndex: number, event: HeaderClickedEventArgs) => void;
     readonly onGroupHeaderClicked?: (colIndex: number, event: GroupHeaderClickedEventArgs) => void;
@@ -41,7 +42,7 @@ export interface DataEditorProps extends Props {
     readonly onHeaderContextMenu?: (colIndex: number, event: HeaderClickedEventArgs) => void;
     readonly onGroupHeaderContextMenu?: (colIndex: number, event: GroupHeaderClickedEventArgs) => void;
     readonly onCellContextMenu?: (cell: Item, event: CellClickedEventArgs) => void;
-    readonly validateCell?: (cell: Item, newValue: EditableGridCell, prevValue: GridCell) => boolean | EditableGridCell;
+    readonly validateCell?: (cell: Item, newValue: EditableGridCell, prevValue: GridCell) => boolean | ValidatedGridCell;
     readonly columns: readonly GridColumn[];
     readonly trailingRowOptions?: {
         readonly tint?: boolean;
@@ -52,7 +53,7 @@ export interface DataEditorProps extends Props {
     };
     readonly headerHeight?: number;
     readonly groupHeaderHeight?: number;
-    readonly rowMarkers?: "checkbox" | "number" | "both" | "none";
+    readonly rowMarkers?: "checkbox" | "number" | "clickable-number" | "both" | "none";
     readonly rowMarkerWidth?: number;
     readonly rowMarkerStartIndex?: number;
     readonly width?: number | string;
@@ -74,10 +75,6 @@ export interface DataEditorProps extends Props {
     readonly provideEditor?: ProvideEditorCallback<GridCell>;
     readonly coercePasteValue?: (val: string, cell: GridCell) => GridCell | undefined;
     readonly onSelectionCleared?: () => void;
-    /**
-     * @deprecated Use drawCell instead. This will be removed in a future version.
-     */
-    readonly drawCustomCell?: (ctx: CanvasRenderingContext2D, cell: GridCell, theme: Theme, rect: Rectangle, hoverAmount: number) => boolean;
     readonly drawCell?: DrawCustomCellCallback;
     readonly gridSelection?: GridSelection;
     readonly onGridSelectionChange?: (newSelection: GridSelection) => void;
@@ -92,7 +89,7 @@ export interface DataEditorProps extends Props {
     readonly freezeColumns?: DataGridSearchProps["freezeColumns"];
     readonly verticalBorder?: DataGridSearchProps["verticalBorder"] | boolean;
     readonly onPaste?: ((target: Item, values: readonly (readonly string[])[]) => boolean) | boolean;
-    readonly theme?: Theme;
+    readonly theme?: Partial<Theme>;
 }
 export interface DataEditorRef {
     appendRow: (col: number) => Promise<void>;

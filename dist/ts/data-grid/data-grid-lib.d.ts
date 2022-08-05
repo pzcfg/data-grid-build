@@ -1,7 +1,7 @@
-import { Theme } from "../common/styles";
+import type { Theme } from "../common/styles";
 import { DrilldownCellData, Item, GridSelection, InnerGridCell, SizedGridColumn, Rectangle, BaseGridCell, BooleanEmpty, BooleanIndeterminate } from "./data-grid-types";
-import { BaseDrawArgs, PrepResult } from "./cells/cell-types";
-import { DrawArgs } from "../data-editor/custom-cell-draw-args";
+import type { BaseDrawArgs, PrepResult } from "./cells/cell-types";
+import type { DrawArgs } from "../data-editor/custom-cell-draw-args";
 export interface MappedGridColumn extends SizedGridColumn {
     sourceIndex: number;
     sticky: boolean;
@@ -27,6 +27,7 @@ export declare function prepTextCell(args: BaseDrawArgs, lastPrep: PrepResult | 
 export declare function drawTextCellExternal(args: DrawArgs, data: string, contentAlign?: BaseGridCell["contentAlign"]): void;
 export declare function drawTextCell(args: Pick<BaseDrawArgs, "x" | "y" | "w" | "h" | "ctx" | "theme">, data: string, contentAlign?: BaseGridCell["contentAlign"], allowWrapping?: boolean, hyperWrapping?: boolean): void;
 export declare function drawNewRowCell(args: BaseDrawArgs, data: string, icon?: string): void;
+export declare function drawCheckbox(ctx: CanvasRenderingContext2D, theme: Theme, checked: boolean | BooleanEmpty | BooleanIndeterminate, x: number, y: number, width: number, height: number, highlighted: boolean, hoverX?: number, hoverY?: number): void;
 export declare function prepMarkerRowCell(args: BaseDrawArgs, lastPrep: PrepResult | undefined): Partial<PrepResult>;
 export declare function deprepMarkerRowCell(args: Pick<BaseDrawArgs, "ctx">): void;
 export declare function drawMarkerRowCell(args: BaseDrawArgs, index: number, checked: boolean, markerKind: "checkbox" | "both" | "number", drawHandle: boolean): void;

@@ -1,7 +1,7 @@
 import * as React from "react";
 interface WrapperProps {
-    width: number | string;
-    height: number | string;
+    inWidth: number | string;
+    inHeight: number | string;
 }
 interface Props extends WrapperProps, React.HTMLAttributes<HTMLDivElement> {
 }

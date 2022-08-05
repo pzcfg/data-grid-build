@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Rectangle, GridSelection, GridMouseEventArgs, GridDragEventArgs, GridKeyEventArgs, InnerGridCell, CompactSelection, DrawCustomCellCallback, Item, DrawHeaderCallback, InnerGridColumn } from "./data-grid-types";
+import type { Theme } from "../common/styles";
+import { Rectangle, GridSelection, GridMouseEventArgs, GridDragEventArgs, GridKeyEventArgs, InnerGridCell, CompactSelection, DrawCustomCellCallback, Item, DrawHeaderCallback, InnerGridColumn, TrailingRowType } from "./data-grid-types";
 import { SpriteMap } from "./data-grid-sprites";
 import { GetRowThemeCallback, GroupDetailsCallback, Highlight } from "./data-grid-render";
 export interface DataGridProps {
@@ -11,8 +12,10 @@ export interface DataGridProps {
     readonly translateY?: number;
     readonly accessibilityHeight: number;
     readonly freezeColumns: number;
-    readonly lastRowSticky: boolean;
+    readonly trailingRowType: TrailingRowType;
     readonly firstColAccessible: boolean;
+    readonly fixedShadowX?: boolean;
+    readonly fixedShadowY?: boolean;
     readonly allowResize?: boolean;
     readonly isResizing: boolean;
     readonly isDragging: boolean;
@@ -40,6 +43,7 @@ export interface DataGridProps {
     readonly onMouseMove: (args: GridMouseEventArgs) => void;
     readonly onMouseDown?: (args: GridMouseEventArgs) => void;
     readonly onMouseUp?: (args: GridMouseEventArgs, isOutside: boolean) => void;
+    readonly onContextMenu?: (args: GridMouseEventArgs, preventDefault: () => void) => void;
     readonly onCanvasFocused?: () => void;
     readonly onCanvasBlur?: () => void;
     readonly onCellFocused?: (args: Item) => void;
@@ -47,8 +51,9 @@ export interface DataGridProps {
     readonly onKeyDown?: (event: GridKeyEventArgs) => void;
     readonly onKeyUp?: (event: GridKeyEventArgs) => void;
     readonly verticalBorder: (col: number) => boolean;
-    readonly isDraggable?: boolean;
+    readonly isDraggable?: boolean | "cell" | "header";
     readonly onDragStart?: (args: GridDragEventArgs) => void;
+    readonly onDragEnd?: () => void;
     readonly onDragOverCell?: (cell: Item, dataTransfer: DataTransfer | null) => void;
     readonly onDragLeave?: () => void;
     readonly onDrop?: (cell: Item, dataTransfer: DataTransfer | null) => void;
@@ -68,6 +73,9 @@ export interface DataGridProps {
         readonly hyperWrapping?: boolean;
     };
     readonly headerIcons?: SpriteMap;
+    readonly smoothScrollX?: boolean;
+    readonly smoothScrollY?: boolean;
+    readonly theme: Theme;
 }
 declare type DamageUpdateList = readonly {
     cell: Item;

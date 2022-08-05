@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Rectangle } from "../../data-grid/data-grid-types";
+import type { Rectangle, SelectionRange } from "../../data-grid/data-grid-types";
 interface Props {
     readonly targetRect: Rectangle;
     readonly markdown: string;
@@ -7,6 +7,7 @@ interface Props {
     readonly onChange: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
     readonly forceEditMode: boolean;
     readonly onFinish: () => void;
+    readonly validatedSelection?: SelectionRange;
     readonly readonly: boolean;
     createNode?: (content: string) => DocumentFragment;
 }

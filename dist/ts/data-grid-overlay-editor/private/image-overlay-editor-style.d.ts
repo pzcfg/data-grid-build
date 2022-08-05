@@ -1,1 +1,4 @@
-export declare const ImageOverlayEditorStyle: import("styled-components").StyledComponent<"div", import("../../common/styles").Theme, {}, never>;
+/// <reference types="react" />
+export declare const ImageOverlayEditorStyle: import("@linaria/core").StyledMeta & import("react").FunctionComponent<import("react").ClassAttributes<HTMLDivElement> & import("react").HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
+    as?: import("react").ElementType<any> | undefined;
+}>;

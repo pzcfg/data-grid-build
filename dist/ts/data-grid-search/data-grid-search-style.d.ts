@@ -1,3 +1,6 @@
-export declare const SearchWrapper: import("styled-components").StyledComponent<"div", import("../common/styles").Theme, {
+/// <reference types="react" />
+export declare const SearchWrapper: import("@linaria/core").StyledMeta & import("react").FunctionComponent<import("react").ClassAttributes<HTMLDivElement> & import("react").HTMLAttributes<HTMLDivElement> & {
     showSearch: boolean;
-}, never>;
+} & {
+    as?: import("react").ElementType<any> | undefined;
+}>;
