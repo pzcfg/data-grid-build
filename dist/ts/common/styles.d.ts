@@ -1,5 +1,7 @@
 import React from "react";
+/** @category Theme */
 export declare function makeCSSStyle(theme: Theme): Record<string, string>;
+/** @category Theme */
 export interface Theme {
     accentColor: string;
     accentFg: string;
@@ -23,6 +25,7 @@ export interface Theme {
     bgSearchResult: string;
     borderColor: string;
     horizontalBorderColor?: string;
+    headerBottomBorderColor?: string;
     drilldownBorder: string;
     linkColor: string;
     cellHorizontalPadding: number;
@@ -33,6 +36,10 @@ export interface Theme {
     editorFontSize: string;
     lineHeight: number;
 }
+/** @category Theme */
 export declare function getDataEditorTheme(): Theme;
+/** @category Theme */
 export declare const ThemeContext: React.Context<Theme>;
+/** @category Hooks */
 export declare function useTheme(): Theme;
+//# sourceMappingURL=styles.d.ts.map

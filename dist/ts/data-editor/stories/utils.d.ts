@@ -43,3 +43,4 @@ export declare function useMockDataGenerator(numCols: number, readonly?: boolean
     setCellValueRaw: ([col, row]: Item, val: GridCell) => void;
 };
 export {};
+//# sourceMappingURL=utils.d.ts.map

@@ -6,3 +6,4 @@ export declare const MarkdownOverlayEditorStyle: import("@linaria/core").StyledM
     as?: import("react").ElementType<any> | undefined;
 }>;
 export {};
+//# sourceMappingURL=markdown-overlay-editor-style.d.ts.map

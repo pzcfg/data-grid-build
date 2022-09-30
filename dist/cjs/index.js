@@ -142,11 +142,11 @@ function styled(tag) {
       }
       if (tag.__linaria && tag !== component) {
         filteredProps.as = component;
-        return /* @__PURE__ */ import_react3.default.createElement(tag, filteredProps);
+        return /* @__PURE__ */ import_react2.default.createElement(tag, filteredProps);
       }
-      return /* @__PURE__ */ import_react3.default.createElement(component, filteredProps);
+      return /* @__PURE__ */ import_react2.default.createElement(component, filteredProps);
     };
-    const Result = import_react3.default.forwardRef ? /* @__PURE__ */ import_react3.default.forwardRef(render) : (props) => {
+    const Result = import_react2.default.forwardRef ? /* @__PURE__ */ import_react2.default.forwardRef(render) : (props) => {
       const rest = omit(props, ["innerRef"]);
       return render(rest, props.innerRef);
     };
@@ -158,11 +158,11 @@ function styled(tag) {
     return Result;
   };
 }
-var import_react3, isCapital, filterKey, omit, warnIfInvalid, styled_default;
+var import_react2, isCapital, filterKey, omit, warnIfInvalid, styled_default;
 var init_styled = __esm({
   "../../node_modules/@linaria/react/esm/styled.js"() {
     init_is_prop_valid_browser_esm();
-    import_react3 = __toESM(require("react"));
+    import_react2 = __toESM(require("react"));
     init_esm();
     isCapital = (ch) => ch.toUpperCase() === ch;
     filterKey = (keys) => (key) => keys.indexOf(key) === -1;
@@ -231,24 +231,24 @@ function getDecimalSeparator() {
 function getThousandSeprator() {
   return getDecimalSeparator() === "." ? "," : ".";
 }
-var React16, import_react_number_format, NumberOverlayEditor, number_overlay_editor_default;
+var React30, import_react_number_format, NumberOverlayEditor, number_overlay_editor_default;
 var init_number_overlay_editor = __esm({
   "src/data-grid-overlay-editor/private/number-overlay-editor.tsx"() {
     "use strict";
-    React16 = __toESM(require("react"), 1);
+    React30 = __toESM(require("react"), 1);
     init_number_overlay_editor_style();
     import_react_number_format = __toESM(require("react-number-format"), 1);
     NumberOverlayEditor = (p) => {
-      const { value, onChange, onKeyDown, disabled, highlight, validatedSelection } = p;
-      const inputRef = React16.useRef();
-      React16.useLayoutEffect(() => {
+      const { value, onChange, disabled, highlight, validatedSelection } = p;
+      const inputRef = React30.useRef();
+      React30.useLayoutEffect(() => {
         var _a;
         if (validatedSelection !== void 0) {
           const range2 = typeof validatedSelection === "number" ? [validatedSelection, null] : validatedSelection;
           (_a = inputRef.current) == null ? void 0 : _a.setSelectionRange(range2[0], range2[1]);
         }
       }, [validatedSelection]);
-      return /* @__PURE__ */ React16.createElement(NumberOverlayEditorStyle, null, /* @__PURE__ */ React16.createElement(import_react_number_format.default, {
+      return /* @__PURE__ */ React30.createElement(NumberOverlayEditorStyle, null, /* @__PURE__ */ React30.createElement(import_react_number_format.default, {
         autoFocus: true,
         getInputRef: inputRef,
         className: "gdg-input",
@@ -257,8 +257,7 @@ var init_number_overlay_editor = __esm({
         thousandSeparator: getThousandSeprator(),
         decimalSeparator: getDecimalSeparator(),
         value: Object.is(value, -0) ? "-" : value != null ? value : "",
-        onValueChange: onChange,
-        onKeyDown
+        onValueChange: onChange
       }));
     };
     number_overlay_editor_default = NumberOverlayEditor;
@@ -274,10 +273,11 @@ __export(src_exports, {
   DataEditor: () => DataEditor,
   GridCellKind: () => GridCellKind,
   GridColumnIcon: () => GridColumnIcon,
-  ImageOverlayEditor: () => image_overlay_editor_default,
+  ImageOverlayEditor: () => ImageOverlayEditor,
   InnerGridCellKind: () => InnerGridCellKind,
   MarkdownDiv: () => MarkdownDiv,
-  TextCellEntry: () => growing_entry_default,
+  TextCellEntry: () => GrowingEntry,
+  blend: () => blend,
   booleanCellIsEditable: () => booleanCellIsEditable,
   default: () => DataEditor,
   drawTextCell: () => drawTextCellExternal,
@@ -289,6 +289,7 @@ __export(src_exports, {
   headerCellIndeterminateMarker: () => headerCellIndeterminateMarker,
   headerCellUnheckedMarker: () => headerCellUnheckedMarker,
   headerKind: () => headerKind,
+  interpolateColors: () => interpolateColors,
   isEditableGridCell: () => isEditableGridCell,
   isInnerOnlyCell: () => isInnerOnlyCell,
   isObjectEditorCallbackResult: () => isObjectEditorCallbackResult,
@@ -301,7 +302,8 @@ __export(src_exports, {
   resolveCellsThunk: () => resolveCellsThunk,
   useColumnSizer: () => useColumnSizer,
   useCustomCells: () => useCustomCells,
-  useTheme: () => useTheme
+  useTheme: () => useTheme,
+  withAlpha: () => withAlpha
 });
 module.exports = __toCommonJS(src_exports);
 
@@ -361,14 +363,14 @@ function deepEqual(foo, bar) {
 }
 
 // src/data-editor/data-editor.tsx
-var import_clamp5 = __toESM(require("lodash/clamp"), 1);
-var import_uniq = __toESM(require("lodash/uniq"), 1);
-var import_flatten = __toESM(require("lodash/flatten"), 1);
-var import_range2 = __toESM(require("lodash/range"), 1);
-var import_debounce2 = __toESM(require("lodash/debounce"), 1);
+var import_clamp5 = __toESM(require("lodash/clamp.js"), 1);
+var import_uniq = __toESM(require("lodash/uniq.js"), 1);
+var import_flatten = __toESM(require("lodash/flatten.js"), 1);
+var import_range2 = __toESM(require("lodash/range.js"), 1);
+var import_debounce2 = __toESM(require("lodash/debounce.js"), 1);
 
 // src/data-grid-overlay-editor/data-grid-overlay-editor.tsx
-var React23 = __toESM(require("react"), 1);
+var React5 = __toESM(require("react"), 1);
 var import_react_dom = require("react-dom");
 
 // src/click-outside-container/click-outside-container.tsx
@@ -485,7 +487,7 @@ function useTheme() {
 }
 
 // src/data-grid/data-grid-types.ts
-var import_has = __toESM(require("lodash/has"), 1);
+var import_has = __toESM(require("lodash/has.js"), 1);
 var BooleanEmpty = null;
 var BooleanIndeterminate = void 0;
 var headerKind = "header";
@@ -718,13 +720,374 @@ CompactSelection.fromSingleSelection = (selection) => {
   return _CompactSelection.empty().add(selection);
 };
 
+// src/data-grid-overlay-editor/data-grid-overlay-editor-style.tsx
+init_esm2();
+var DataGridOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
+  name: "DataGridOverlayEditorStyle",
+  class: "d1t1th9s",
+  vars: {
+    "d1t1th9s-0": [(p) => p.targetY, "px"],
+    "d1t1th9s-1": [(p) => p.targetX - 1, "px"],
+    "d1t1th9s-2": [(p) => p.targetY - 1, "px"],
+    "d1t1th9s-3": [(p) => p.targetWidth + 2, "px"],
+    "d1t1th9s-4": [(p) => p.targetHeight + 2, "px"],
+    "d1t1th9s-5": [(p) => p.targetY + 10, "px"],
+    "d1t1th9s-6": [(p) => Math.max(0, (p.targetHeight - 28) / 2), "px"]
+  }
+});
+
+// src/data-grid-overlay-editor/use-stay-on-screen.ts
+var React4 = __toESM(require("react"), 1);
+function useRefState() {
+  const [refState, setRefState] = React4.useState();
+  return [refState != null ? refState : void 0, setRefState];
+}
+function useStayOnScreen() {
+  const [ref, setRef] = useRefState();
+  const [xOffset, setXOffset] = React4.useState(0);
+  const [isIntersecting, setIsIntersecting] = React4.useState(true);
+  React4.useLayoutEffect(() => {
+    if (ref === void 0)
+      return;
+    if (!("IntersectionObserver" in window))
+      return;
+    const observer = new IntersectionObserver((ents) => {
+      if (ents.length === 0)
+        return;
+      setIsIntersecting(ents[0].isIntersecting);
+    }, { threshold: 1 });
+    observer.observe(ref);
+    return () => observer.disconnect();
+  }, [ref]);
+  React4.useEffect(() => {
+    if (isIntersecting || ref === void 0)
+      return;
+    let rafHandle;
+    const fn = () => {
+      const { right: refRight } = ref.getBoundingClientRect();
+      setXOffset((cv) => Math.min(cv + window.innerWidth - refRight - 10, 0));
+      rafHandle = requestAnimationFrame(fn);
+    };
+    rafHandle = requestAnimationFrame(fn);
+    return () => {
+      if (rafHandle !== void 0) {
+        cancelAnimationFrame(rafHandle);
+      }
+    };
+  }, [ref, isIntersecting]);
+  const style = React4.useMemo(() => {
+    return { transform: `translateX(${xOffset}px)` };
+  }, [xOffset]);
+  return {
+    ref: setRef,
+    style
+  };
+}
+
+// src/data-grid-overlay-editor/data-grid-overlay-editor.tsx
+var DataGridOverlayEditor = (p) => {
+  const {
+    target,
+    content,
+    onFinishEditing: onFinishEditingIn,
+    forceEditMode,
+    initialValue,
+    imageEditorOverride,
+    markdownDivCreateNode,
+    highlight,
+    className,
+    theme,
+    id,
+    cell,
+    validateCell,
+    getCellRenderer,
+    provideEditor
+  } = p;
+  const [tempValue, setTempValueRaw] = React5.useState(forceEditMode ? content : void 0);
+  const lastValueRef = React5.useRef(tempValue != null ? tempValue : content);
+  lastValueRef.current = tempValue != null ? tempValue : content;
+  const [isValid, setIsValid] = React5.useState(() => {
+    if (validateCell === void 0)
+      return true;
+    return !(isEditableGridCell(content) && (validateCell == null ? void 0 : validateCell(cell, content, lastValueRef.current)) === false);
+  });
+  const onFinishEditing = React5.useCallback((newCell, movement) => {
+    onFinishEditingIn(isValid ? newCell : void 0, movement);
+  }, [isValid, onFinishEditingIn]);
+  const setTempValue = React5.useCallback((newVal) => {
+    if (validateCell !== void 0 && newVal !== void 0 && isEditableGridCell(newVal)) {
+      const validResult = validateCell(cell, newVal, lastValueRef.current);
+      if (validResult === false) {
+        setIsValid(false);
+      } else if (typeof validResult === "object") {
+        newVal = validResult;
+        setIsValid(true);
+      } else {
+        setIsValid(true);
+      }
+    }
+    setTempValueRaw(newVal);
+  }, [cell, validateCell]);
+  const finished = React5.useRef(false);
+  const customMotion = React5.useRef(void 0);
+  const onClickOutside = React5.useCallback(() => {
+    onFinishEditing(tempValue, [0, 0]);
+    finished.current = true;
+  }, [tempValue, onFinishEditing]);
+  const onEditorFinished = React5.useCallback((newValue) => {
+    var _a;
+    onFinishEditing(newValue, (_a = customMotion.current) != null ? _a : [0, 0]);
+    finished.current = true;
+  }, [onFinishEditing]);
+  const onKeyDown = React5.useCallback(async (event) => {
+    let save = false;
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      event.preventDefault();
+      customMotion.current = [0, 0];
+    } else if (event.key === "Enter" && !event.shiftKey) {
+      event.stopPropagation();
+      event.preventDefault();
+      customMotion.current = [0, 1];
+      save = true;
+    } else if (event.key === "Tab") {
+      event.stopPropagation();
+      event.preventDefault();
+      customMotion.current = [event.shiftKey ? -1 : 1, 0];
+      save = true;
+    }
+    window.setTimeout(() => {
+      if (!finished.current && customMotion.current !== void 0) {
+        onFinishEditing(save ? tempValue : void 0, customMotion.current);
+        finished.current = true;
+      }
+    }, 0);
+  }, [onFinishEditing, tempValue]);
+  const targetValue = tempValue != null ? tempValue : content;
+  const [editorProvider, useLabel] = React5.useMemo(() => {
+    var _a, _b;
+    if (isInnerOnlyCell(content))
+      return [];
+    const external = provideEditor == null ? void 0 : provideEditor(content);
+    if (external !== void 0)
+      return [external, false];
+    return [(_b = (_a = getCellRenderer(content)) == null ? void 0 : _a.provideEditor) == null ? void 0 : _b.call(_a, content), false];
+  }, [content, getCellRenderer, provideEditor]);
+  const { ref, style: stayOnScreenStyle } = useStayOnScreen();
+  let pad = true;
+  let editor;
+  let style = true;
+  let styleOverride;
+  if (editorProvider !== void 0) {
+    pad = editorProvider.disablePadding !== true;
+    style = editorProvider.disableStyling !== true;
+    const isObjectEditor = isObjectEditorCallbackResult(editorProvider);
+    if (isObjectEditor) {
+      styleOverride = editorProvider.styleOverride;
+    }
+    const CustomEditor = isObjectEditor ? editorProvider.editor : editorProvider;
+    editor = /* @__PURE__ */ React5.createElement(CustomEditor, {
+      isHighlighted: highlight,
+      onChange: setTempValue,
+      value: targetValue,
+      initialValue,
+      onFinishedEditing: onEditorFinished,
+      validatedSelection: isEditableGridCell(targetValue) ? targetValue.selectionRange : void 0,
+      forceEditMode,
+      target,
+      imageEditorOverride,
+      markdownDivCreateNode,
+      isValid
+    });
+  }
+  styleOverride = { ...styleOverride, ...stayOnScreenStyle };
+  const portalElement = document.getElementById("portal");
+  if (portalElement === null) {
+    console.error('Cannot open Data Grid overlay editor, because portal not found.  Please add `<div id="portal" />` as the last child of your `<body>`.');
+    return null;
+  }
+  let classWrap = style ? "gdg-style" : "gdg-unstyle";
+  if (!isValid) {
+    classWrap += " invalid";
+  }
+  if (pad) {
+    classWrap += " pad";
+  }
+  return (0, import_react_dom.createPortal)(/* @__PURE__ */ React5.createElement(ThemeContext.Provider, {
+    value: theme
+  }, /* @__PURE__ */ React5.createElement(ClickOutsideContainer, {
+    style: makeCSSStyle(theme),
+    className,
+    onClickOutside
+  }, /* @__PURE__ */ React5.createElement(DataGridOverlayEditorStyle, {
+    ref,
+    id,
+    className: classWrap,
+    style: styleOverride,
+    as: useLabel === true ? "label" : void 0,
+    targetX: target.x,
+    targetY: target.y,
+    targetWidth: target.width,
+    targetHeight: target.height
+  }, /* @__PURE__ */ React5.createElement("div", {
+    className: "clip-region",
+    onKeyDown
+  }, editor)))), portalElement);
+};
+var data_grid_overlay_editor_default = DataGridOverlayEditor;
+
+// src/data-grid-search/data-grid-search.tsx
+var React13 = __toESM(require("react"), 1);
+
+// src/scrolling-data-grid/scrolling-data-grid.tsx
+var React12 = __toESM(require("react"), 1);
+init_esm2();
+
+// src/data-grid-dnd/data-grid-dnd.tsx
+var import_clamp3 = __toESM(require("lodash/clamp.js"), 1);
+var React10 = __toESM(require("react"), 1);
+
+// src/data-grid/data-grid.tsx
+var React9 = __toESM(require("react"), 1);
+
+// src/common/image-window-loader.ts
+var import_throttle = __toESM(require("lodash/throttle.js"), 1);
+var rowShift = 1 << 16;
+var imgPool = [];
+function packColRowToNumber(col, row) {
+  return row * rowShift + col;
+}
+function unpackCol(packed) {
+  return packed % rowShift;
+}
+function unpackRow(packed, col) {
+  return (packed - col) / rowShift;
+}
+function unpackNumberToColRow(packed) {
+  const col = unpackCol(packed);
+  const row = unpackRow(packed, col);
+  return [col, row];
+}
+var ImageWindowLoaderImpl = class {
+  constructor() {
+    this.imageLoaded = () => void 0;
+    this.loadedLocations = [];
+    this.visibleWindow = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0
+    };
+    this.freezeCols = 0;
+    this.isInWindow = (packed) => {
+      const col = unpackCol(packed);
+      const row = unpackRow(packed, col);
+      const w = this.visibleWindow;
+      if (col < this.freezeCols && row >= w.y && row <= w.y + w.height)
+        return true;
+      return col >= w.x && col <= w.x + w.width && row >= w.y && row <= w.y + w.height;
+    };
+    this.cache = {};
+    this.sendLoaded = (0, import_throttle.default)(() => {
+      this.imageLoaded(this.loadedLocations);
+      this.loadedLocations = [];
+    }, 20);
+    this.clearOutOfWindow = () => {
+      const keys = Object.keys(this.cache);
+      for (const key of keys) {
+        const obj = this.cache[key];
+        let keep = false;
+        for (let j = 0; j < obj.cells.length; j++) {
+          const packed = obj.cells[j];
+          if (this.isInWindow(packed)) {
+            keep = true;
+            break;
+          }
+        }
+        if (keep) {
+          obj.cells = obj.cells.filter(this.isInWindow);
+        } else {
+          obj.cancel();
+          delete this.cache[key];
+        }
+      }
+    };
+  }
+  setCallback(imageLoaded) {
+    this.imageLoaded = imageLoaded;
+  }
+  setWindow(newWindow, freezeCols) {
+    if (this.visibleWindow.x === newWindow.x && this.visibleWindow.y === newWindow.y && this.visibleWindow.width === newWindow.width && this.visibleWindow.height === newWindow.height && this.freezeCols === freezeCols)
+      return;
+    this.visibleWindow = newWindow;
+    this.freezeCols = freezeCols;
+    this.clearOutOfWindow();
+  }
+  loadImage(url, col, row, key) {
+    var _a;
+    let loaded = false;
+    const img = (_a = imgPool.pop()) != null ? _a : new Image();
+    let canceled = false;
+    const result = {
+      img: void 0,
+      cells: [packColRowToNumber(col, row)],
+      url,
+      cancel: () => {
+        if (canceled)
+          return;
+        canceled = true;
+        if (imgPool.length < 12) {
+          imgPool.unshift(img);
+        } else if (!loaded) {
+          img.src = "";
+        }
+      }
+    };
+    const loadPromise = new Promise((r) => img.addEventListener("load", () => r(null)));
+    requestAnimationFrame(async () => {
+      try {
+        img.src = url;
+        await loadPromise;
+        await img.decode();
+        const toWrite = this.cache[key];
+        if (toWrite !== void 0 && !canceled) {
+          toWrite.img = img;
+          for (const packed of toWrite.cells) {
+            this.loadedLocations.push(unpackNumberToColRow(packed));
+          }
+          loaded = true;
+          this.sendLoaded();
+        }
+      } catch (e) {
+        result.cancel();
+      }
+    });
+    this.cache[key] = result;
+  }
+  loadOrGetImage(url, col, row) {
+    const key = url;
+    const current = this.cache[key];
+    if (current !== void 0) {
+      const packed = packColRowToNumber(col, row);
+      if (!current.cells.includes(packed)) {
+        current.cells.push(packed);
+      }
+      return current.img;
+    } else {
+      this.loadImage(url, col, row, key);
+    }
+    return void 0;
+  }
+};
+var image_window_loader_default = ImageWindowLoaderImpl;
+
 // src/common/utils.tsx
-var React3 = __toESM(require("react"), 1);
-var import_debounce = __toESM(require("lodash/debounce"), 1);
+var React6 = __toESM(require("react"), 1);
+var import_debounce = __toESM(require("lodash/debounce.js"), 1);
 function useEventListener(eventName, handler, element, passive, capture = false) {
-  const savedHandler = React3.useRef();
+  const savedHandler = React6.useRef();
   savedHandler.current = handler;
-  React3.useEffect(() => {
+  React6.useEffect(() => {
     if (element === null || element.addEventListener === void 0)
       return;
     const el = element;
@@ -748,11 +1111,11 @@ function degreesToRadians(degrees) {
 var EditPencil = (props) => {
   var _a;
   const fg = (_a = props.fgColor) != null ? _a : "currentColor";
-  return /* @__PURE__ */ React3.createElement("svg", {
+  return /* @__PURE__ */ React6.createElement("svg", {
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, /* @__PURE__ */ React3.createElement("path", {
+  }, /* @__PURE__ */ React6.createElement("path", {
     d: "M12.7073 7.05029C7.87391 11.8837 10.4544 9.30322 6.03024 13.7273C5.77392 13.9836 5.58981 14.3071 5.50189 14.6587L4.52521 18.5655C4.38789 19.1148 4.88543 19.6123 5.43472 19.475L9.34146 18.4983C9.69313 18.4104 10.0143 18.2286 10.2706 17.9722L16.9499 11.2929",
     stroke: fg,
     strokeWidth: "1.5",
@@ -760,7 +1123,7 @@ var EditPencil = (props) => {
     strokeLinejoin: "round",
     fill: "none",
     vectorEffect: "non-scaling-stroke"
-  }), /* @__PURE__ */ React3.createElement("path", {
+  }), /* @__PURE__ */ React6.createElement("path", {
     d: "M20.4854 4.92901L19.0712 3.5148C18.2901 2.73375 17.0238 2.73375 16.2428 3.5148L14.475 5.28257C15.5326 7.71912 16.4736 8.6278 18.7176 9.52521L20.4854 7.75744C21.2665 6.97639 21.2665 5.71006 20.4854 4.92901Z",
     stroke: fg,
     strokeWidth: "1.5",
@@ -773,11 +1136,11 @@ var EditPencil = (props) => {
 var Checkmark = (props) => {
   var _a;
   const fg = (_a = props.fgColor) != null ? _a : "currentColor";
-  return /* @__PURE__ */ React3.createElement("svg", {
+  return /* @__PURE__ */ React6.createElement("svg", {
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, /* @__PURE__ */ React3.createElement("path", {
+  }, /* @__PURE__ */ React6.createElement("path", {
     d: "M19 6L10.3802 17L5.34071 11.8758",
     vectorEffect: "non-scaling-stroke",
     stroke: fg,
@@ -787,17 +1150,17 @@ var Checkmark = (props) => {
   }));
 };
 function useDebouncedMemo(factory, deps, time) {
-  const [state, setState] = React3.useState(factory);
-  const mountedRef = React3.useRef(true);
-  React3.useEffect(() => () => {
+  const [state, setState] = React6.useState(factory);
+  const mountedRef = React6.useRef(true);
+  React6.useEffect(() => () => {
     mountedRef.current = false;
   }, []);
-  const debouncedSetState = React3.useRef((0, import_debounce.default)((x) => {
+  const debouncedSetState = React6.useRef((0, import_debounce.default)((x) => {
     if (mountedRef.current) {
       setState(x);
     }
   }, time));
-  React3.useLayoutEffect(() => {
+  React6.useLayoutEffect(() => {
     if (mountedRef.current) {
       debouncedSetState.current(() => factory());
     }
@@ -839,12 +1202,44 @@ function getScrollBarWidth() {
   scrollbarWidthCache = w1 - w2;
   return scrollbarWidthCache;
 }
+var empty = Symbol();
+function useStateWithReactiveInput(inputState) {
+  const inputStateRef = React6.useRef([empty, inputState]);
+  if (inputStateRef.current[1] !== inputState) {
+    inputStateRef.current[0] = inputState;
+  }
+  inputStateRef.current[1] = inputState;
+  const [state, setState] = React6.useState(inputState);
+  const [, forceRender] = React6.useState();
+  const setStateOuter = React6.useCallback((nv) => {
+    const s = inputStateRef.current[0];
+    if (s !== empty) {
+      nv = typeof nv === "function" ? nv(s) : nv;
+      if (nv === s)
+        return;
+    }
+    if (s !== empty)
+      forceRender({});
+    setState((pv) => {
+      if (typeof nv === "function") {
+        return nv(s === empty ? pv : s);
+      }
+      return nv;
+    });
+    inputStateRef.current[0] = empty;
+  }, []);
+  const onEmpty = React6.useCallback(() => {
+    inputStateRef.current[0] = empty;
+    forceRender({});
+  }, []);
+  return [inputStateRef.current[0] === empty ? state : inputStateRef.current[0], setStateOuter, onEmpty];
+}
 
 // src/data-grid/data-grid-lib.ts
-var import_react2 = __toESM(require("react"), 1);
+var import_react4 = __toESM(require("react"), 1);
 var import_canvas_hypertxt = require("canvas-hypertxt");
 function useMappedColumns(columns, freezeColumns) {
-  return import_react2.default.useMemo(() => columns.map((c, i) => ({
+  return import_react4.default.useMemo(() => columns.map((c, i) => ({
     ...c,
     sourceIndex: i,
     sticky: i < freezeColumns
@@ -1052,7 +1447,7 @@ function getMiddleCenterBiasInner(ctx, font) {
   return bias;
 }
 function drawWithLastUpdate(args, lastUpdate, frameTime, lastPrep, draw) {
-  const { ctx, x, y, w: width, h: height, theme } = args;
+  const { ctx, rect, theme } = args;
   let progress = Number.MAX_SAFE_INTEGER;
   const animTime = 500;
   if (lastUpdate !== void 0) {
@@ -1061,7 +1456,7 @@ function drawWithLastUpdate(args, lastUpdate, frameTime, lastPrep, draw) {
       const fade = 1 - progress / animTime;
       ctx.globalAlpha = fade;
       ctx.fillStyle = theme.bgSearchResult;
-      ctx.fillRect(x, y, width, height);
+      ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
       ctx.globalAlpha = 1;
       if (lastPrep !== void 0) {
         lastPrep.fillStyle = theme.bgSearchResult;
@@ -1086,10 +1481,7 @@ function drawTextCellExternal(args, data, contentAlign) {
   ctx.fillStyle = theme.textDark;
   drawTextCell({
     ctx,
-    x: rect.x,
-    y: rect.y,
-    h: rect.height,
-    w: rect.width,
+    rect,
     theme
   }, data, contentAlign);
 }
@@ -1103,7 +1495,8 @@ function drawSingleTextLine(ctx, data, x, y, w, h, bias, theme, contentAlign) {
   }
 }
 function drawTextCell(args, data, contentAlign, allowWrapping, hyperWrapping) {
-  const { ctx, x, y, w, h, theme } = args;
+  const { ctx, rect, theme } = args;
+  const { x, y, width: w, height: h } = rect;
   allowWrapping = allowWrapping != null ? allowWrapping : false;
   if (!allowWrapping) {
     if (data.includes("\n")) {
@@ -1167,7 +1560,8 @@ function drawTextCell(args, data, contentAlign, allowWrapping, hyperWrapping) {
   }
 }
 function drawNewRowCell(args, data, icon) {
-  const { ctx, x, y, w, h, hoverAmount, theme, spriteManager } = args;
+  const { ctx, rect, hoverAmount, theme, spriteManager } = args;
+  const { x, y, width: w, height: h } = rect;
   ctx.beginPath();
   ctx.globalAlpha = hoverAmount;
   ctx.rect(x, y, w, h);
@@ -1261,6 +1655,7 @@ function prepMarkerRowCell(args, lastPrep) {
     ctx.font = newFont;
     result.font = newFont;
   }
+  result.deprep = deprepMarkerRowCell;
   ctx.textAlign = "center";
   return result;
 }
@@ -1269,7 +1664,8 @@ function deprepMarkerRowCell(args) {
   ctx.textAlign = "start";
 }
 function drawMarkerRowCell(args, index2, checked, markerKind, drawHandle) {
-  const { ctx, x, y, w: width, h: height, hoverAmount, theme } = args;
+  const { ctx, rect, hoverAmount, theme } = args;
+  const { x, y, width, height } = rect;
   const checkedboxAlpha = checked ? 1 : hoverAmount;
   if (markerKind !== "number" && checkedboxAlpha > 0) {
     ctx.globalAlpha = checkedboxAlpha;
@@ -1303,7 +1699,8 @@ function drawMarkerRowCell(args, index2, checked, markerKind, drawHandle) {
   }
 }
 function drawProtectedCell(args) {
-  const { ctx, theme, x, y, h } = args;
+  const { ctx, theme, rect } = args;
+  const { x, y, height: h } = rect;
   ctx.beginPath();
   const radius = 2.5;
   let xStart = x + theme.cellHorizontalPadding + radius;
@@ -1328,6 +1725,12 @@ function roundedRect(ctx, x, y, width, height, radius) {
   if (typeof radius === "number") {
     radius = { tl: radius, tr: radius, br: radius, bl: radius };
   }
+  radius = {
+    tl: Math.min(radius.tl, height / 2, width / 2),
+    tr: Math.min(radius.tr, height / 2, width / 2),
+    bl: Math.min(radius.bl, height / 2, width / 2),
+    br: Math.min(radius.br, height / 2, width / 2)
+  };
   ctx.moveTo(x + radius.tl, y);
   ctx.arcTo(x + width, y, x + width, y + radius.tr, radius.tr);
   ctx.arcTo(x + width, y + height, x + width - radius.br, y + height, radius.br);
@@ -1338,7 +1741,8 @@ function drawBoolean(args, data, canEdit) {
   if (!canEdit && data === BooleanEmpty) {
     return;
   }
-  const { ctx, hoverAmount, theme, x, y, w, h, highlighted, hoverX, hoverY } = args;
+  const { ctx, hoverAmount, theme, rect, highlighted, hoverX, hoverY } = args;
+  const { x, y, width: w, height: h } = rect;
   const hoverEffect = 0.35;
   let alpha = canEdit ? 1 - hoverEffect + hoverEffect * hoverAmount : 0.4;
   if (data === BooleanEmpty) {
@@ -1353,7 +1757,8 @@ function drawBoolean(args, data, canEdit) {
 }
 var itemMargin = 4;
 function drawBubbles(args, data) {
-  const { x, y, w, h, theme, ctx, highlighted } = args;
+  const { rect, theme, ctx, highlighted } = args;
+  const { x, y, width: w, height: h } = rect;
   const bubbleHeight = 20;
   const bubblePad = 8;
   const bubbleMargin = itemMargin;
@@ -1430,7 +1835,8 @@ function getAndCacheDrilldownBorder(bgCell, border) {
   return { el: canvas, height: innerHeight, width: innerWidth, sideWidth, middleWidth: middleWidth * dpr };
 }
 function drawDrilldownCell(args, data) {
-  const { x, y, w, h, theme, ctx, imageLoader, col, row } = args;
+  const { rect, theme, ctx, imageLoader, col, row } = args;
+  const { x, y, width: w, height: h } = rect;
   const bubbleHeight = 24;
   const bubblePad = 8;
   const bubbleMargin = itemMargin;
@@ -1502,8 +1908,9 @@ function drawDrilldownCell(args, data) {
     ctx.fillText(d.text, drawX, y + h / 2 + getMiddleCenterBias(ctx, theme));
   }
 }
-function drawImage(args, data) {
-  const { x, y, h, col, row, theme, ctx, imageLoader } = args;
+function drawImage(args, data, rounding = 4) {
+  const { rect, col, row, theme, ctx, imageLoader } = args;
+  const { x, y, height: h } = rect;
   let drawX = x + theme.cellHorizontalPadding;
   for (const i of data) {
     if (i.length === 0)
@@ -1512,11 +1919,15 @@ function drawImage(args, data) {
     if (img !== void 0) {
       const imgHeight = h - theme.cellVerticalPadding * 2;
       const imgWidth = img.width * (imgHeight / img.height);
-      roundedRect(ctx, drawX, y + theme.cellVerticalPadding, imgWidth, imgHeight, 4);
-      ctx.save();
-      ctx.clip();
+      if (rounding > 0) {
+        roundedRect(ctx, drawX, y + theme.cellVerticalPadding, imgWidth, imgHeight, rounding);
+        ctx.save();
+        ctx.clip();
+      }
       ctx.drawImage(img, drawX, y + theme.cellVerticalPadding, imgWidth, imgHeight);
-      ctx.restore();
+      if (rounding > 0) {
+        ctx.restore();
+      }
       drawX += imgWidth + itemMargin;
     }
   }
@@ -1655,1090 +2066,6 @@ function computeBounds(col, row, width, height, groupHeaderHeight, totalHeaderHe
   }
   return result;
 }
-
-// src/data-grid/cells/boolean-cell.tsx
-function toggleBoolean(data) {
-  return data !== true;
-}
-var booleanCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "false";
-  },
-  kind: GridCellKind.Boolean,
-  needsHover: true,
-  useLabel: false,
-  needsHoverPosition: true,
-  measure: () => 50,
-  render: (a) => drawBoolean(a, a.cell.data, booleanCellIsEditable(a.cell)),
-  onDelete: (c) => ({
-    ...c,
-    data: false
-  }),
-  onClick: (cell, x, y, bounds) => {
-    if (booleanCellIsEditable(cell) && Math.abs(x - bounds.width / 2) <= 10 && Math.abs(y - bounds.height / 2) <= 10) {
-      return {
-        ...cell,
-        data: toggleBoolean(cell.data)
-      };
-    }
-    return void 0;
-  }
-};
-
-// src/data-grid/cells/bubble-cell.tsx
-var React7 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/bubbles-overlay-editor.tsx
-var React6 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/bubbles-overlay-editor-style.tsx
-init_esm2();
-var BubblesOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
-  name: "BubblesOverlayEditorStyle",
-  class: "b1bqsp5z"
-});
-
-// src/data-grid-overlay-editor/private/bubbles-overlay-editor.tsx
-var BubblesOverlayEditor = (p) => {
-  const { bubbles, onKeyDown } = p;
-  return /* @__PURE__ */ React6.createElement(BubblesOverlayEditorStyle, null, bubbles.map((b, i) => /* @__PURE__ */ React6.createElement("div", {
-    key: i,
-    className: "boe-bubble"
-  }, b)), /* @__PURE__ */ React6.createElement("textarea", {
-    className: "gdg-input",
-    autoFocus: true,
-    onKeyDown
-  }));
-};
-var bubbles_overlay_editor_default = BubblesOverlayEditor;
-
-// src/data-grid/cells/bubble-cell.tsx
-var bubbleCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
-  },
-  kind: GridCellKind.Bubble,
-  needsHover: false,
-  useLabel: false,
-  needsHoverPosition: false,
-  measure: (ctx, cell, t) => cell.data.reduce((acc, data) => ctx.measureText(data).width + acc + 20, 0) + 2 * t.cellHorizontalPadding - 4,
-  render: (a) => drawBubbles(a, a.cell.data),
-  getEditor: () => (p) => {
-    const { onKeyDown, value } = p;
-    return /* @__PURE__ */ React7.createElement(bubbles_overlay_editor_default, {
-      bubbles: value.data,
-      onKeyDown
-    });
-  }
-};
-
-// src/data-grid/cells/drilldown-cell.tsx
-var React9 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/drilldown-overlay-editor.tsx
-var React8 = __toESM(require("react"), 1);
-init_esm2();
-var DrilldownOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
-  name: "DrilldownOverlayEditorStyle",
-  class: "df2kt4a"
-});
-var DrilldownOverlayEditor = (p) => {
-  const {
-    drilldowns,
-    onKeyDown
-  } = p;
-  return /* @__PURE__ */ React8.createElement(DrilldownOverlayEditorStyle, null, drilldowns.map((d, i) => /* @__PURE__ */ React8.createElement("div", {
-    key: i,
-    className: "doe-bubble"
-  }, d.img !== void 0 && /* @__PURE__ */ React8.createElement("img", {
-    src: d.img
-  }), /* @__PURE__ */ React8.createElement("div", null, d.text))), /* @__PURE__ */ React8.createElement("textarea", {
-    className: "gdg-input",
-    autoFocus: true,
-    onKeyDown
-  }));
-};
-var drilldown_overlay_editor_default = DrilldownOverlayEditor;
-
-// src/data-grid/cells/drilldown-cell.tsx
-var drilldownCellRenderer = {
-  getAccessibilityString: (c) => c.data.map((d) => d.text).join(", "),
-  kind: GridCellKind.Drilldown,
-  needsHover: false,
-  useLabel: false,
-  needsHoverPosition: false,
-  measure: (ctx, cell, t) => cell.data.reduce((acc, data) => ctx.measureText(data.text).width + acc + 20 + (data.img !== void 0 ? 18 : 0), 0) + 2 * t.cellHorizontalPadding - 4,
-  render: (a) => drawDrilldownCell(a, a.cell.data),
-  getEditor: () => (p) => {
-    const { onKeyDown, value } = p;
-    return /* @__PURE__ */ React9.createElement(drilldown_overlay_editor_default, {
-      drilldowns: value.data,
-      onKeyDown
-    });
-  }
-};
-
-// src/data-grid/cells/image-cell.tsx
-var React11 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/image-overlay-editor.tsx
-var React10 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/image-overlay-editor-style.tsx
-init_esm2();
-var ImageOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
-  name: "ImageOverlayEditorStyle",
-  class: "i1eozt10"
-});
-
-// src/data-grid-overlay-editor/private/image-overlay-editor.tsx
-var import_react_responsive_carousel = require("react-responsive-carousel");
-var ImageOverlayEditor = (p) => {
-  const { urls, canWrite, onKeyDown, onEditClick, renderImage } = p;
-  const filtered = urls.filter((u) => u !== "");
-  if (filtered.length === 0) {
-    return null;
-  }
-  const allowMove = filtered.length > 1;
-  return /* @__PURE__ */ React10.createElement(ImageOverlayEditorStyle, {
-    onKeyDown,
-    "data-testid": "GDG-default-image-overlay-editor"
-  }, /* @__PURE__ */ React10.createElement(import_react_responsive_carousel.Carousel, {
-    showArrows: allowMove,
-    showThumbs: false,
-    swipeable: allowMove,
-    emulateTouch: allowMove,
-    infiniteLoop: allowMove
-  }, filtered.map((url) => {
-    var _a;
-    const innerContent = (_a = renderImage == null ? void 0 : renderImage(url)) != null ? _a : /* @__PURE__ */ React10.createElement("img", {
-      draggable: false,
-      src: url
-    });
-    return /* @__PURE__ */ React10.createElement("div", {
-      className: "centering-container",
-      key: url
-    }, innerContent);
-  })), canWrite && onEditClick && /* @__PURE__ */ React10.createElement("button", {
-    className: "edit-icon",
-    onClick: onEditClick
-  }, /* @__PURE__ */ React10.createElement(EditPencil, null)), /* @__PURE__ */ React10.createElement("textarea", {
-    className: "gdg-input",
-    autoFocus: true,
-    onKeyDown
-  }));
-};
-var image_overlay_editor_default = ImageOverlayEditor;
-
-// src/data-grid/cells/image-cell.tsx
-var imageCellRenderer = {
-  getAccessibilityString: (c) => c.data.join(", "),
-  kind: GridCellKind.Image,
-  needsHover: false,
-  useLabel: false,
-  needsHoverPosition: false,
-  render: (a) => {
-    var _a;
-    return drawImage(a, (_a = a.cell.displayData) != null ? _a : a.cell.data);
-  },
-  measure: (_ctx, cell) => cell.data.length * 50,
-  onDelete: (c) => ({
-    ...c,
-    data: []
-  }),
-  getEditor: () => (p) => {
-    const { onKeyDown, value, onFinishedEditing, imageEditorOverride } = p;
-    const ImageEditor = imageEditorOverride != null ? imageEditorOverride : image_overlay_editor_default;
-    return /* @__PURE__ */ React11.createElement(ImageEditor, {
-      urls: value.data,
-      canWrite: value.allowAdd,
-      onCancel: onFinishedEditing,
-      onChange: (newImage) => {
-        onFinishedEditing({
-          ...value,
-          data: [newImage]
-        });
-      },
-      onKeyDown
-    });
-  }
-};
-
-// src/data-grid/cells/loading-cell.tsx
-var loadingCellRenderer = {
-  getAccessibilityString: () => "",
-  kind: GridCellKind.Loading,
-  needsHover: false,
-  useLabel: false,
-  needsHoverPosition: false,
-  measure: () => 120,
-  render: () => void 0
-};
-
-// src/data-grid/cells/markdown-cell.tsx
-var React15 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/markdown-overlay-editor.tsx
-var React14 = __toESM(require("react"), 1);
-
-// src/markdown-div/markdown-div.tsx
-var import_react8 = __toESM(require("react"), 1);
-var import_marked = require("marked");
-
-// src/markdown-div/private/markdown-container.tsx
-init_esm2();
-var MarkdownContainer = /* @__PURE__ */ styled_default("div")({
-  name: "MarkdownContainer",
-  class: "mlbeo71"
-});
-
-// src/markdown-div/markdown-div.tsx
-var MarkdownDiv = class extends import_react8.default.PureComponent {
-  constructor() {
-    super(...arguments);
-    this.targetElement = null;
-    this.containerRefHook = (element) => {
-      this.targetElement = element;
-      this.renderMarkdownIntoDiv();
-    };
-  }
-  renderMarkdownIntoDiv() {
-    const { targetElement, props } = this;
-    if (targetElement === null)
-      return;
-    const { contents, createNode } = props;
-    const innerHTML = (0, import_marked.marked)(contents);
-    const childRange = document.createRange();
-    childRange.selectNodeContents(targetElement);
-    childRange.deleteContents();
-    let newChild = createNode == null ? void 0 : createNode(innerHTML);
-    if (newChild === void 0) {
-      const childDoc = document.createElement("template");
-      childDoc.innerHTML = innerHTML;
-      newChild = childDoc.content;
-    }
-    targetElement.append(newChild);
-    const tags = targetElement.getElementsByTagName("a");
-    for (const tag of tags) {
-      tag.target = "_blank";
-      tag.rel = "noreferrer noopener";
-    }
-  }
-  render() {
-    this.renderMarkdownIntoDiv();
-    return /* @__PURE__ */ import_react8.default.createElement(MarkdownContainer, {
-      ref: this.containerRefHook
-    });
-  }
-};
-
-// src/growing-entry/growing-entry.tsx
-var React13 = __toESM(require("react"), 1);
-
-// src/growing-entry/growing-entry-style.tsx
-init_esm2();
-var InputBox = /* @__PURE__ */ styled_default("textarea")({
-  name: "InputBox",
-  class: "ijuk0po"
-});
-var ShadowBox = /* @__PURE__ */ styled_default("div")({
-  name: "ShadowBox",
-  class: "saq3p5l"
-});
-var GrowingEntryStyle = /* @__PURE__ */ styled_default("div")({
-  name: "GrowingEntryStyle",
-  class: "gf8vzix"
-});
-
-// src/growing-entry/growing-entry.tsx
-var GrowingEntry = (props) => {
-  const { placeholder, value, onKeyDown, highlight, altNewline, validatedSelection, ...rest } = props;
-  const { onChange, className } = rest;
-  const inputRef = React13.useRef(null);
-  const useText = value != null ? value : "";
-  assert(onChange !== void 0, "GrowingEntry must be a controlled input area");
-  React13.useEffect(() => {
-    const ta = inputRef.current;
-    if (ta === null)
-      return;
-    if (ta.disabled)
-      return;
-    const length = useText.toString().length;
-    ta.focus();
-    ta.setSelectionRange(highlight ? 0 : length, length);
-  }, []);
-  React13.useLayoutEffect(() => {
-    var _a;
-    if (validatedSelection !== void 0) {
-      const range2 = typeof validatedSelection === "number" ? [validatedSelection, null] : validatedSelection;
-      (_a = inputRef.current) == null ? void 0 : _a.setSelectionRange(range2[0], range2[1]);
-    }
-  }, [validatedSelection]);
-  const onKeyDownInner = React13.useCallback((e) => {
-    if (e.key === "Enter" && e.shiftKey && altNewline === true) {
-      return;
-    }
-    onKeyDown == null ? void 0 : onKeyDown(e);
-  }, [altNewline, onKeyDown]);
-  return /* @__PURE__ */ React13.createElement(GrowingEntryStyle, {
-    className: "gdg-growing-entry"
-  }, /* @__PURE__ */ React13.createElement(ShadowBox, {
-    className
-  }, useText + "\n"), /* @__PURE__ */ React13.createElement(InputBox, {
-    ...rest,
-    className: (className != null ? className : "") + " gdg-input",
-    ref: inputRef,
-    onKeyDown: onKeyDownInner,
-    value: useText,
-    placeholder,
-    dir: "auto"
-  }));
-};
-var growing_entry_default = GrowingEntry;
-
-// src/data-grid-overlay-editor/private/markdown-overlay-editor-style.tsx
-init_esm2();
-var MarkdownOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
-  name: "MarkdownOverlayEditorStyle",
-  class: "mdwzdl1",
-  vars: {
-    "mdwzdl1-0": [(p) => p.targetWidth, "px"]
-  }
-});
-
-// src/data-grid-overlay-editor/private/markdown-overlay-editor.tsx
-var MarkdownOverlayEditor = (p) => {
-  const {
-    markdown,
-    onChange,
-    onKeyDown,
-    forceEditMode,
-    createNode,
-    targetRect,
-    readonly,
-    onFinish,
-    validatedSelection
-  } = p;
-  const [editMode, setEditMode] = React14.useState(markdown === "" || forceEditMode);
-  const onEditClick = React14.useCallback(() => {
-    setEditMode((e) => !e);
-  }, []);
-  const addLeftPad = markdown ? "ml-6" : "";
-  if (editMode) {
-    return /* @__PURE__ */ React14.createElement(MarkdownOverlayEditorStyle, {
-      targetWidth: targetRect.width
-    }, /* @__PURE__ */ React14.createElement(growing_entry_default, {
-      autoFocus: true,
-      highlight: false,
-      validatedSelection,
-      onKeyDown: (e) => {
-        if (e.key !== "Enter") {
-          onKeyDown(e);
-        }
-      },
-      value: markdown,
-      onChange
-    }), /* @__PURE__ */ React14.createElement("div", {
-      className: `edit-icon checkmark-hover ${addLeftPad}`,
-      onClick: () => onFinish()
-    }, /* @__PURE__ */ React14.createElement(Checkmark, null)));
-  }
-  return /* @__PURE__ */ React14.createElement(MarkdownOverlayEditorStyle, {
-    targetWidth: targetRect.width
-  }, /* @__PURE__ */ React14.createElement(MarkdownDiv, {
-    contents: markdown,
-    createNode
-  }), !readonly && /* @__PURE__ */ React14.createElement(React14.Fragment, null, /* @__PURE__ */ React14.createElement("div", {
-    className: "spacer"
-  }), /* @__PURE__ */ React14.createElement("div", {
-    className: `edit-icon edit-hover ${addLeftPad}`,
-    onClick: onEditClick
-  }, /* @__PURE__ */ React14.createElement(EditPencil, null))), /* @__PURE__ */ React14.createElement("textarea", {
-    className: "md-edit-textarea gdg-input",
-    autoFocus: true,
-    onKeyDown
-  }));
-};
-
-// src/data-grid/cells/markdown-cell.tsx
-var markdownCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
-  },
-  kind: GridCellKind.Markdown,
-  needsHover: false,
-  needsHoverPosition: false,
-  renderPrep: prepTextCell,
-  measure: (ctx, cell, t) => {
-    const firstLine = cell.data.split("\n")[0];
-    return ctx.measureText(firstLine).width + 2 * t.cellHorizontalPadding;
-  },
-  render: (a) => drawTextCell(a, a.cell.data, a.cell.contentAlign),
-  onDelete: (c) => ({
-    ...c,
-    data: ""
-  }),
-  getEditor: () => (p) => {
-    const {
-      onChange,
-      onKeyDown,
-      value,
-      target,
-      onFinishedEditing,
-      markdownDivCreateNode,
-      forceEditMode,
-      validatedSelection
-    } = p;
-    return /* @__PURE__ */ React15.createElement(MarkdownOverlayEditor, {
-      onFinish: onFinishedEditing,
-      targetRect: target,
-      readonly: value.readonly === true,
-      markdown: value.data,
-      validatedSelection,
-      onKeyDown,
-      onChange: (e) => onChange({
-        ...value,
-        data: e.target.value
-      }),
-      forceEditMode,
-      createNode: markdownDivCreateNode
-    });
-  }
-};
-
-// src/data-grid/cells/marker-cell.tsx
-var markerCellRenderer = {
-  getAccessibilityString: (c) => c.row.toString(),
-  kind: InnerGridCellKind.Marker,
-  needsHover: true,
-  needsHoverPosition: false,
-  renderPrep: prepMarkerRowCell,
-  renderDeprep: deprepMarkerRowCell,
-  measure: () => 44,
-  render: (a) => drawMarkerRowCell(a, a.cell.row, a.cell.checked, a.cell.markerKind, a.cell.drawHandle),
-  onClick: (cell, x, y, bounds) => {
-    const { width, height } = bounds;
-    const centerX = cell.drawHandle ? 7 + (width - 7) / 2 : width / 2;
-    const centerY = height / 2;
-    if (Math.abs(x - centerX) <= 10 && Math.abs(y - centerY) <= 10) {
-      return {
-        ...cell,
-        checked: !cell.checked
-      };
-    }
-    return void 0;
-  }
-};
-
-// src/data-grid/cells/new-row-cell.tsx
-var newRowCellRenderer = {
-  getAccessibilityString: () => "",
-  kind: InnerGridCellKind.NewRow,
-  needsHover: true,
-  needsHoverPosition: false,
-  measure: () => 200,
-  render: (a) => drawNewRowCell(a, a.cell.hint, a.cell.icon)
-};
-
-// src/data-grid/cells/number-cell.tsx
-var React17 = __toESM(require("react"), 1);
-var NumberOverlayEditor2 = React17.lazy(async () => await Promise.resolve().then(() => (init_number_overlay_editor(), number_overlay_editor_exports)));
-var numberCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
-  },
-  kind: GridCellKind.Number,
-  needsHover: false,
-  needsHoverPosition: false,
-  useLabel: true,
-  renderPrep: prepTextCell,
-  render: (a) => drawTextCell(a, a.cell.displayData, a.cell.contentAlign),
-  measure: (ctx, cell) => ctx.measureText(cell.displayData).width + 16,
-  onDelete: (c) => ({
-    ...c,
-    data: void 0
-  }),
-  getEditor: () => (p) => {
-    const { isHighlighted, onChange, onKeyDown, value, validatedSelection } = p;
-    return /* @__PURE__ */ React17.createElement(React17.Suspense, {
-      fallback: null
-    }, /* @__PURE__ */ React17.createElement(NumberOverlayEditor2, {
-      highlight: isHighlighted,
-      disabled: value.readonly === true,
-      value: value.data,
-      onKeyDown,
-      validatedSelection,
-      onChange: (x) => onChange({
-        ...value,
-        data: x.floatValue
-      })
-    }));
-  }
-};
-
-// src/data-grid/cells/protected-cell.tsx
-var protectedCellRenderer = {
-  getAccessibilityString: () => "",
-  measure: () => 108,
-  kind: GridCellKind.Protected,
-  needsHover: false,
-  needsHoverPosition: false,
-  render: drawProtectedCell
-};
-
-// src/data-grid/cells/row-id-cell.tsx
-var import_react12 = __toESM(require("react"), 1);
-var rowIDCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
-  },
-  kind: GridCellKind.RowID,
-  needsHover: false,
-  needsHoverPosition: false,
-  renderPrep: (a, b) => prepTextCell(a, b, a.theme.textLight),
-  render: (a) => drawTextCell(a, a.cell.data, a.cell.contentAlign),
-  measure: (ctx, cell) => ctx.measureText(cell.data).width + 16,
-  getEditor: () => (p) => {
-    const { isHighlighted, onChange, onKeyDown, value, validatedSelection } = p;
-    return /* @__PURE__ */ import_react12.default.createElement(growing_entry_default, {
-      highlight: isHighlighted,
-      autoFocus: value.readonly !== true,
-      disabled: value.readonly !== false,
-      onKeyDown,
-      value: value.data,
-      validatedSelection,
-      onChange: (e) => onChange({
-        ...value,
-        data: e.target.value
-      })
-    });
-  }
-};
-
-// src/data-grid/cells/text-cell.tsx
-var React19 = __toESM(require("react"), 1);
-var textCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
-  },
-  kind: GridCellKind.Text,
-  needsHover: false,
-  needsHoverPosition: false,
-  renderPrep: prepTextCell,
-  useLabel: true,
-  render: (a) => drawTextCell(a, a.cell.displayData, a.cell.contentAlign, a.cell.allowWrapping, a.hyperWrapping),
-  measure: (ctx, cell, t) => {
-    const lines = cell.displayData.split("\n").slice(0, cell.allowWrapping === true ? void 0 : 1);
-    return Math.max(...lines.map((l) => ctx.measureText(l).width + 2 * t.cellHorizontalPadding));
-  },
-  onDelete: (c) => ({
-    ...c,
-    data: ""
-  }),
-  getEditor: () => (p) => {
-    const { isHighlighted, onChange, onKeyDown, value, validatedSelection } = p;
-    return /* @__PURE__ */ React19.createElement(growing_entry_default, {
-      highlight: isHighlighted,
-      autoFocus: value.readonly !== true,
-      disabled: value.readonly === true,
-      onKeyDown,
-      altNewline: true,
-      value: value.data,
-      validatedSelection,
-      onChange: (e) => onChange({
-        ...value,
-        data: e.target.value
-      })
-    });
-  }
-};
-
-// src/data-grid/cells/uri-cell.tsx
-var React21 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/uri-overlay-editor.tsx
-var React20 = __toESM(require("react"), 1);
-
-// src/data-grid-overlay-editor/private/uri-overlay-editor-style.tsx
-init_esm2();
-var UriOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
-  name: "UriOverlayEditorStyle",
-  class: "uf0sjo8"
-});
-
-// src/data-grid-overlay-editor/private/uri-overlay-editor.tsx
-var UriOverlayEditor = (p) => {
-  const { uri, onChange, onKeyDown, forceEditMode, readonly, validatedSelection } = p;
-  const [editMode, setEditMode] = React20.useState(uri === "" || forceEditMode);
-  const onEditClick = React20.useCallback(() => {
-    setEditMode(true);
-  }, []);
-  if (editMode) {
-    return /* @__PURE__ */ React20.createElement(growing_entry_default, {
-      validatedSelection,
-      highlight: true,
-      autoFocus: true,
-      onKeyDown,
-      value: uri,
-      onChange
-    });
-  }
-  return /* @__PURE__ */ React20.createElement(UriOverlayEditorStyle, null, /* @__PURE__ */ React20.createElement("a", {
-    className: "link-area",
-    href: uri,
-    target: "_blank",
-    rel: "noopener noreferrer"
-  }, uri), !readonly && /* @__PURE__ */ React20.createElement("div", {
-    className: "edit-icon",
-    onClick: onEditClick
-  }, /* @__PURE__ */ React20.createElement(EditPencil, null)), /* @__PURE__ */ React20.createElement("textarea", {
-    className: "gdg-input",
-    autoFocus: true,
-    onKeyDown
-  }));
-};
-var uri_overlay_editor_default = UriOverlayEditor;
-
-// src/data-grid/cells/uri-cell.tsx
-var uriCellRenderer = {
-  getAccessibilityString: (c) => {
-    var _a, _b;
-    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
-  },
-  kind: GridCellKind.Uri,
-  needsHover: false,
-  needsHoverPosition: false,
-  useLabel: true,
-  renderPrep: prepTextCell,
-  render: (a) => drawTextCell(a, a.cell.data, a.cell.contentAlign),
-  measure: (ctx, cell) => ctx.measureText(cell.data).width + 16,
-  onDelete: (c) => ({
-    ...c,
-    data: ""
-  }),
-  getEditor: () => (p) => {
-    const { onChange, onKeyDown, value, forceEditMode, validatedSelection } = p;
-    return /* @__PURE__ */ React21.createElement(uri_overlay_editor_default, {
-      forceEditMode,
-      uri: value.data,
-      validatedSelection,
-      readonly: value.readonly === true,
-      onKeyDown,
-      onChange: (e) => onChange({
-        ...value,
-        data: e.target.value
-      })
-    });
-  }
-};
-
-// src/data-grid/cells/index.ts
-var asCollapsed = (x) => x;
-var CellRenderers = {
-  [InnerGridCellKind.Marker]: asCollapsed(markerCellRenderer),
-  [InnerGridCellKind.NewRow]: asCollapsed(newRowCellRenderer),
-  [GridCellKind.Boolean]: asCollapsed(booleanCellRenderer),
-  [GridCellKind.Bubble]: asCollapsed(bubbleCellRenderer),
-  [GridCellKind.Drilldown]: asCollapsed(drilldownCellRenderer),
-  [GridCellKind.Image]: asCollapsed(imageCellRenderer),
-  [GridCellKind.Loading]: asCollapsed(loadingCellRenderer),
-  [GridCellKind.Markdown]: asCollapsed(markdownCellRenderer),
-  [GridCellKind.Number]: asCollapsed(numberCellRenderer),
-  [GridCellKind.Protected]: asCollapsed(protectedCellRenderer),
-  [GridCellKind.RowID]: asCollapsed(rowIDCellRenderer),
-  [GridCellKind.Text]: asCollapsed(textCellRenderer),
-  [GridCellKind.Uri]: asCollapsed(uriCellRenderer)
-};
-
-// src/data-grid-overlay-editor/data-grid-overlay-editor-style.tsx
-init_esm2();
-var DataGridOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
-  name: "DataGridOverlayEditorStyle",
-  class: "d1t1th9s",
-  vars: {
-    "d1t1th9s-0": [(p) => p.targetY, "px"],
-    "d1t1th9s-1": [(p) => p.targetX - 1, "px"],
-    "d1t1th9s-2": [(p) => p.targetY - 1, "px"],
-    "d1t1th9s-3": [(p) => p.targetWidth + 2, "px"],
-    "d1t1th9s-4": [(p) => p.targetHeight + 2, "px"],
-    "d1t1th9s-5": [(p) => p.targetY + 10, "px"],
-    "d1t1th9s-6": [(p) => Math.max(0, (p.targetHeight - 28) / 2), "px"]
-  }
-});
-
-// src/data-grid-overlay-editor/use-stay-on-screen.ts
-var React22 = __toESM(require("react"), 1);
-function useRefState() {
-  const [refState, setRefState] = React22.useState();
-  return [refState != null ? refState : void 0, setRefState];
-}
-function useStayOnScreen() {
-  const [ref, setRef] = useRefState();
-  const [xOffset, setXOffset] = React22.useState(0);
-  const [isIntersecting, setIsIntersecting] = React22.useState(true);
-  React22.useLayoutEffect(() => {
-    if (ref === void 0)
-      return;
-    if (!("IntersectionObserver" in window))
-      return;
-    const observer = new IntersectionObserver((ents) => {
-      if (ents.length === 0)
-        return;
-      setIsIntersecting(ents[0].isIntersecting);
-    }, { threshold: 1 });
-    observer.observe(ref);
-    return () => observer.disconnect();
-  }, [ref]);
-  React22.useEffect(() => {
-    if (isIntersecting || ref === void 0)
-      return;
-    let rafHandle;
-    const fn = () => {
-      const { right: refRight } = ref.getBoundingClientRect();
-      setXOffset((cv) => Math.min(cv + window.innerWidth - refRight - 10, 0));
-      rafHandle = requestAnimationFrame(fn);
-    };
-    rafHandle = requestAnimationFrame(fn);
-    return () => {
-      if (rafHandle !== void 0) {
-        cancelAnimationFrame(rafHandle);
-      }
-    };
-  }, [ref, isIntersecting]);
-  const style = React22.useMemo(() => {
-    return { transform: `translateX(${xOffset}px)` };
-  }, [xOffset]);
-  return {
-    ref: setRef,
-    style
-  };
-}
-
-// src/data-grid-overlay-editor/data-grid-overlay-editor.tsx
-var DataGridOverlayEditor = (p) => {
-  const {
-    target,
-    content,
-    onFinishEditing: onFinishEditingIn,
-    forceEditMode,
-    initialValue,
-    imageEditorOverride,
-    markdownDivCreateNode,
-    highlight,
-    className,
-    theme,
-    id,
-    cell,
-    validateCell,
-    provideEditor
-  } = p;
-  const [tempValue, setTempValueRaw] = React23.useState(forceEditMode ? content : void 0);
-  const lastValueRef = React23.useRef(tempValue != null ? tempValue : content);
-  lastValueRef.current = tempValue != null ? tempValue : content;
-  const [isValid, setIsValid] = React23.useState(() => {
-    if (validateCell === void 0)
-      return true;
-    return !(isEditableGridCell(content) && (validateCell == null ? void 0 : validateCell(cell, content, lastValueRef.current)) === false);
-  });
-  const onFinishEditing = React23.useCallback((newCell, movement) => {
-    onFinishEditingIn(isValid ? newCell : void 0, movement);
-  }, [isValid, onFinishEditingIn]);
-  const setTempValue = React23.useCallback((newVal) => {
-    if (validateCell !== void 0 && newVal !== void 0 && isEditableGridCell(newVal)) {
-      const validResult = validateCell(cell, newVal, lastValueRef.current);
-      if (validResult === false) {
-        setIsValid(false);
-      } else if (typeof validResult === "object") {
-        newVal = validResult;
-        setIsValid(true);
-      } else {
-        setIsValid(true);
-      }
-    }
-    setTempValueRaw(newVal);
-  }, [cell, validateCell]);
-  const finished = React23.useRef(false);
-  const customMotion = React23.useRef(void 0);
-  const onClickOutside = React23.useCallback(() => {
-    onFinishEditing(tempValue, [0, 0]);
-    finished.current = true;
-  }, [tempValue, onFinishEditing]);
-  const onCustomFinishedEditing = React23.useCallback((newValue) => {
-    var _a;
-    onFinishEditing(newValue, (_a = customMotion.current) != null ? _a : [0, 0]);
-    finished.current = true;
-  }, [onFinishEditing]);
-  const onKeyDownCustom = React23.useCallback(async (event) => {
-    let save = false;
-    if (event.key === "Escape") {
-      event.stopPropagation();
-      event.preventDefault();
-      customMotion.current = [0, 0];
-    } else if (event.key === "Enter" && !event.shiftKey) {
-      event.stopPropagation();
-      event.preventDefault();
-      customMotion.current = [0, 1];
-      save = true;
-    } else if (event.key === "Tab") {
-      event.stopPropagation();
-      event.preventDefault();
-      customMotion.current = [event.shiftKey ? -1 : 1, 0];
-      save = true;
-    }
-    await new Promise((r) => window.setTimeout(r, 0));
-    if (!finished.current && customMotion.current !== void 0) {
-      onFinishEditing(save ? tempValue : void 0, customMotion.current);
-      finished.current = true;
-    }
-  }, [onFinishEditing, tempValue]);
-  const onKeyDown = React23.useCallback((event) => {
-    if (event.key === "Escape") {
-      onFinishEditing(void 0, [0, 0]);
-      event.stopPropagation();
-      event.preventDefault();
-    } else if (event.key === "Enter" && !event.ctrlKey) {
-      onFinishEditing(tempValue, [0, event.shiftKey ? -1 : 1]);
-      event.stopPropagation();
-      event.preventDefault();
-    } else if (event.key === "Tab") {
-      onFinishEditing(tempValue, [event.shiftKey ? -1 : 1, 0]);
-      event.stopPropagation();
-      event.preventDefault();
-    }
-  }, [onFinishEditing, tempValue]);
-  const targetValue = tempValue != null ? tempValue : content;
-  const customEditor = React23.useMemo(() => {
-    return provideEditor == null ? void 0 : provideEditor(content);
-  }, [content, provideEditor]);
-  const [CellEditor, useLabel] = React23.useMemo(() => {
-    var _a;
-    if (content.kind === GridCellKind.Custom)
-      return [];
-    const renderer = CellRenderers[content.kind];
-    return [(_a = renderer.getEditor) == null ? void 0 : _a.call(renderer, content), renderer.useLabel];
-  }, [content]);
-  const { ref, style: stayOnScreenStyle } = useStayOnScreen();
-  let pad = true;
-  let editor;
-  let style = true;
-  let styleOverride;
-  if (customEditor !== void 0) {
-    pad = customEditor.disablePadding !== true;
-    style = customEditor.disableStyling !== true;
-    const isObjectEditor = isObjectEditorCallbackResult(customEditor);
-    if (isObjectEditor) {
-      styleOverride = customEditor.styleOverride;
-    }
-    const CustomEditor = isObjectEditor ? customEditor.editor : customEditor;
-    editor = /* @__PURE__ */ React23.createElement(CustomEditor, {
-      isHighlighted: highlight,
-      onChange: setTempValue,
-      value: targetValue,
-      initialValue,
-      onFinishedEditing: onCustomFinishedEditing,
-      validatedSelection: isEditableGridCell(targetValue) ? targetValue.selectionRange : void 0
-    });
-  } else if (CellEditor !== void 0) {
-    editor = /* @__PURE__ */ React23.createElement(CellEditor, {
-      forceEditMode,
-      isHighlighted: highlight,
-      onChange: setTempValue,
-      value: targetValue,
-      onFinishedEditing: (e) => onFinishEditing(e != null ? e : tempValue, [0, 0]),
-      onKeyDown,
-      target,
-      imageEditorOverride,
-      markdownDivCreateNode,
-      isValid,
-      validatedSelection: isEditableGridCell(targetValue) ? targetValue.selectionRange : void 0
-    });
-  }
-  styleOverride = { ...styleOverride, ...stayOnScreenStyle };
-  const portalElement = document.getElementById("portal");
-  if (portalElement === null) {
-    console.error('Cannot open Data Grid overlay editor, because portal not found.  Please add `<div id="portal" />` as the last child of your `<body>`.');
-    return null;
-  }
-  let classWrap = style ? "gdg-style" : "gdg-unstyle";
-  if (!isValid) {
-    classWrap += " invalid";
-  }
-  if (pad) {
-    classWrap += " pad";
-  }
-  return (0, import_react_dom.createPortal)(/* @__PURE__ */ React23.createElement(ThemeContext.Provider, {
-    value: theme
-  }, /* @__PURE__ */ React23.createElement(ClickOutsideContainer, {
-    style: makeCSSStyle(theme),
-    className,
-    onClickOutside
-  }, /* @__PURE__ */ React23.createElement(DataGridOverlayEditorStyle, {
-    ref,
-    id,
-    className: classWrap,
-    style: styleOverride,
-    as: useLabel === true ? "label" : void 0,
-    targetX: target.x,
-    targetY: target.y,
-    targetWidth: target.width,
-    targetHeight: target.height
-  }, /* @__PURE__ */ React23.createElement("div", {
-    className: "clip-region",
-    onKeyDown: customEditor === void 0 ? void 0 : onKeyDownCustom
-  }, editor)))), portalElement);
-};
-var data_grid_overlay_editor_default = DataGridOverlayEditor;
-
-// src/data-grid-search/data-grid-search.tsx
-var React29 = __toESM(require("react"), 1);
-
-// src/scrolling-data-grid/scrolling-data-grid.tsx
-var React28 = __toESM(require("react"), 1);
-init_esm2();
-
-// src/data-grid-dnd/data-grid-dnd.tsx
-var import_clamp3 = __toESM(require("lodash/clamp"), 1);
-var React26 = __toESM(require("react"), 1);
-
-// src/data-grid/data-grid.tsx
-var React25 = __toESM(require("react"), 1);
-
-// src/common/image-window-loader.ts
-var import_throttle = __toESM(require("lodash/throttle"), 1);
-var rowShift = 1 << 16;
-var imgPool = [];
-function packColRowToNumber(col, row) {
-  return row * rowShift + col;
-}
-function unpackCol(packed) {
-  return packed % rowShift;
-}
-function unpackRow(packed, col) {
-  return (packed - col) / rowShift;
-}
-function unpackNumberToColRow(packed) {
-  const col = unpackCol(packed);
-  const row = unpackRow(packed, col);
-  return [col, row];
-}
-var ImageWindowLoader = class {
-  constructor() {
-    this.imageLoaded = () => void 0;
-    this.loadedLocations = [];
-    this.visibleWindow = {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0
-    };
-    this.freezeCols = 0;
-    this.isInWindow = (packed) => {
-      const col = unpackCol(packed);
-      const row = unpackRow(packed, col);
-      const w = this.visibleWindow;
-      if (col < this.freezeCols && row >= w.y && row <= w.y + w.height)
-        return true;
-      return col >= w.x && col <= w.x + w.width && row >= w.y && row <= w.y + w.height;
-    };
-    this.cache = {};
-    this.sendLoaded = (0, import_throttle.default)(() => {
-      this.imageLoaded(this.loadedLocations);
-      this.loadedLocations = [];
-    }, 20);
-    this.clearOutOfWindow = () => {
-      const keys = Object.keys(this.cache);
-      for (const key of keys) {
-        const obj = this.cache[key];
-        let keep = false;
-        for (let j = 0; j < obj.cells.length; j++) {
-          const packed = obj.cells[j];
-          if (this.isInWindow(packed)) {
-            keep = true;
-            break;
-          }
-        }
-        if (keep) {
-          obj.cells = obj.cells.filter(this.isInWindow);
-        } else {
-          obj.cancel();
-          delete this.cache[key];
-        }
-      }
-    };
-  }
-  setCallback(imageLoaded) {
-    this.imageLoaded = imageLoaded;
-  }
-  setWindow(newWindow, freezeCols) {
-    if (this.visibleWindow.x === newWindow.x && this.visibleWindow.y === newWindow.y && this.visibleWindow.width === newWindow.width && this.visibleWindow.height === newWindow.height && this.freezeCols === freezeCols)
-      return;
-    this.visibleWindow = newWindow;
-    this.freezeCols = freezeCols;
-    this.clearOutOfWindow();
-  }
-  loadImage(url, col, row, key) {
-    var _a;
-    let loaded = false;
-    const img = (_a = imgPool.pop()) != null ? _a : new Image();
-    let canceled = false;
-    const result = {
-      img: void 0,
-      cells: [packColRowToNumber(col, row)],
-      url,
-      cancel: () => {
-        if (canceled)
-          return;
-        canceled = true;
-        if (imgPool.length < 12) {
-          imgPool.unshift(img);
-        } else if (!loaded) {
-          img.src = "";
-        }
-      }
-    };
-    const loadPromise = new Promise((r) => img.addEventListener("load", () => r(null)));
-    requestAnimationFrame(async () => {
-      try {
-        img.src = url;
-        await loadPromise;
-        await img.decode();
-        const toWrite = this.cache[key];
-        if (toWrite !== void 0 && !canceled) {
-          toWrite.img = img;
-          for (const packed of toWrite.cells) {
-            this.loadedLocations.push(unpackNumberToColRow(packed));
-          }
-          loaded = true;
-          this.sendLoaded();
-        }
-      } catch (e) {
-        result.cancel();
-      }
-    });
-    this.cache[key] = result;
-  }
-  loadOrGetImage(url, col, row) {
-    const key = url;
-    const current = this.cache[key];
-    if (current !== void 0) {
-      const packed = packColRowToNumber(col, row);
-      if (!current.cells.includes(packed)) {
-        current.cells.push(packed);
-      }
-      return current.img;
-    } else {
-      this.loadImage(url, col, row, key);
-    }
-    return void 0;
-  }
-};
-var image_window_loader_default = ImageWindowLoader;
 
 // src/data-grid/sprites.ts
 var iconHead = `<svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">`;
@@ -3090,18 +2417,17 @@ var SpriteManager = class {
 };
 
 // src/data-grid/data-grid.tsx
-var import_clamp2 = __toESM(require("lodash/clamp"), 1);
-var import_range = __toESM(require("lodash/range"), 1);
+var import_clamp2 = __toESM(require("lodash/clamp.js"), 1);
+var import_range = __toESM(require("lodash/range.js"), 1);
 
 // src/data-grid/data-grid-render.tsx
-var import_groupBy = __toESM(require("lodash/groupBy"), 1);
+var import_groupBy = __toESM(require("lodash/groupBy.js"), 1);
 
 // src/data-grid/color-parser.ts
 var cache = {};
 var div = null;
 function createDiv() {
   const d = document.createElement("div");
-  d.classList.add("color2k-parser");
   d.style.opacity = "0";
   d.style.pointerEvents = "none";
   d.style.position = "fixed";
@@ -3145,13 +2471,34 @@ function blend(color, background) {
   const bo = (a * b + ba * bb * (1 - a)) / ao;
   return `rgba(${ro}, ${go}, ${bo}, ${ao})`;
 }
+function interpolateColors(leftColor, rightColor, val) {
+  if (val <= 0)
+    return leftColor;
+  if (val >= 1)
+    return rightColor;
+  const left = [...parseToRgba(leftColor)];
+  left[0] = left[0] * left[3];
+  left[1] = left[1] * left[3];
+  left[2] = left[2] * left[3];
+  const right = [...parseToRgba(rightColor)];
+  right[0] = right[0] * right[3];
+  right[1] = right[1] * right[3];
+  right[2] = right[2] * right[3];
+  const hScaler = val;
+  const nScaler = 1 - val;
+  const a = left[3] * nScaler + right[3] * hScaler;
+  const r = Math.floor((left[0] * nScaler + right[0] * hScaler) / a);
+  const g = Math.floor((left[1] * nScaler + right[1] * hScaler) / a);
+  const b = Math.floor((left[2] * nScaler + right[2] * hScaler) / a);
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
 
 // src/data-grid/data-grid-render.tsx
 var loadingCell = {
   kind: GridCellKind.Loading,
   allowOverlay: false
 };
-function drawCell(ctx, row, cell, col, x, y, w, h, highlighted, theme, drawCustomCell, imageLoader, spriteManager, hoverAmount, hoverInfo, hyperWrapping, frameTime, lastPrep, enqueue) {
+function drawCell(ctx, row, cell, col, x, y, w, h, highlighted, theme, drawCustomCell, imageLoader, spriteManager, hoverAmount, hoverInfo, hyperWrapping, frameTime, lastPrep, enqueue, getCellRenderer) {
   let hoverX;
   let hoverY;
   if (hoverInfo !== void 0 && hoverInfo[0][0] === col && hoverInfo[0][1] === row) {
@@ -3165,58 +2512,45 @@ function drawCell(ctx, row, cell, col, x, y, w, h, highlighted, theme, drawCusto
     col,
     row,
     cell,
-    x,
-    y,
-    w,
-    h,
+    rect: { x, y, width: w, height: h },
     highlighted,
     hoverAmount,
     hoverX,
     hoverY,
     imageLoader,
     spriteManager,
-    hyperWrapping
+    hyperWrapping,
+    requestAnimationFrame: () => {
+      forceAnim = true;
+    }
   };
   let forceAnim = false;
   const needsAnim = drawWithLastUpdate(args, cell.lastUpdated, frameTime, lastPrep, () => {
     var _a, _b;
-    const drawn = isInnerOnlyCell(cell) ? false : (drawCustomCell == null ? void 0 : drawCustomCell({
-      ctx,
-      cell,
-      theme,
-      rect: { x, y, width: w, height: h },
-      col,
-      row,
-      hoverAmount,
-      hoverX,
-      hoverY,
-      highlighted,
-      imageLoader,
-      requestAnimationFrame: () => {
-        forceAnim = true;
+    const drawn = isInnerOnlyCell(cell) ? false : (drawCustomCell == null ? void 0 : drawCustomCell(args)) === true;
+    if (!drawn) {
+      const r = getCellRenderer(cell);
+      if (r !== void 0) {
+        if ((lastPrep == null ? void 0 : lastPrep.renderer) !== r) {
+          (_a = lastPrep == null ? void 0 : lastPrep.deprep) == null ? void 0 : _a.call(lastPrep, args);
+          lastPrep = void 0;
+        }
+        const partialPrepResult = (_b = r.drawPrep) == null ? void 0 : _b.call(r, args, lastPrep);
+        r.draw(args, cell);
+        result = {
+          deprep: partialPrepResult == null ? void 0 : partialPrepResult.deprep,
+          fillStyle: partialPrepResult == null ? void 0 : partialPrepResult.fillStyle,
+          font: partialPrepResult == null ? void 0 : partialPrepResult.font,
+          renderer: r
+        };
       }
-    })) === true;
-    if (!drawn && cell.kind !== GridCellKind.Custom) {
-      const r = CellRenderers[cell.kind];
-      if ((lastPrep == null ? void 0 : lastPrep.renderer) !== r) {
-        (_a = lastPrep == null ? void 0 : lastPrep.deprep) == null ? void 0 : _a.call(lastPrep, args);
-        lastPrep = void 0;
-      }
-      const partialPrepResult = (_b = r.renderPrep) == null ? void 0 : _b.call(r, args, lastPrep);
-      r.render(args);
-      result = {
-        deprep: partialPrepResult == null ? void 0 : partialPrepResult.deprep,
-        fillStyle: partialPrepResult == null ? void 0 : partialPrepResult.fillStyle,
-        font: partialPrepResult == null ? void 0 : partialPrepResult.font,
-        renderer: r
-      };
     }
   });
   if (needsAnim || forceAnim)
     enqueue == null ? void 0 : enqueue([col, row]);
   return result;
 }
-function blitLastFrame(ctx, canvas, last, cellXOffset, cellYOffset, translateX, translateY, lastRowSticky, width, height, rows, totalHeaderHeight, dpr, mappedColumns, effectiveCols, getRowHeight) {
+function blitLastFrame(ctx, canvas, last, cellXOffset, cellYOffset, translateX, translateY, lastRowSticky, width, height, rows, totalHeaderHeight, dpr, mappedColumns, effectiveCols, getRowHeight, doubleBuffer) {
   const drawRegions = [];
   let blittedYOnly = false;
   ctx.imageSmoothingEnabled = false;
@@ -3315,6 +2649,9 @@ function blitLastFrame(ctx, canvas, last, cellXOffset, cellYOffset, translateX, 
       });
     }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (stickyWidth > 0 && deltaX !== 0 && deltaY === 0 && doubleBuffer) {
+      ctx.drawImage(canvas, 0, 0, stickyWidth * dpr, height * dpr, 0, 0, stickyWidth * dpr, height * dpr);
+    }
     ctx.drawImage(canvas, args.sx, args.sy, args.sw, args.sh, args.dx, args.dy, args.dw, args.dh);
     ctx.scale(dpr, dpr);
   }
@@ -3374,12 +2711,6 @@ function drawGridLines(ctx, effectiveCols, cellYOffset, translateX, translateY, 
   }
   const toDraw = [];
   ctx.beginPath();
-  ctx.moveTo(minX, totalHeaderHeight + 0.5);
-  ctx.lineTo(maxX, totalHeaderHeight + 0.5);
-  ctx.strokeStyle = theme.bgHeader;
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  ctx.beginPath();
   let x = 0.5;
   for (let index2 = 0; index2 < effectiveCols.length; index2++) {
     const c = effectiveCols[index2];
@@ -3387,7 +2718,7 @@ function drawGridLines(ctx, effectiveCols, cellYOffset, translateX, translateY, 
       continue;
     x += c.width;
     const tx = c.sticky ? x : x + translateX;
-    if (tx >= minX && tx <= maxX - 1 && (index2 === effectiveCols.length - 1 || verticalBorder(index2 + 1))) {
+    if (tx >= minX && tx <= maxX - 1 && verticalBorder(index2 + 1)) {
       toDraw.push({
         x1: tx,
         y1: Math.max(groupHeaderHeight, minY),
@@ -3406,12 +2737,11 @@ function drawGridLines(ctx, effectiveCols, cellYOffset, translateX, translateY, 
   if (verticalOnly !== true) {
     let y = totalHeaderHeight + 0.5;
     let row = cellYOffset;
-    let isHeader = true;
     const target = lastRowSticky ? height - stickyHeight : height;
     while (y + translateY <= target) {
-      const ty = isHeader ? y : y + translateY;
+      const ty = y + translateY;
       if (ty >= minY && ty <= maxY - 1 && (!lastRowSticky || row !== rows - 1 || Math.abs(ty - stickyRowY) > 1)) {
-        const rowTheme = isHeader ? void 0 : getRowThemeOverride == null ? void 0 : getRowThemeOverride(row);
+        const rowTheme = getRowThemeOverride == null ? void 0 : getRowThemeOverride(row);
         toDraw.push({
           x1: minX,
           y1: ty,
@@ -3421,7 +2751,6 @@ function drawGridLines(ctx, effectiveCols, cellYOffset, translateX, translateY, 
         });
       }
       y += getRowHeight(row);
-      isHeader = false;
       row++;
     }
   }
@@ -3799,7 +3128,7 @@ function getSpanBounds(span, cellX, cellY, cellW, cellH, column, allColumns) {
   }
   return [frozenRect, contentRect];
 }
-function drawCells(ctx, effectiveColumns, allColumns, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getCellContent, getGroupDetails, getRowThemeOverride, disabledRows, isFocused, trailingRowType, drawRegions, damage, selection, prelightCells, highlightRegions, drawCustomCell, imageLoader, spriteManager, hoverValues, hoverInfo, hyperWrapping, outerTheme, enqueue) {
+function drawCells(ctx, effectiveColumns, allColumns, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getCellContent, getGroupDetails, getRowThemeOverride, disabledRows, isFocused, drawFocus, trailingRowType, drawRegions, damage, selection, prelightCells, highlightRegions, drawCustomCell, imageLoader, spriteManager, hoverValues, hoverInfo, hyperWrapping, outerTheme, enqueue, getCellRenderer) {
   var _a;
   let toDraw = (_a = damage == null ? void 0 : damage.length) != null ? _a : Number.MAX_SAFE_INTEGER;
   const frameTime = performance.now();
@@ -3844,6 +3173,8 @@ function drawCells(ctx, effectiveColumns, allColumns, height, totalHeaderHeight,
     let prepResult = void 0;
     walkRowsInCol(startRow, colDrawStartY, height, rows, getRowHeight, trailingRowType, (drawY, row, rh, isSticky, isTrailingRow) => {
       var _a3, _b, _c, _d;
+      if (row < 0)
+        return;
       if (damage !== void 0) {
         let found = false;
         for (let i = 0; i < damage.length; i++) {
@@ -3919,7 +3250,7 @@ function drawCells(ctx, effectiveColumns, allColumns, height, totalHeaderHeight,
       const isSelected = cellIsSelected(cellIndex, cell, selection);
       let accentCount = cellIsInRange(cellIndex, cell, selection);
       const spanIsHighlighted = cell.span !== void 0 && selection.columns.some((index2) => cell.span !== void 0 && index2 >= cell.span[0] && index2 <= cell.span[1]);
-      if (isSelected && !isFocused) {
+      if (isSelected && !isFocused && drawFocus) {
         accentCount = 0;
       } else if (isSelected) {
         accentCount = Math.max(accentCount, 1);
@@ -3975,7 +3306,7 @@ function drawCells(ctx, effectiveColumns, allColumns, height, totalHeaderHeight,
           ctx.font = cellFont;
           font = cellFont;
         }
-        prepResult = drawCell(ctx, row, cell, c.sourceIndex, cellX, drawY, cellWidth, rh, accentCount > 0, theme, drawCustomCell, imageLoader, spriteManager, (_c = hoverValue == null ? void 0 : hoverValue.hoverAmount) != null ? _c : 0, hoverInfo, hyperWrapping, frameTime, prepResult, enqueue);
+        prepResult = drawCell(ctx, row, cell, c.sourceIndex, cellX, drawY, cellWidth, rh, accentCount > 0, theme, drawCustomCell, imageLoader, spriteManager, (_c = hoverValue == null ? void 0 : hoverValue.hoverAmount) != null ? _c : 0, hoverInfo, hyperWrapping, frameTime, prepResult, enqueue, getCellRenderer);
       }
       if (cell.style === "faded") {
         ctx.globalAlpha = 1;
@@ -4035,7 +3366,8 @@ function drawBlanks(ctx, effectiveColumns, allColumns, width, height, totalHeade
     ctx.restore();
   });
 }
-function overdrawStickyBoundaries(ctx, effectiveCols, width, height, totalHeaderHeight, lastRowSticky, rows, verticalBorder, getRowHeight, theme) {
+function overdrawStickyBoundaries(ctx, effectiveCols, width, height, lastRowSticky, rows, verticalBorder, getRowHeight, theme) {
+  var _a;
   let drawFreezeBorder = false;
   for (const c of effectiveCols) {
     if (c.sticky)
@@ -4043,33 +3375,24 @@ function overdrawStickyBoundaries(ctx, effectiveCols, width, height, totalHeader
     drawFreezeBorder = verticalBorder(c.sourceIndex);
     break;
   }
+  const hColor = (_a = theme.horizontalBorderColor) != null ? _a : theme.borderColor;
+  const vColor = theme.borderColor;
   const drawX = drawFreezeBorder ? getStickyWidth(effectiveCols) : 0;
-  ctx.beginPath();
-  ctx.moveTo(0, totalHeaderHeight + 0.5);
-  ctx.lineTo(width, totalHeaderHeight + 0.5);
-  ctx.strokeStyle = theme.bgHeader;
-  ctx.stroke();
-  ctx.beginPath();
-  let doCell = false;
   if (drawX !== 0) {
+    ctx.beginPath();
     ctx.moveTo(drawX + 0.5, 0);
     ctx.lineTo(drawX + 0.5, height);
-    doCell = true;
+    ctx.strokeStyle = blend(vColor, theme.bgCell);
+    ctx.stroke();
   }
   if (lastRowSticky) {
     const h = getRowHeight(rows - 1);
+    ctx.beginPath();
     ctx.moveTo(0, height - h + 0.5);
     ctx.lineTo(width, height - h + 0.5);
-    doCell = true;
-  }
-  if (doCell) {
-    ctx.strokeStyle = theme.bgCell;
+    ctx.strokeStyle = blend(hColor, theme.bgCell);
     ctx.stroke();
   }
-  ctx.moveTo(0, totalHeaderHeight + 0.5);
-  ctx.lineTo(width, totalHeaderHeight + 0.5);
-  ctx.strokeStyle = theme.borderColor;
-  ctx.stroke();
 }
 function drawHighlightRings(ctx, width, height, cellXOffset, cellYOffset, translateX, translateY, mappedColumns, freezeColumns, headerHeight, groupHeaderHeight, rowHeight, lastRowSticky, rows, allHighlightRegions) {
   const highlightRegions = allHighlightRegions == null ? void 0 : allHighlightRegions.filter((x) => x.style !== "no-outline");
@@ -4247,7 +3570,9 @@ function getLastRow(effectiveColumns, height, totalHeaderHeight, translateX, tra
   return result;
 }
 function computeCanBlit(current, last) {
-  if (current.width !== (last == null ? void 0 : last.width) || current.height !== last.height || current.theme !== last.theme || current.headerHeight !== last.headerHeight || current.rowHeight !== last.rowHeight || current.rows !== last.rows || current.getRowThemeOverride !== last.getRowThemeOverride || current.isFocused !== last.isFocused || current.isResizing !== last.isResizing || current.verticalBorder !== last.verticalBorder || current.getCellContent !== last.getCellContent || current.highlightRegions !== last.highlightRegions || current.selection !== last.selection || current.dragAndDropState !== last.dragAndDropState || current.prelightCells !== last.prelightCells || current.touchMode !== last.touchMode || current.scrolling !== last.scrolling) {
+  if (last === void 0)
+    return false;
+  if (current.width !== last.width || current.height !== last.height || current.theme !== last.theme || current.headerHeight !== last.headerHeight || current.rowHeight !== last.rowHeight || current.rows !== last.rows || current.getRowThemeOverride !== last.getRowThemeOverride || current.isFocused !== last.isFocused || current.isResizing !== last.isResizing || current.verticalBorder !== last.verticalBorder || current.getCellContent !== last.getCellContent || current.highlightRegions !== last.highlightRegions || current.selection !== last.selection || current.dragAndDropState !== last.dragAndDropState || current.prelightCells !== last.prelightCells || current.touchMode !== last.touchMode || current.scrolling !== last.scrolling) {
     return false;
   }
   if (current.mappedColumns !== last.mappedColumns) {
@@ -4278,7 +3603,7 @@ function computeCanBlit(current, last) {
   return true;
 }
 function drawGrid(arg, lastArg) {
-  var _a;
+  var _a, _b;
   const {
     canvas,
     headerCanvas,
@@ -4293,6 +3618,7 @@ function drawGrid(arg, lastArg) {
     freezeColumns,
     dragAndDropState,
     theme,
+    drawFocus,
     headerHeight,
     groupHeaderHeight,
     disabledRows,
@@ -4319,13 +3645,18 @@ function drawGrid(arg, lastArg) {
     spriteManager,
     scrolling,
     touchMode,
-    enqueue
+    enqueue,
+    getCellRenderer,
+    renderStrategy,
+    bufferA,
+    bufferB
   } = arg;
   let { damage } = arg;
   if (width === 0 || height === 0)
     return;
+  const doubleBuffer = renderStrategy === "double-buffer";
   const dpr = scrolling ? 1 : Math.ceil((_a = window.devicePixelRatio) != null ? _a : 1);
-  const canBlit = computeCanBlit(arg, lastArg);
+  const canBlit = renderStrategy !== "direct" && computeCanBlit(arg, lastArg);
   if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
     canvas.width = width * dpr;
     canvas.height = height * dpr;
@@ -4334,24 +3665,48 @@ function drawGrid(arg, lastArg) {
   }
   const overlayCanvas = headerCanvas;
   const totalHeaderHeight = enableGroups ? groupHeaderHeight + headerHeight : headerHeight;
-  if (overlayCanvas.width !== width * dpr || overlayCanvas.height !== totalHeaderHeight * dpr) {
+  const overlayHeight = totalHeaderHeight + 1;
+  if (overlayCanvas.width !== width * dpr || overlayCanvas.height !== overlayHeight * dpr) {
     overlayCanvas.width = width * dpr;
-    overlayCanvas.height = totalHeaderHeight * dpr;
+    overlayCanvas.height = overlayHeight * dpr;
     overlayCanvas.style.width = width + "px";
-    overlayCanvas.style.height = totalHeaderHeight + "px";
+    overlayCanvas.style.height = overlayHeight + "px";
+  }
+  if (doubleBuffer && (bufferA.width !== width * dpr || bufferA.height !== height * dpr)) {
+    bufferA.width = width * dpr;
+    bufferA.height = height * dpr;
+  }
+  if (doubleBuffer && (bufferB.width !== width * dpr || bufferB.height !== height * dpr)) {
+    bufferB.width = width * dpr;
+    bufferB.height = height * dpr;
   }
   const last = lastBlitData.current;
-  if (canBlit === true && cellXOffset === last.cellXOffset && cellYOffset === last.cellYOffset && translateX === last.translateX && translateY === last.translateY)
+  if (canBlit === true && cellXOffset === (last == null ? void 0 : last.cellXOffset) && cellYOffset === (last == null ? void 0 : last.cellYOffset) && translateX === (last == null ? void 0 : last.translateX) && translateY === (last == null ? void 0 : last.translateY))
     return;
-  const targetCtx = canvas.getContext("2d", {
-    alpha: false
-  });
+  let mainCtx = null;
+  if (doubleBuffer) {
+    mainCtx = canvas.getContext("2d", {
+      alpha: false
+    });
+  }
   const overlayCtx = overlayCanvas.getContext("2d", {
     alpha: false
   });
+  let targetBuffer;
+  if (!doubleBuffer) {
+    targetBuffer = canvas;
+  } else if (damage !== void 0) {
+    targetBuffer = (last == null ? void 0 : last.lastBuffer) === "b" ? bufferB : bufferA;
+  } else {
+    targetBuffer = (last == null ? void 0 : last.lastBuffer) === "b" ? bufferA : bufferB;
+  }
+  const targetCtx = targetBuffer.getContext("2d", {
+    alpha: false
+  });
+  const blitSource = doubleBuffer ? targetBuffer === bufferA ? bufferB : bufferA : canvas;
   if (overlayCtx === null || targetCtx === null)
     return;
-  const getRowHeight = (r) => typeof rowHeight === "number" ? rowHeight : rowHeight(r);
+  const getRowHeight = typeof rowHeight === "number" ? () => rowHeight : rowHeight;
   overlayCtx.save();
   overlayCtx.beginPath();
   targetCtx.save();
@@ -4364,9 +3719,19 @@ function drawGrid(arg, lastArg) {
   }
   const effectiveCols = getEffectiveColumns(mappedColumns, cellXOffset, width, dragAndDropState, translateX);
   let drawRegions = [];
+  const mustDrawFocusOnHeader = drawFocus && ((_b = selection.current) == null ? void 0 : _b.cell[1]) === cellYOffset && translateY === 0;
   const drawHeaderTexture = () => {
+    var _a2, _b2;
     drawGridHeaders(overlayCtx, effectiveCols, enableGroups, hoverInfo, width, translateX, headerHeight, groupHeaderHeight, dragAndDropState, isResizing, selection, theme, spriteManager, hoverValues, verticalBorder, getGroupDetails, damage, drawHeaderCallback, touchMode);
     drawGridLines(overlayCtx, effectiveCols, cellYOffset, translateX, translateY, width, height, void 0, void 0, groupHeaderHeight, totalHeaderHeight, getRowHeight, getRowThemeOverride, verticalBorder, trailingRowType, rows, theme, true);
+    overlayCtx.beginPath();
+    overlayCtx.moveTo(0, overlayHeight - 0.5);
+    overlayCtx.lineTo(width, overlayHeight - 0.5);
+    overlayCtx.strokeStyle = blend((_b2 = (_a2 = theme.headerBottomBorderColor) != null ? _a2 : theme.horizontalBorderColor) != null ? _b2 : theme.borderColor, theme.bgHeader);
+    overlayCtx.stroke();
+    if (mustDrawFocusOnHeader) {
+      drawFocusRing(overlayCtx, width, height, cellYOffset, translateX, translateY, effectiveCols, mappedColumns, theme, totalHeaderHeight, selection, getRowHeight, getCellContent, trailingRowType, fillHandle, rows);
+    }
   };
   if (damage !== void 0) {
     let doHeaders = false;
@@ -4378,10 +3743,10 @@ function drawGrid(arg, lastArg) {
       clipDamage(targetCtx, effectiveCols, width, height, groupHeaderHeight, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, trailingRowType, damage, true);
       targetCtx.fillStyle = theme.bgCell;
       targetCtx.fillRect(0, totalHeaderHeight + 1, width, height - totalHeaderHeight - 1);
-      drawCells(targetCtx, effectiveCols, mappedColumns, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getCellContent, getGroupDetails, getRowThemeOverride, disabledRows, isFocused, trailingRowType, drawRegions, damage, selection, prelightCells, highlightRegions, drawCustomCell, imageLoader, spriteManager, hoverValues, hoverInfo, hyperWrapping, theme, enqueue);
-      if (fillHandle && selection.current !== void 0 && damage.some((x) => {
-        var _a2, _b;
-        return x[0] === ((_a2 = selection.current) == null ? void 0 : _a2.cell[0]) && x[1] === ((_b = selection.current) == null ? void 0 : _b.cell[1]);
+      drawCells(targetCtx, effectiveCols, mappedColumns, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getCellContent, getGroupDetails, getRowThemeOverride, disabledRows, isFocused, drawFocus, trailingRowType, drawRegions, damage, selection, prelightCells, highlightRegions, drawCustomCell, imageLoader, spriteManager, hoverValues, hoverInfo, hyperWrapping, theme, enqueue, getCellRenderer);
+      if (fillHandle && drawFocus && selection.current !== void 0 && damage.some((x) => {
+        var _a2, _b2;
+        return x[0] === ((_a2 = selection.current) == null ? void 0 : _a2.cell[0]) && x[1] === ((_b2 = selection.current) == null ? void 0 : _b2.cell[1]);
       })) {
         drawFocusRing(targetCtx, width, height, cellYOffset, translateX, translateY, effectiveCols, mappedColumns, theme, totalHeaderHeight, selection, getRowHeight, getCellContent, trailingRowType, fillHandle, rows);
       }
@@ -4392,20 +3757,27 @@ function drawGrid(arg, lastArg) {
     }
     targetCtx.restore();
     overlayCtx.restore();
+    if (mainCtx !== null) {
+      mainCtx.fillStyle = theme.bgCell;
+      mainCtx.fillRect(0, 0, width, height);
+      mainCtx.drawImage(targetCtx.canvas, 0, 0);
+    }
     return;
   }
-  if (canBlit !== true || cellXOffset !== last.cellXOffset || translateX !== last.translateX) {
+  if (canBlit !== true || cellXOffset !== (last == null ? void 0 : last.cellXOffset) || translateX !== (last == null ? void 0 : last.translateX) || mustDrawFocusOnHeader !== (last == null ? void 0 : last.mustDrawFocusOnHeader)) {
     drawHeaderTexture();
   }
   if (canBlit === true) {
-    const { regions } = blitLastFrame(targetCtx, canvas, last, cellXOffset, cellYOffset, translateX, translateY, trailingRowType === "sticky", width, height, rows, totalHeaderHeight, dpr, mappedColumns, effectiveCols, rowHeight);
+    assert(blitSource !== void 0 && last !== void 0);
+    const { regions } = blitLastFrame(targetCtx, blitSource, last, cellXOffset, cellYOffset, translateX, translateY, trailingRowType === "sticky", width, height, rows, totalHeaderHeight, dpr, mappedColumns, effectiveCols, rowHeight, doubleBuffer);
     drawRegions = regions;
   } else if (canBlit !== false) {
+    assert(last !== void 0);
     const resizedCol = canBlit;
     drawRegions = blitResizedCol(last, cellXOffset, cellYOffset, translateX, translateY, width, height, totalHeaderHeight, effectiveCols, resizedCol);
   }
-  overdrawStickyBoundaries(targetCtx, effectiveCols, width, height, totalHeaderHeight, trailingRowType === "sticky", rows, verticalBorder, getRowHeight, theme);
-  const focusRedraw = drawFocusRing(targetCtx, width, height, cellYOffset, translateX, translateY, effectiveCols, mappedColumns, theme, totalHeaderHeight, selection, getRowHeight, getCellContent, trailingRowType, fillHandle, rows);
+  overdrawStickyBoundaries(targetCtx, effectiveCols, width, height, trailingRowType === "sticky", rows, verticalBorder, getRowHeight, theme);
+  const focusRedraw = drawFocus ? drawFocusRing(targetCtx, width, height, cellYOffset, translateX, translateY, effectiveCols, mappedColumns, theme, totalHeaderHeight, selection, getRowHeight, getCellContent, trailingRowType, fillHandle, rows) : void 0;
   const highlightRedraw = drawHighlightRings(targetCtx, width, height, cellXOffset, cellYOffset, translateX, translateY, mappedColumns, freezeColumns, headerHeight, groupHeaderHeight, rowHeight, trailingRowType === "sticky", rows, highlightRegions);
   targetCtx.fillStyle = theme.bgCell;
   if (drawRegions.length > 0) {
@@ -4419,11 +3791,16 @@ function drawGrid(arg, lastArg) {
   } else {
     targetCtx.fillRect(0, 0, width, height);
   }
-  const spans = drawCells(targetCtx, effectiveCols, mappedColumns, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getCellContent, getGroupDetails, getRowThemeOverride, disabledRows, isFocused, trailingRowType, drawRegions, damage, selection, prelightCells, highlightRegions, drawCustomCell, imageLoader, spriteManager, hoverValues, hoverInfo, hyperWrapping, theme, enqueue);
+  const spans = drawCells(targetCtx, effectiveCols, mappedColumns, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getCellContent, getGroupDetails, getRowThemeOverride, disabledRows, isFocused, drawFocus, trailingRowType, drawRegions, damage, selection, prelightCells, highlightRegions, drawCustomCell, imageLoader, spriteManager, hoverValues, hoverInfo, hyperWrapping, theme, enqueue, getCellRenderer);
   drawBlanks(targetCtx, effectiveCols, mappedColumns, width, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, getRowThemeOverride, selection.rows, disabledRows, trailingRowType, drawRegions, damage, theme);
   drawGridLines(targetCtx, effectiveCols, cellYOffset, translateX, translateY, width, height, drawRegions, spans, groupHeaderHeight, totalHeaderHeight, getRowHeight, getRowThemeOverride, verticalBorder, trailingRowType, rows, theme);
   focusRedraw == null ? void 0 : focusRedraw();
   highlightRedraw == null ? void 0 : highlightRedraw();
+  if (mainCtx !== null) {
+    mainCtx.fillStyle = theme.bgCell;
+    mainCtx.fillRect(0, 0, width, height);
+    mainCtx.drawImage(targetCtx.canvas, 0, 0);
+  }
   const lastRowDrawn = getLastRow(effectiveCols, height, totalHeaderHeight, translateX, translateY, cellYOffset, rows, getRowHeight, trailingRowType);
   imageLoader == null ? void 0 : imageLoader.setWindow({
     x: cellXOffset,
@@ -4431,7 +3808,14 @@ function drawGrid(arg, lastArg) {
     width: effectiveCols.length,
     height: lastRowDrawn - cellYOffset
   }, freezeColumns);
-  lastBlitData.current = { cellXOffset, cellYOffset, translateX, translateY };
+  lastBlitData.current = {
+    cellXOffset,
+    cellYOffset,
+    translateX,
+    translateY,
+    mustDrawFocusOnHeader,
+    lastBuffer: doubleBuffer ? targetBuffer === bufferA ? "a" : "b" : void 0
+  };
   targetCtx.restore();
   overlayCtx.restore();
 }
@@ -4503,7 +3887,7 @@ function walkGroups(effectiveCols, width, translateX, groupHeaderHeight, cb) {
 }
 
 // src/data-grid/animation-manager.ts
-var import_clamp = __toESM(require("lodash/clamp"), 1);
+var import_clamp = __toESM(require("lodash/clamp.js"), 1);
 var hoverTime = 80;
 function easeOutCubic(x) {
   const x1 = x - 1;
@@ -4601,15 +3985,15 @@ var Lazy = class {
     return (_a = this.val) != null ? _a : this.val = this.fn();
   }
 };
-function lazy2(fn) {
+function lazy(fn) {
   return new Lazy(fn);
 }
-var browserIsFirefox = lazy2(() => window.navigator.userAgent.includes("Firefox"));
-var browserIsSafari = lazy2(() => window.navigator.userAgent.includes("Mac OS") && window.navigator.userAgent.includes("Safari") && !window.navigator.userAgent.includes("Chrome"));
-var browserIsOSX = lazy2(() => window.navigator.platform.toLowerCase().startsWith("mac"));
+var browserIsFirefox = lazy(() => window.navigator.userAgent.includes("Firefox"));
+var browserIsSafari = lazy(() => window.navigator.userAgent.includes("Mac OS") && window.navigator.userAgent.includes("Safari") && !window.navigator.userAgent.includes("Chrome"));
+var browserIsOSX = lazy(() => window.navigator.platform.toLowerCase().startsWith("mac"));
 
 // src/data-grid/use-animation-queue.ts
-var React24 = __toESM(require("react"), 1);
+var React8 = __toESM(require("react"), 1);
 function hasItem(arr, item) {
   for (const element of arr) {
     if (element[0] === item[0] && element[1] === item[1])
@@ -4618,11 +4002,11 @@ function hasItem(arr, item) {
   return false;
 }
 function useAnimationQueue(draw) {
-  const queue = React24.useRef([]);
-  const seq = React24.useRef(0);
-  const drawRef = React24.useRef(draw);
+  const queue = React8.useRef([]);
+  const seq = React8.useRef(0);
+  const drawRef = React8.useRef(draw);
   drawRef.current = draw;
-  const loop = React24.useCallback(() => {
+  const loop = React8.useCallback(() => {
     const requeue = () => window.requestAnimationFrame(fn);
     const fn = () => {
       const toDraw = queue.current;
@@ -4636,7 +4020,7 @@ function useAnimationQueue(draw) {
     };
     window.requestAnimationFrame(seq.current > 600 ? requeue : fn);
   }, []);
-  return React24.useCallback((item) => {
+  return React8.useCallback((item) => {
     if (hasItem(queue.current, item))
       return;
     if (queue.current.length === 0) {
@@ -4647,8 +4031,12 @@ function useAnimationQueue(draw) {
 }
 
 // src/data-grid/data-grid.tsx
-var getRowData = (cell) => {
-  return cell.kind === GridCellKind.Custom ? cell.copyData : CellRenderers[cell.kind].getAccessibilityString(cell);
+var getRowData = (cell, getCellRenderer) => {
+  var _a;
+  if (cell.kind === GridCellKind.Custom)
+    return cell.copyData;
+  const r = getCellRenderer == null ? void 0 : getCellRenderer(cell);
+  return (_a = r == null ? void 0 : r.getAccessibilityString(cell)) != null ? _a : "";
 };
 var DataGrid = (p, forwardedRef) => {
   var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -4656,7 +4044,6 @@ var DataGrid = (p, forwardedRef) => {
     width,
     height,
     accessibilityHeight,
-    className,
     columns,
     cellXOffset: cellXOffsetReal,
     cellYOffset,
@@ -4679,6 +4066,7 @@ var DataGrid = (p, forwardedRef) => {
     trailingRowType,
     fixedShadowX = true,
     fixedShadowY = true,
+    drawFocusRing: drawFocusRing2 = true,
     onMouseDown,
     onMouseUp,
     onMouseMoveRaw,
@@ -4709,33 +4097,36 @@ var DataGrid = (p, forwardedRef) => {
     onDragOverCell,
     onDrop,
     onDragLeave,
+    imageWindowLoader,
     smoothScrollX = false,
     smoothScrollY = false,
-    experimental
+    experimental,
+    getCellRenderer
   } = p;
   const translateX = (_a = p.translateX) != null ? _a : 0;
   const translateY = (_b = p.translateY) != null ? _b : 0;
   const cellXOffset = Math.max(freezeColumns, Math.min(columns.length - 1, cellXOffsetReal));
-  const ref = React25.useRef(null);
-  const imageLoader = React25.useMemo(() => new image_window_loader_default(), []);
-  const damageRegion = React25.useRef();
-  const [scrolling, setScrolling] = React25.useState(false);
-  const hoverValues = React25.useRef([]);
-  const lastBlitData = React25.useRef({ cellXOffset, cellYOffset, translateX, translateY });
-  const [hoveredItemInfo, setHoveredItemInfo] = React25.useState();
-  const [hoveredOnEdge, setHoveredOnEdge] = React25.useState();
-  const overlayRef = React25.useRef(null);
-  const [lastWasTouch, setLastWasTouch] = React25.useState(false);
-  const lastWasTouchRef = React25.useRef(lastWasTouch);
+  const ref = React9.useRef(null);
+  const imageWindowLoaderInternal = React9.useMemo(() => new image_window_loader_default(), []);
+  const imageLoader = imageWindowLoader != null ? imageWindowLoader : imageWindowLoaderInternal;
+  const damageRegion = React9.useRef();
+  const [scrolling, setScrolling] = React9.useState(false);
+  const hoverValues = React9.useRef([]);
+  const lastBlitData = React9.useRef();
+  const [hoveredItemInfo, setHoveredItemInfo] = React9.useState();
+  const [hoveredOnEdge, setHoveredOnEdge] = React9.useState();
+  const overlayRef = React9.useRef(null);
+  const [lastWasTouch, setLastWasTouch] = React9.useState(false);
+  const lastWasTouchRef = React9.useRef(lastWasTouch);
   lastWasTouchRef.current = lastWasTouch;
-  const spriteManager = React25.useMemo(() => new SpriteManager(headerIcons, () => {
+  const spriteManager = React9.useMemo(() => new SpriteManager(headerIcons, () => {
     lastArgsRef.current = void 0;
     lastDrawRef.current();
   }), [headerIcons]);
   const totalHeaderHeight = enableGroups ? groupHeaderHeight + headerHeight : headerHeight;
-  const scrollingStopRef = React25.useRef(-1);
+  const scrollingStopRef = React9.useRef(-1);
   const disableFirefoxRescaling = (experimental == null ? void 0 : experimental.enableFirefoxRescaling) !== true;
-  React25.useLayoutEffect(() => {
+  React9.useLayoutEffect(() => {
     if (!browserIsFirefox.value || window.devicePixelRatio === 1 || disableFirefoxRescaling)
       return;
     if (scrollingStopRef.current !== -1) {
@@ -4748,12 +4139,19 @@ var DataGrid = (p, forwardedRef) => {
     }, 200);
   }, [cellYOffset, cellXOffset, translateX, translateY, disableFirefoxRescaling]);
   const mappedColumns = useMappedColumns(columns, freezeColumns);
-  const getBoundsForItem = React25.useCallback((canvas, col, row) => {
+  const getBoundsForItem = React9.useCallback((canvas, col, row) => {
     const rect = canvas.getBoundingClientRect();
     if (col >= mappedColumns.length || row >= rows) {
       return void 0;
     }
+    const scale = rect.width / width;
     const result = computeBounds(col, row, width, height, groupHeaderHeight, totalHeaderHeight, cellXOffset, cellYOffset, translateX, translateY, rows, freezeColumns, trailingRowType === "sticky", mappedColumns, rowHeight);
+    if (scale !== 1) {
+      result.x *= scale;
+      result.y *= scale;
+      result.width *= scale;
+      result.height *= scale;
+    }
     result.x += rect.x;
     result.y += rect.y;
     return result;
@@ -4772,11 +4170,12 @@ var DataGrid = (p, forwardedRef) => {
     mappedColumns,
     rowHeight
   ]);
-  const getMouseArgsForPosition = React25.useCallback((canvas, posX, posY, ev) => {
+  const getMouseArgsForPosition = React9.useCallback((canvas, posX, posY, ev) => {
     var _a2, _b2;
     const rect = canvas.getBoundingClientRect();
-    const x = posX - rect.left;
-    const y = posY - rect.top;
+    const scale = rect.width / width;
+    const x = (posX - rect.left) / scale;
+    const y = (posY - rect.top) / scale;
     const edgeDetectionBuffer = 5;
     const effectiveCols = getEffectiveColumns(mappedColumns, cellXOffset, width, void 0, translateX);
     let button = 0;
@@ -4902,13 +4301,16 @@ var DataGrid = (p, forwardedRef) => {
     return (item == null ? void 0 : item.kind) === (other == null ? void 0 : other.kind) && (item == null ? void 0 : item.location[0]) === (other == null ? void 0 : other.location[0]) && (item == null ? void 0 : item.location[1]) === (other == null ? void 0 : other.location[1]);
   }
   const [hoveredItem] = hoveredItemInfo != null ? hoveredItemInfo : [];
-  const enqueueRef = React25.useRef((_item) => {
+  const enqueueRef = React9.useRef((_item) => {
   });
-  const hoverInfoRef = React25.useRef(hoveredItemInfo);
+  const hoverInfoRef = React9.useRef(hoveredItemInfo);
   hoverInfoRef.current = hoveredItemInfo;
-  const lastArgsRef = React25.useRef();
-  const draw = React25.useCallback(() => {
-    var _a2;
+  const [bufferA, bufferB] = React9.useMemo(() => {
+    return [document.createElement("canvas"), document.createElement("canvas")];
+  }, []);
+  const lastArgsRef = React9.useRef();
+  const draw = React9.useCallback(() => {
+    var _a2, _b2;
     const canvas = ref.current;
     const overlay = overlayRef.current;
     if (canvas === null || overlay === null)
@@ -4916,6 +4318,8 @@ var DataGrid = (p, forwardedRef) => {
     const last = lastArgsRef.current;
     const current = {
       canvas,
+      bufferA,
+      bufferB,
       headerCanvas: overlay,
       width,
       height,
@@ -4939,6 +4343,7 @@ var DataGrid = (p, forwardedRef) => {
       fillHandle,
       lastRowSticky: trailingRowType,
       rows,
+      drawFocus: drawFocusRing2,
       getCellContent,
       getGroupDetails: getGroupDetails != null ? getGroupDetails : (name) => ({ name }),
       getRowThemeOverride,
@@ -4955,7 +4360,9 @@ var DataGrid = (p, forwardedRef) => {
       scrolling,
       hyperWrapping: (_a2 = experimental == null ? void 0 : experimental.hyperWrapping) != null ? _a2 : false,
       touchMode: lastWasTouch,
-      enqueue: enqueueRef.current
+      enqueue: enqueueRef.current,
+      renderStrategy: (_b2 = experimental == null ? void 0 : experimental.renderStrategy) != null ? _b2 : browserIsSafari.value ? "double-buffer" : "single-buffer",
+      getCellRenderer
     };
     if (current.damage === void 0) {
       lastArgsRef.current = current;
@@ -4964,6 +4371,8 @@ var DataGrid = (p, forwardedRef) => {
       drawGrid(current, void 0);
     }
   }, [
+    bufferA,
+    bufferB,
     width,
     height,
     cellXOffset,
@@ -4986,6 +4395,7 @@ var DataGrid = (p, forwardedRef) => {
     fillHandle,
     trailingRowType,
     rows,
+    drawFocusRing2,
     getCellContent,
     getGroupDetails,
     getRowThemeOverride,
@@ -4997,14 +4407,16 @@ var DataGrid = (p, forwardedRef) => {
     spriteManager,
     scrolling,
     experimental == null ? void 0 : experimental.hyperWrapping,
-    lastWasTouch
+    experimental == null ? void 0 : experimental.renderStrategy,
+    lastWasTouch,
+    getCellRenderer
   ]);
-  const lastDrawRef = React25.useRef(draw);
-  React25.useLayoutEffect(() => {
+  const lastDrawRef = React9.useRef(draw);
+  React9.useLayoutEffect(() => {
     draw();
     lastDrawRef.current = draw;
   }, [draw]);
-  React25.useLayoutEffect(() => {
+  React9.useLayoutEffect(() => {
     const fn = async () => {
       var _a2;
       if (((_a2 = document == null ? void 0 : document.fonts) == null ? void 0 : _a2.ready) === void 0)
@@ -5015,18 +4427,18 @@ var DataGrid = (p, forwardedRef) => {
     };
     void fn();
   }, []);
-  const damageInternal = React25.useCallback((locations) => {
+  const damageInternal = React9.useCallback((locations) => {
     damageRegion.current = locations;
     lastDrawRef.current();
     damageRegion.current = void 0;
   }, []);
   const enqueue = useAnimationQueue(damageInternal);
   enqueueRef.current = enqueue;
-  const damage = React25.useCallback((cells) => {
+  const damage = React9.useCallback((cells) => {
     damageInternal(cells.map((x) => x.cell));
   }, [damageInternal]);
   imageLoader.setCallback(damageInternal);
-  const [overFill, setOverFill] = React25.useState(false);
+  const [overFill, setOverFill] = React9.useState(false);
   const [hCol, hRow] = hoveredItem != null ? hoveredItem : [];
   const headerHovered = hCol !== void 0 && hRow === -1;
   const groupHeaderHovered = hCol !== void 0 && hRow === -2;
@@ -5041,16 +4453,17 @@ var DataGrid = (p, forwardedRef) => {
   }
   const canDrag = hoveredOnEdge != null ? hoveredOnEdge : false;
   const cursor = isDragging ? "grabbing" : canDrag || isResizing ? "col-resize" : overFill || isFilling ? "crosshair" : cursorOverride !== void 0 ? cursorOverride : headerHovered || clickableInnerCellHovered || editableBoolHovered || groupHeaderHovered ? "pointer" : "default";
-  const style = React25.useMemo(() => ({
+  const style = React9.useMemo(() => ({
     contain: "strict",
     display: "block",
     cursor
   }), [cursor]);
+  const lastSetCursor = React9.useRef("default");
   const target = eventTargetRef == null ? void 0 : eventTargetRef.current;
-  if (target !== null && target !== void 0) {
-    target.style.cursor = style.cursor;
+  if (target !== null && target !== void 0 && lastSetCursor.current !== style.cursor) {
+    target.style.cursor = lastSetCursor.current = style.cursor;
   }
-  const groupHeaderActionForEvent = React25.useCallback((group, bounds, localEventX, localEventY) => {
+  const groupHeaderActionForEvent = React9.useCallback((group, bounds, localEventX, localEventY) => {
     if (getGroupDetails === void 0)
       return void 0;
     const groupDesc = getGroupDetails(group);
@@ -5064,7 +4477,7 @@ var DataGrid = (p, forwardedRef) => {
     }
     return void 0;
   }, [getGroupDetails]);
-  const isOverHeaderMenu = React25.useCallback((canvas, col, clientX, clientY) => {
+  const isOverHeaderMenu = React9.useCallback((canvas, col, clientX, clientY) => {
     const header = columns[col];
     if (!isDragging && !isResizing && header.hasMenu === true && !(hoveredOnEdge != null ? hoveredOnEdge : false)) {
       const headerBounds = getBoundsForItem(canvas, col, -1);
@@ -5076,9 +4489,9 @@ var DataGrid = (p, forwardedRef) => {
     }
     return void 0;
   }, [columns, getBoundsForItem, hoveredOnEdge, isDragging, isResizing]);
-  const downTime = React25.useRef(0);
-  const downPosition = React25.useRef();
-  const onMouseDownImpl = React25.useCallback((ev) => {
+  const downTime = React9.useRef(0);
+  const downPosition = React9.useRef();
+  const onMouseDownImpl = React9.useCallback((ev) => {
     const canvas = ref.current;
     const eventTarget = eventTargetRef == null ? void 0 : eventTargetRef.current;
     if (canvas === null || ev.target !== canvas && ev.target !== eventTarget)
@@ -5122,7 +4535,7 @@ var DataGrid = (p, forwardedRef) => {
   }, [eventTargetRef, isDraggable, getMouseArgsForPosition, groupHeaderActionForEvent, isOverHeaderMenu, onMouseDown]);
   useEventListener("touchstart", onMouseDownImpl, window, false);
   useEventListener("mousedown", onMouseDownImpl, window, false);
-  const onMouseUpImpl = React25.useCallback((ev) => {
+  const onMouseUpImpl = React9.useCallback((ev) => {
     var _a2, _b2;
     const canvas = ref.current;
     if (onMouseUp === void 0 || canvas === null)
@@ -5182,7 +4595,7 @@ var DataGrid = (p, forwardedRef) => {
   ]);
   useEventListener("mouseup", onMouseUpImpl, window, false);
   useEventListener("touchend", onMouseUpImpl, window, false);
-  const onContextMenuImpl = React25.useCallback((ev) => {
+  const onContextMenuImpl = React9.useCallback((ev) => {
     const canvas = ref.current;
     if (canvas === null || onContextMenu === void 0)
       return;
@@ -5193,26 +4606,28 @@ var DataGrid = (p, forwardedRef) => {
     });
   }, [getMouseArgsForPosition, onContextMenu]);
   useEventListener("contextmenu", onContextMenuImpl, (_c = eventTargetRef == null ? void 0 : eventTargetRef.current) != null ? _c : null, false);
-  const onAnimationFrame = React25.useCallback((values) => {
+  const onAnimationFrame = React9.useCallback((values) => {
     damageRegion.current = values.map((x) => x.item);
     hoverValues.current = values;
     lastDrawRef.current();
     damageRegion.current = void 0;
   }, []);
-  const animManagerValue = React25.useMemo(() => new AnimationManager(onAnimationFrame), [onAnimationFrame]);
-  const animationManager = React25.useRef(animManagerValue);
+  const animManagerValue = React9.useMemo(() => new AnimationManager(onAnimationFrame), [onAnimationFrame]);
+  const animationManager = React9.useRef(animManagerValue);
   animationManager.current = animManagerValue;
-  React25.useLayoutEffect(() => {
+  React9.useLayoutEffect(() => {
     const am = animationManager.current;
     if (hoveredItem === void 0 || hoveredItem[1] < 0) {
       am.setHovered(hoveredItem);
       return;
     }
     const cell = getCellContent(hoveredItem);
-    am.setHovered(cell.kind === GridCellKind.Custom || CellRenderers[cell.kind].needsHover ? hoveredItem : void 0);
-  }, [getCellContent, hoveredItem]);
-  const hoveredRef = React25.useRef();
-  const onMouseMoveImpl = React25.useCallback((ev) => {
+    const r = getCellRenderer(cell);
+    am.setHovered(r === void 0 && cell.kind === GridCellKind.Custom || (r == null ? void 0 : r.needsHover) === true ? hoveredItem : void 0);
+  }, [getCellContent, getCellRenderer, hoveredItem]);
+  const hoveredRef = React9.useRef();
+  const onMouseMoveImpl = React9.useCallback((ev) => {
+    var _a2;
     const canvas = ref.current;
     if (canvas === null)
       return;
@@ -5227,7 +4642,7 @@ var DataGrid = (p, forwardedRef) => {
       hoverInfoRef.current = newInfo;
       if (args.kind === "cell") {
         const toCheck = getCellContent(args.location);
-        if (toCheck.kind === GridCellKind.Custom || CellRenderers[toCheck.kind].needsHoverPosition) {
+        if (toCheck.kind === GridCellKind.Custom || ((_a2 = getCellRenderer(toCheck)) == null ? void 0 : _a2.needsHoverPosition) === true) {
           damageInternal([args.location]);
         }
       } else if (args.kind === groupHeaderKind) {
@@ -5256,11 +4671,12 @@ var DataGrid = (p, forwardedRef) => {
     onMouseMove,
     onItemHovered,
     getCellContent,
+    getCellRenderer,
     damageInternal,
     getBoundsForItem
   ]);
   useEventListener("mousemove", onMouseMoveImpl, window, true);
-  const onKeyDownImpl = React25.useCallback((event) => {
+  const onKeyDownImpl = React9.useCallback((event) => {
     const canvas = ref.current;
     if (canvas === null)
       return;
@@ -5270,19 +4686,19 @@ var DataGrid = (p, forwardedRef) => {
     }
     onKeyDown == null ? void 0 : onKeyDown({
       bounds,
-      cancel: () => {
-        event.stopPropagation();
-        event.preventDefault();
-      },
+      stopPropagation: () => event.stopPropagation(),
+      preventDefault: () => event.preventDefault(),
+      cancel: () => void 0,
       ctrlKey: event.ctrlKey,
       metaKey: event.metaKey,
       shiftKey: event.shiftKey,
       altKey: event.altKey,
       key: event.key,
-      keyCode: event.keyCode
+      keyCode: event.keyCode,
+      rawEvent: event
     });
   }, [onKeyDown, selection, getBoundsForItem]);
-  const onKeyUpImpl = React25.useCallback((event) => {
+  const onKeyUpImpl = React9.useCallback((event) => {
     const canvas = ref.current;
     if (canvas === null)
       return;
@@ -5292,25 +4708,25 @@ var DataGrid = (p, forwardedRef) => {
     }
     onKeyUp == null ? void 0 : onKeyUp({
       bounds,
-      cancel: () => {
-        event.stopPropagation();
-        event.preventDefault();
-      },
+      stopPropagation: () => event.stopPropagation(),
+      preventDefault: () => event.preventDefault(),
+      cancel: () => void 0,
       ctrlKey: event.ctrlKey,
       metaKey: event.metaKey,
       shiftKey: event.shiftKey,
       altKey: event.altKey,
       key: event.key,
-      keyCode: event.keyCode
+      keyCode: event.keyCode,
+      rawEvent: event
     });
   }, [onKeyUp, selection, getBoundsForItem]);
-  const refImpl = React25.useCallback((instance) => {
+  const refImpl = React9.useCallback((instance) => {
     ref.current = instance;
     if (canvasRef !== void 0) {
       canvasRef.current = instance;
     }
   }, [canvasRef]);
-  const onDragStartImpl = React25.useCallback((event) => {
+  const onDragStartImpl = React9.useCallback((event) => {
     const canvas = ref.current;
     if (canvas === null || isDraggable === false || isResizing) {
       event.preventDefault();
@@ -5368,7 +4784,7 @@ var DataGrid = (p, forwardedRef) => {
               ctx.font = `${theme.baseFontStyle} ${theme.fontFamily}`;
               ctx.fillStyle = theme.bgCell;
               ctx.fillRect(0, 0, offscreen.width, offscreen.height);
-              drawCell(ctx, row, getCellContent([col, row]), 0, 0, 0, boundsForDragTarget.width, boundsForDragTarget.height, false, theme, drawCustomCell, imageLoader, spriteManager, 1, void 0, false, 0);
+              drawCell(ctx, row, getCellContent([col, row]), 0, 0, 0, boundsForDragTarget.width, boundsForDragTarget.height, false, theme, drawCustomCell, imageLoader, spriteManager, 1, void 0, false, 0, void 0, void 0, getCellRenderer);
             }
           }
           offscreen.style.left = "-100%";
@@ -5395,11 +4811,12 @@ var DataGrid = (p, forwardedRef) => {
     drawHeaderCallback,
     getCellContent,
     drawCustomCell,
-    imageLoader
+    imageLoader,
+    getCellRenderer
   ]);
   useEventListener("dragstart", onDragStartImpl, (_d = eventTargetRef == null ? void 0 : eventTargetRef.current) != null ? _d : null, false, false);
-  const activeDropTarget = React25.useRef();
-  const onDragOverImpl = React25.useCallback((event) => {
+  const activeDropTarget = React9.useRef();
+  const onDragOverImpl = React9.useCallback((event) => {
     var _a2;
     const canvas = ref.current;
     if (onDrop !== void 0) {
@@ -5418,12 +4835,12 @@ var DataGrid = (p, forwardedRef) => {
     }
   }, [firstColAccessible, getMouseArgsForPosition, onDragOverCell, onDrop]);
   useEventListener("dragover", onDragOverImpl, (_e = eventTargetRef == null ? void 0 : eventTargetRef.current) != null ? _e : null, false, false);
-  const onDragEndImpl = React25.useCallback(() => {
+  const onDragEndImpl = React9.useCallback(() => {
     activeDropTarget.current = void 0;
     onDragEnd == null ? void 0 : onDragEnd();
   }, [onDragEnd]);
   useEventListener("dragend", onDragEndImpl, (_f = eventTargetRef == null ? void 0 : eventTargetRef.current) != null ? _f : null, false, false);
-  const onDropImpl = React25.useCallback((event) => {
+  const onDropImpl = React9.useCallback((event) => {
     const canvas = ref.current;
     if (canvas === null || onDrop === void 0) {
       return;
@@ -5435,14 +4852,14 @@ var DataGrid = (p, forwardedRef) => {
     onDrop([col, row], event.dataTransfer);
   }, [firstColAccessible, getMouseArgsForPosition, onDrop]);
   useEventListener("drop", onDropImpl, (_g = eventTargetRef == null ? void 0 : eventTargetRef.current) != null ? _g : null, false, false);
-  const onDragLeaveImpl = React25.useCallback(() => {
+  const onDragLeaveImpl = React9.useCallback(() => {
     onDragLeave == null ? void 0 : onDragLeave();
   }, [onDragLeave]);
   useEventListener("dragleave", onDragLeaveImpl, (_h = eventTargetRef == null ? void 0 : eventTargetRef.current) != null ? _h : null, false, false);
-  const selectionRef = React25.useRef(selection);
+  const selectionRef = React9.useRef(selection);
   selectionRef.current = selection;
-  const focusRef = React25.useRef(null);
-  const focusElement = React25.useCallback((el) => {
+  const focusRef = React9.useRef(null);
+  const focusElement = React9.useCallback((el) => {
     var _a2;
     if (ref.current === null || !ref.current.contains(document.activeElement))
       return;
@@ -5457,7 +4874,7 @@ var DataGrid = (p, forwardedRef) => {
     }
     focusRef.current = el;
   }, [canvasRef]);
-  React25.useImperativeHandle(forwardedRef, () => ({
+  React9.useImperativeHandle(forwardedRef, () => ({
     focus: () => {
       var _a2;
       const el = focusRef.current;
@@ -5479,7 +4896,7 @@ var DataGrid = (p, forwardedRef) => {
     },
     damage
   }), [canvasRef, damage, getBoundsForItem]);
-  const lastFocusedSubdomNode = React25.useRef();
+  const lastFocusedSubdomNode = React9.useRef();
   const accessibilityTree = useDebouncedMemo(() => {
     var _a2, _b2, _c2, _d2;
     if (width < 50)
@@ -5496,18 +4913,18 @@ var DataGrid = (p, forwardedRef) => {
     if (fCol !== void 0 && fRow !== void 0 && !(visibleCols.includes(fCol) && visibleRows.includes(fRow))) {
       focusElement(null);
     }
-    return /* @__PURE__ */ React25.createElement("table", {
+    return /* @__PURE__ */ React9.createElement("table", {
       key: "access-tree",
       role: "grid",
       "aria-rowcount": rows + 1,
       "aria-multiselectable": "true",
       "aria-colcount": mappedColumns.length + colOffset
-    }, /* @__PURE__ */ React25.createElement("thead", {
+    }, /* @__PURE__ */ React9.createElement("thead", {
       role: "rowgroup"
-    }, /* @__PURE__ */ React25.createElement("tr", {
+    }, /* @__PURE__ */ React9.createElement("tr", {
       role: "row",
       "aria-rowindex": 1
-    }, effectiveCols.map((c) => /* @__PURE__ */ React25.createElement("th", {
+    }, effectiveCols.map((c) => /* @__PURE__ */ React9.createElement("th", {
       role: "columnheader",
       "aria-selected": selection.columns.hasIndex(c.sourceIndex),
       "aria-colindex": c.sourceIndex + 1 + colOffset,
@@ -5518,9 +4935,9 @@ var DataGrid = (p, forwardedRef) => {
         return onCellFocused == null ? void 0 : onCellFocused([c.sourceIndex, -1]);
       },
       key: c.sourceIndex
-    }, c.title)))), /* @__PURE__ */ React25.createElement("tbody", {
+    }, c.title)))), /* @__PURE__ */ React9.createElement("tbody", {
       role: "rowgroup"
-    }, visibleRows.map((row) => /* @__PURE__ */ React25.createElement("tr", {
+    }, visibleRows.map((row) => /* @__PURE__ */ React9.createElement("tr", {
       role: "row",
       "aria-selected": selection.rows.hasIndex(row),
       key: row,
@@ -5532,7 +4949,7 @@ var DataGrid = (p, forwardedRef) => {
       const selected = range2 !== void 0 && col >= range2.x && col < range2.x + range2.width && row >= range2.y && row < range2.y + range2.height;
       const id = `glide-cell-${col}-${row}`;
       const cellContent = getCellContent([col, row]);
-      return /* @__PURE__ */ React25.createElement("td", {
+      return /* @__PURE__ */ React9.createElement("td", {
         key,
         role: "gridcell",
         "aria-colindex": col + 1 + colOffset,
@@ -5547,12 +4964,15 @@ var DataGrid = (p, forwardedRef) => {
           return onKeyDown == null ? void 0 : onKeyDown({
             bounds: getBoundsForItem(canvas, col, row),
             cancel: () => void 0,
+            preventDefault: () => void 0,
+            stopPropagation: () => void 0,
             ctrlKey: false,
             key: "Enter",
             keyCode: 13,
             metaKey: false,
             shiftKey: false,
-            altKey: false
+            altKey: false,
+            rawEvent: void 0
           });
         },
         onFocusCapture: (e) => {
@@ -5564,7 +4984,7 @@ var DataGrid = (p, forwardedRef) => {
         },
         ref: focused ? focusElement : void 0,
         tabIndex: -1
-      }, getRowData(cellContent));
+      }, getRowData(cellContent, getCellRenderer));
     })))));
   }, [
     width,
@@ -5587,7 +5007,7 @@ var DataGrid = (p, forwardedRef) => {
   const opacityX = freezeColumns === 0 || !fixedShadowX ? 0 : cellXOffset > freezeColumns ? 1 : (0, import_clamp2.default)(-translateX / 100, 0, 1);
   const absoluteOffsetY = -cellYOffset * 32 + translateY;
   const opacityY = !fixedShadowY ? 0 : (0, import_clamp2.default)(-absoluteOffsetY / 100, 0, 1);
-  const stickyShadow = React25.useMemo(() => {
+  const stickyShadow = React9.useMemo(() => {
     if (!opacityX && !opacityY) {
       return null;
     }
@@ -5613,35 +5033,34 @@ var DataGrid = (p, forwardedRef) => {
       transition: !smoothScrollY ? "opacity 0.2s" : void 0,
       boxShadow: "inset 0 13px 10px -13px rgba(0, 0, 0, 0.2)"
     };
-    return /* @__PURE__ */ React25.createElement(React25.Fragment, null, opacityX > 0 && /* @__PURE__ */ React25.createElement("div", {
+    return /* @__PURE__ */ React9.createElement(React9.Fragment, null, opacityX > 0 && /* @__PURE__ */ React9.createElement("div", {
       id: "shadow-x",
       style: styleX
-    }), opacityY > 0 && /* @__PURE__ */ React25.createElement("div", {
+    }), opacityY > 0 && /* @__PURE__ */ React9.createElement("div", {
       id: "shadow-y",
       style: styleY
     }));
   }, [opacityX, opacityY, stickyX, width, smoothScrollX, totalHeaderHeight, height, smoothScrollY]);
-  const overlayStyle = React25.useMemo(() => ({
+  const overlayStyle = React9.useMemo(() => ({
     position: "absolute",
     top: 0,
     left: 0
   }), []);
-  return /* @__PURE__ */ React25.createElement(React25.Fragment, null, /* @__PURE__ */ React25.createElement("canvas", {
+  return /* @__PURE__ */ React9.createElement(React9.Fragment, null, /* @__PURE__ */ React9.createElement("canvas", {
     "data-testid": "data-grid-canvas",
     tabIndex: 0,
     onKeyDown: onKeyDownImpl,
     onKeyUp: onKeyUpImpl,
     onFocus: onCanvasFocused,
     onBlur: onCanvasBlur,
-    className,
     ref: refImpl,
     style
-  }, accessibilityTree), /* @__PURE__ */ React25.createElement("canvas", {
+  }, accessibilityTree), /* @__PURE__ */ React9.createElement("canvas", {
     ref: overlayRef,
     style: overlayStyle
   }), stickyShadow);
 };
-var data_grid_default = React25.memo(React25.forwardRef(DataGrid));
+var data_grid_default = React9.memo(React9.forwardRef(DataGrid));
 
 // src/data-grid-dnd/data-grid-dnd.tsx
 function offsetColumnSize(column, width, min, max) {
@@ -5650,17 +5069,19 @@ function offsetColumnSize(column, width, min, max) {
 }
 var DataGridDnd = (p) => {
   var _a;
-  const [resizeColStartX, setResizeColStartX] = React26.useState();
-  const [resizeCol, setResizeCol] = React26.useState();
-  const [dragCol, setDragCol] = React26.useState();
-  const [dropCol, setDropCol] = React26.useState();
-  const [dragColActive, setDragColActive] = React26.useState(false);
-  const [dragStartX, setDragStartX] = React26.useState();
-  const [dragRow, setDragRow] = React26.useState();
-  const [dropRow, setDropRow] = React26.useState();
-  const [dragRowActive, setDragRowActive] = React26.useState(false);
-  const [dragStartY, setDragStartY] = React26.useState();
+  const [resizeColStartX, setResizeColStartX] = React10.useState();
+  const [resizeCol, setResizeCol] = React10.useState();
+  const [dragCol, setDragCol] = React10.useState();
+  const [dropCol, setDropCol] = React10.useState();
+  const [dragColActive, setDragColActive] = React10.useState(false);
+  const [dragStartX, setDragStartX] = React10.useState();
+  const [dragRow, setDragRow] = React10.useState();
+  const [dropRow, setDropRow] = React10.useState();
+  const [dragRowActive, setDragRowActive] = React10.useState(false);
+  const [dragStartY, setDragStartY] = React10.useState();
   const {
+    onHeaderMenuClick,
+    getCellContent,
     onColumnMoved,
     onColumnResize,
     onColumnResizeStart,
@@ -5668,15 +5089,17 @@ var DataGridDnd = (p) => {
     gridRef,
     maxColumnWidth,
     minColumnWidth,
-    onHeaderMenuClick,
     onRowMoved,
     lockColumns,
-    getCellContent
+    onMouseDown,
+    onMouseUp,
+    onItemHovered,
+    onDragStart
   } = p;
   const canResize = ((_a = onColumnResize != null ? onColumnResize : onColumnResizeEnd) != null ? _a : onColumnResizeStart) !== void 0;
-  const { onMouseDown, onMouseUp, onItemHovered, columns, selection } = p;
+  const { columns, selection } = p;
   const selectedColumns = selection.columns;
-  const onItemHoveredImpl = React26.useCallback((args) => {
+  const onItemHoveredImpl = React10.useCallback((args) => {
     const [col, row] = args.location;
     if (dragCol !== void 0 && dropCol !== col && col >= lockColumns) {
       setDragColActive(true);
@@ -5689,8 +5112,8 @@ var DataGridDnd = (p) => {
     }
   }, [dragCol, dragRow, dropCol, onItemHovered, lockColumns]);
   const canDragCol = onColumnMoved !== void 0;
-  const onMouseDownImpl = React26.useCallback((args) => {
-    var _a2;
+  const onMouseDownImpl = React10.useCallback((args) => {
+    var _a2, _b;
     if (args.button === 0) {
       const [col, row] = args.location;
       if (args.kind === "out-of-bounds" && args.isEdge && canResize) {
@@ -5703,7 +5126,7 @@ var DataGridDnd = (p) => {
         if (args.isEdge && canResize) {
           setResizeColStartX(args.bounds.x);
           setResizeCol(col);
-          onColumnResizeStart == null ? void 0 : onColumnResizeStart(columns[col], args.bounds.width, col);
+          onColumnResizeStart == null ? void 0 : onColumnResizeStart(columns[col], args.bounds.width, col, args.bounds.width + ((_b = columns[col].growOffset) != null ? _b : 0));
         } else if (args.kind === "header" && canDragCol) {
           setDragStartX(args.bounds.x);
           setDragCol(col);
@@ -5715,13 +5138,13 @@ var DataGridDnd = (p) => {
     }
     onMouseDown == null ? void 0 : onMouseDown(args);
   }, [onMouseDown, canResize, lockColumns, onRowMoved, gridRef, columns, canDragCol, onColumnResizeStart]);
-  const onHeaderMenuClickMangled = React26.useCallback((col, screenPosition) => {
+  const onHeaderMenuClickMangled = React10.useCallback((col, screenPosition) => {
     if (dragColActive || dragRowActive)
       return;
     onHeaderMenuClick == null ? void 0 : onHeaderMenuClick(col, screenPosition);
   }, [dragColActive, dragRowActive, onHeaderMenuClick]);
-  const lastResizeWidthRef = React26.useRef(-1);
-  const clearAll = React26.useCallback(() => {
+  const lastResizeWidthRef = React10.useRef(-1);
+  const clearAll = React10.useCallback(() => {
     lastResizeWidthRef.current = -1;
     setDragRow(void 0);
     setDropRow(void 0);
@@ -5734,7 +5157,8 @@ var DataGridDnd = (p) => {
     setResizeCol(void 0);
     setResizeColStartX(void 0);
   }, []);
-  const onMouseUpImpl = React26.useCallback((args, isOutside) => {
+  const onMouseUpImpl = React10.useCallback((args, isOutside) => {
+    var _a2, _b, _c;
     if (args.button === 0) {
       if (resizeCol !== void 0) {
         if ((selectedColumns == null ? void 0 : selectedColumns.hasIndex(resizeCol)) === true) {
@@ -5742,15 +5166,18 @@ var DataGridDnd = (p) => {
             if (c === resizeCol)
               continue;
             const col = columns[c];
-            onColumnResize == null ? void 0 : onColumnResize(col, offsetColumnSize(col, lastResizeWidthRef.current, minColumnWidth, maxColumnWidth), c);
+            const newSize = offsetColumnSize(col, lastResizeWidthRef.current, minColumnWidth, maxColumnWidth);
+            onColumnResize == null ? void 0 : onColumnResize(col, newSize, c, newSize + ((_a2 = col.growOffset) != null ? _a2 : 0));
           }
         }
-        onColumnResizeEnd == null ? void 0 : onColumnResizeEnd(columns[resizeCol], offsetColumnSize(columns[resizeCol], lastResizeWidthRef.current, minColumnWidth, maxColumnWidth), resizeCol);
+        const ns = offsetColumnSize(columns[resizeCol], lastResizeWidthRef.current, minColumnWidth, maxColumnWidth);
+        onColumnResizeEnd == null ? void 0 : onColumnResizeEnd(columns[resizeCol], ns, resizeCol, ns + ((_b = columns[resizeCol].growOffset) != null ? _b : 0));
         for (const c of selectedColumns) {
           if (c === resizeCol)
             continue;
           const col = columns[c];
-          onColumnResizeEnd == null ? void 0 : onColumnResizeEnd(col, offsetColumnSize(col, lastResizeWidthRef.current, minColumnWidth, maxColumnWidth), c);
+          const s = offsetColumnSize(col, lastResizeWidthRef.current, minColumnWidth, maxColumnWidth);
+          onColumnResizeEnd == null ? void 0 : onColumnResizeEnd(col, s, c, s + ((_c = col.growOffset) != null ? _c : 0));
         }
       }
       clearAll();
@@ -5779,7 +5206,7 @@ var DataGridDnd = (p) => {
     onRowMoved,
     clearAll
   ]);
-  const dragOffset = React26.useMemo(() => {
+  const dragOffset = React10.useMemo(() => {
     if (dragCol === void 0 || dropCol === void 0)
       return void 0;
     if (dragCol === dropCol)
@@ -5789,7 +5216,8 @@ var DataGridDnd = (p) => {
       dest: dropCol
     };
   }, [dragCol, dropCol]);
-  const onMouseMove = React26.useCallback((event) => {
+  const onMouseMove = React10.useCallback((event) => {
+    var _a2, _b;
     if (dragCol !== void 0 && dragStartX !== void 0) {
       const diff = Math.abs(event.clientX - dragStartX);
       if (diff > 20) {
@@ -5803,14 +5231,16 @@ var DataGridDnd = (p) => {
     } else if (resizeCol !== void 0 && resizeColStartX !== void 0) {
       const column = columns[resizeCol];
       const newWidth = event.clientX - resizeColStartX;
-      onColumnResize == null ? void 0 : onColumnResize(column, offsetColumnSize(column, newWidth, minColumnWidth, maxColumnWidth), resizeCol);
+      const ns = offsetColumnSize(column, newWidth, minColumnWidth, maxColumnWidth);
+      onColumnResize == null ? void 0 : onColumnResize(column, ns, resizeCol, ns + ((_a2 = column.growOffset) != null ? _a2 : 0));
       lastResizeWidthRef.current = newWidth;
       if ((selectedColumns == null ? void 0 : selectedColumns.first()) === resizeCol) {
         for (const c of selectedColumns) {
           if (c === resizeCol)
             continue;
           const col = columns[c];
-          onColumnResize == null ? void 0 : onColumnResize(col, offsetColumnSize(col, lastResizeWidthRef.current, minColumnWidth, maxColumnWidth), c);
+          const s = offsetColumnSize(col, lastResizeWidthRef.current, minColumnWidth, maxColumnWidth);
+          onColumnResize == null ? void 0 : onColumnResize(col, s, c, s + ((_b = col.growOffset) != null ? _b : 0));
         }
       }
     }
@@ -5827,7 +5257,7 @@ var DataGridDnd = (p) => {
     onColumnResize,
     selectedColumns
   ]);
-  const getMangledCellContent = React26.useCallback((cell) => {
+  const getMangledCellContent = React10.useCallback((cell) => {
     if (dragRow === void 0 || dropRow === void 0)
       return getCellContent(cell);
     let [col, row] = cell;
@@ -5841,68 +5271,71 @@ var DataGridDnd = (p) => {
     }
     return getCellContent([col, row]);
   }, [dragRow, dropRow, getCellContent]);
-  const dragStart = p.onDragStart;
-  const onDragStart = React26.useCallback((args) => {
-    dragStart == null ? void 0 : dragStart(args);
+  const onDragStartImpl = React10.useCallback((args) => {
+    onDragStart == null ? void 0 : onDragStart(args);
     if (!args.defaultPrevented()) {
       clearAll();
     }
-  }, [clearAll, dragStart]);
-  return /* @__PURE__ */ React26.createElement(data_grid_default, {
+  }, [clearAll, onDragStart]);
+  return /* @__PURE__ */ React10.createElement(data_grid_default, {
     accessibilityHeight: p.accessibilityHeight,
+    canvasRef: p.canvasRef,
     cellXOffset: p.cellXOffset,
     cellYOffset: p.cellYOffset,
     columns: p.columns,
-    enableGroups: p.enableGroups,
-    freezeColumns: p.freezeColumns,
-    onCanvasFocused: p.onCanvasFocused,
-    onCanvasBlur: p.onCanvasBlur,
-    isFocused: p.isFocused,
-    onMouseMove: p.onMouseMove,
-    groupHeaderHeight: p.groupHeaderHeight,
-    fillHandle: p.fillHandle,
-    headerHeight: p.headerHeight,
-    height: p.height,
-    trailingRowType: p.trailingRowType,
-    rowHeight: p.rowHeight,
-    rows: p.rows,
-    highlightRegions: p.highlightRegions,
-    verticalBorder: p.verticalBorder,
-    width: p.width,
-    canvasRef: p.canvasRef,
-    onContextMenu: p.onContextMenu,
-    className: p.className,
-    theme: p.theme,
     disabledRows: p.disabledRows,
-    isFilling: p.isFilling,
-    firstColAccessible: p.firstColAccessible,
     drawCustomCell: p.drawCustomCell,
+    drawFocusRing: p.drawFocusRing,
     drawHeader: p.drawHeader,
+    enableGroups: p.enableGroups,
     eventTargetRef: p.eventTargetRef,
     experimental: p.experimental,
+    fillHandle: p.fillHandle,
+    firstColAccessible: p.firstColAccessible,
+    fixedShadowX: p.fixedShadowX,
+    fixedShadowY: p.fixedShadowY,
+    freezeColumns: p.freezeColumns,
+    getCellRenderer: p.getCellRenderer,
     getGroupDetails: p.getGroupDetails,
     getRowThemeOverride: p.getRowThemeOverride,
+    groupHeaderHeight: p.groupHeaderHeight,
+    headerHeight: p.headerHeight,
     headerIcons: p.headerIcons,
+    height: p.height,
+    highlightRegions: p.highlightRegions,
+    imageWindowLoader: p.imageWindowLoader,
     isDraggable: p.isDraggable,
-    onDragEnd: p.onDragEnd,
+    isFilling: p.isFilling,
+    isFocused: p.isFocused,
+    onCanvasBlur: p.onCanvasBlur,
+    onCanvasFocused: p.onCanvasFocused,
     onCellFocused: p.onCellFocused,
-    onDragStart,
-    onDragOverCell: p.onDragOverCell,
+    onContextMenu: p.onContextMenu,
+    onDragEnd: p.onDragEnd,
     onDragLeave: p.onDragLeave,
+    onDragOverCell: p.onDragOverCell,
     onDrop: p.onDrop,
     onKeyDown: p.onKeyDown,
     onKeyUp: p.onKeyUp,
+    onMouseMove: p.onMouseMove,
     prelightCells: p.prelightCells,
+    rowHeight: p.rowHeight,
+    rows: p.rows,
     selection: p.selection,
-    translateX: p.translateX,
-    translateY: p.translateY,
     smoothScrollX: p.smoothScrollX,
     smoothScrollY: p.smoothScrollY,
+    theme: p.theme,
+    trailingRowType: p.trailingRowType,
+    translateX: p.translateX,
+    translateY: p.translateY,
+    verticalBorder: p.verticalBorder,
+    width: p.width,
     getCellContent: getMangledCellContent,
     isResizing: resizeCol !== void 0,
     onHeaderMenuClick: onHeaderMenuClickMangled,
     isDragging: dragColActive,
     onItemHovered: onItemHoveredImpl,
+    onDragStart: onDragStartImpl,
     onMouseDown: onMouseDownImpl,
     allowResize: onColumnResize !== void 0,
     onMouseUp: onMouseUpImpl,
@@ -5915,33 +5348,21 @@ var data_grid_dnd_default = DataGridDnd;
 
 // src/scrolling-data-grid/infinite-scroller.tsx
 init_esm2();
-var React27 = __toESM(require("react"), 1);
+var React11 = __toESM(require("react"), 1);
 
 // src/common/resize-detector.ts
-var import_react15 = require("react");
-var createNotifier = (setSize) => ({
-  width,
-  height
-}) => {
-  setSize((prev) => {
-    if (prev.width === width && prev.height === height) {
-      return prev;
-    }
-    return { width, height };
+var import_react5 = require("react");
+function useResizeDetector(initialSize) {
+  const ref = (0, import_react5.useRef)(null);
+  const [size, setSize] = (0, import_react5.useState)({
+    width: initialSize == null ? void 0 : initialSize[0],
+    height: initialSize == null ? void 0 : initialSize[1]
   });
-};
-function useResizeDetector() {
-  const ref = (0, import_react15.useRef)(null);
-  const [size, setSize] = (0, import_react15.useState)({
-    width: void 0,
-    height: void 0
-  });
-  (0, import_react15.useLayoutEffect)(() => {
-    const notifyResize = createNotifier(setSize);
+  (0, import_react5.useLayoutEffect)(() => {
     const resizeCallback = (entries) => {
       for (const entry of entries) {
         const { width, height } = entry && entry.contentRect || {};
-        notifyResize({ width, height });
+        setSize((cv) => cv.width === width && cv.height === height ? cv : { width, height });
       }
     };
     const resizeObserver = new window.ResizeObserver(resizeCallback);
@@ -5963,6 +5384,23 @@ var ScrollRegionStyle = /* @__PURE__ */ styled_default("div")({
     "s1jz82f8-0": [(p) => p.isSafari ? "scroll" : "auto"]
   }
 });
+function eatEvent(e) {
+  e.stopPropagation();
+}
+function useTouchUpDelayed(delay) {
+  const [hasTouches, setHasTouches] = React11.useState(false);
+  const cbTimer = React11.useRef(0);
+  useEventListener("touchstart", React11.useCallback(() => {
+    window.clearTimeout(cbTimer.current);
+    setHasTouches(true);
+  }, []), window, true, false);
+  useEventListener("touchend", React11.useCallback((e) => {
+    if (e.touches.length === 0) {
+      cbTimer.current = window.setTimeout(() => setHasTouches(false), delay);
+    }
+  }, [delay]), window, true, false);
+  return hasTouches;
+}
 var InfiniteScroller = (p) => {
   var _a, _b, _c, _d;
   const {
@@ -5980,30 +5418,46 @@ var InfiniteScroller = (p) => {
     rightElementProps,
     scrollRef,
     scrollToEnd,
-    minimap,
-    style
+    initialSize,
+    minimap
   } = p;
   const padders = [];
   const rightElementSticky = (_a = rightElementProps == null ? void 0 : rightElementProps.sticky) != null ? _a : false;
   const rightElementFill = (_b = rightElementProps == null ? void 0 : rightElementProps.fill) != null ? _b : false;
-  const offsetY = React27.useRef(0);
-  const lastScrollY = React27.useRef(0);
-  const scroller = React27.useRef(null);
+  const offsetY = React11.useRef(0);
+  const lastScrollY = React11.useRef(0);
+  const scroller = React11.useRef(null);
   const dpr = window.devicePixelRatio;
-  React27.useEffect(() => {
+  React11.useEffect(() => {
     const el = scroller.current;
     if (el === null || scrollToEnd !== true)
       return;
     el.scrollLeft = el.scrollWidth - el.clientWidth;
   }, [scrollToEnd]);
-  const lastScrollPosition = React27.useRef({
+  const lastScrollPosition = React11.useRef({
     scrollLeft: 0,
     scrollTop: 0,
     lockDirection: void 0
   });
-  const resetHandle = React27.useRef(0);
-  const rightWrapRef = React27.useRef(null);
-  const onScroll = React27.useCallback(() => {
+  const rightWrapRef = React11.useRef(null);
+  const hasTouches = useTouchUpDelayed(200);
+  const [isIdle, setIsIdle] = React11.useState(true);
+  const idleTimer = React11.useRef(0);
+  React11.useEffect(() => {
+    if (!isIdle || hasTouches || lastScrollPosition.current.lockDirection === void 0)
+      return;
+    const el = scroller.current;
+    if (el === null)
+      return;
+    const [lx, ly] = lastScrollPosition.current.lockDirection;
+    if (lx !== void 0) {
+      el.scrollLeft = lx;
+    } else if (ly !== void 0) {
+      el.scrollTop = ly;
+    }
+    lastScrollPosition.current.lockDirection = void 0;
+  }, [hasTouches, isIdle]);
+  const onScroll = React11.useCallback(() => {
     var _a2, _b2, _c2, _d2;
     const el = scroller.current;
     if (el === null)
@@ -6014,58 +5468,43 @@ var InfiniteScroller = (p) => {
     const lastScrollLeft = lastScrollPosition.current.scrollLeft;
     const dx = scrollLeft - lastScrollLeft;
     const dy = scrollTop - lastScrollTop;
-    if (dx !== 0 && dy !== 0 && preventDiagonalScrolling && lastScrollPosition.current.lockDirection === void 0) {
-      lastScrollPosition.current.lockDirection = Math.abs(dx) > Math.abs(dy) ? [lastScrollLeft, void 0] : [void 0, lastScrollTop];
+    if (hasTouches && dx !== 0 && dy !== 0 && (Math.abs(dx) > 3 || Math.abs(dy) > 3) && preventDiagonalScrolling && lastScrollPosition.current.lockDirection === void 0) {
+      lastScrollPosition.current.lockDirection = Math.abs(dx) < Math.abs(dy) ? [lastScrollLeft, void 0] : [void 0, lastScrollTop];
     }
     const lock = lastScrollPosition.current.lockDirection;
     scrollLeft = (_a2 = lock == null ? void 0 : lock[0]) != null ? _a2 : scrollLeft;
     scrollTop = (_b2 = lock == null ? void 0 : lock[1]) != null ? _b2 : scrollTop;
     lastScrollPosition.current.scrollLeft = scrollLeft;
     lastScrollPosition.current.scrollTop = scrollTop;
-    const newY = Math.max(0, scrollTop);
+    const newY = scrollTop;
     const delta = lastScrollY.current - newY;
     const scrollableHeight = el.scrollHeight - el.clientHeight;
-    const maxFakeY = Math.max(0, scrollHeight - el.clientHeight);
     lastScrollY.current = newY;
     if (scrollableHeight > 0 && (Math.abs(delta) > 2e3 || newY === 0 || newY === scrollableHeight) && scrollHeight > el.scrollHeight + 5) {
       const prog = newY / scrollableHeight;
       const recomputed = (scrollHeight - el.clientHeight) * prog;
       offsetY.current = recomputed - newY;
     }
-    if (resetHandle.current > 0) {
-      window.clearTimeout(resetHandle.current);
-    }
     if (lock !== void 0) {
-      resetHandle.current = window.setTimeout(() => {
-        var _a3;
-        const [lx, ly] = (_a3 = lastScrollPosition.current.lockDirection) != null ? _a3 : [];
-        if (lx !== void 0) {
-          el.scrollLeft = lx;
-        } else if (ly !== void 0) {
-          el.scrollTop = ly;
-        }
-        lastScrollPosition.current.lockDirection = void 0;
-        resetHandle.current = 0;
-      }, 200);
+      window.clearTimeout(idleTimer.current);
+      setIsIdle(false);
+      idleTimer.current = window.setTimeout(() => setIsIdle(true), 200);
     }
     update({
-      x: Math.max(0, scrollLeft),
-      y: Math.min(maxFakeY, newY + offsetY.current),
+      x: scrollLeft,
+      y: newY + offsetY.current,
       width: el.clientWidth - paddingRight,
       height: el.clientHeight - paddingBottom,
       paddingRight: (_d2 = (_c2 = rightWrapRef.current) == null ? void 0 : _c2.clientWidth) != null ? _d2 : 0
     });
-  }, [paddingBottom, paddingRight, scrollHeight, update, preventDiagonalScrolling]);
-  const onScrollRef = React27.useRef(onScroll);
+  }, [paddingBottom, paddingRight, scrollHeight, update, preventDiagonalScrolling, hasTouches]);
+  const onScrollRef = React11.useRef(onScroll);
   onScrollRef.current = onScroll;
-  const lastProps = React27.useRef();
-  const nomEvent = React27.useCallback((e) => {
-    e.stopPropagation();
-  }, []);
-  React27.useEffect(() => {
+  const lastProps = React11.useRef();
+  React11.useEffect(() => {
     onScroll();
   }, [onScroll, paddingBottom, paddingRight]);
-  const setRefs = React27.useCallback((instance) => {
+  const setRefs = React11.useCallback((instance) => {
     scroller.current = instance;
     if (scrollRef !== void 0) {
       scrollRef.current = instance;
@@ -6073,7 +5512,7 @@ var InfiniteScroller = (p) => {
   }, [scrollRef]);
   let key = 0;
   let h = 0;
-  padders.push(/* @__PURE__ */ React27.createElement("div", {
+  padders.push(/* @__PURE__ */ React11.createElement("div", {
     key: key++,
     style: {
       width: scrollWidth,
@@ -6082,7 +5521,7 @@ var InfiniteScroller = (p) => {
   }));
   while (h < scrollHeight) {
     const toAdd = Math.min(5e6, scrollHeight - h);
-    padders.push(/* @__PURE__ */ React27.createElement("div", {
+    padders.push(/* @__PURE__ */ React11.createElement("div", {
       key: key++,
       style: {
         width: 0,
@@ -6095,7 +5534,7 @@ var InfiniteScroller = (p) => {
     ref,
     width,
     height
-  } = useResizeDetector();
+  } = useResizeDetector(initialSize);
   if (((_c = lastProps.current) == null ? void 0 : _c.height) !== height || ((_d = lastProps.current) == null ? void 0 : _d.width) !== width) {
     window.setTimeout(() => onScrollRef.current(), 0);
     lastProps.current = {
@@ -6104,18 +5543,16 @@ var InfiniteScroller = (p) => {
     };
   }
   if ((width != null ? width : 0) === 0 || (height != null ? height : 0) === 0)
-    return /* @__PURE__ */ React27.createElement("div", {
-      style,
+    return /* @__PURE__ */ React11.createElement("div", {
       ref
     });
-  return /* @__PURE__ */ React27.createElement("div", {
-    style,
+  return /* @__PURE__ */ React11.createElement("div", {
     ref
-  }, /* @__PURE__ */ React27.createElement(ScrollRegionStyle, {
+  }, /* @__PURE__ */ React11.createElement(ScrollRegionStyle, {
     isSafari: browserIsSafari.value
-  }, minimap, /* @__PURE__ */ React27.createElement("div", {
+  }, minimap, /* @__PURE__ */ React11.createElement("div", {
     className: "dvn-underlay"
-  }, children), /* @__PURE__ */ React27.createElement("div", {
+  }, children), /* @__PURE__ */ React11.createElement("div", {
     ref: setRefs,
     style: lastProps.current,
     draggable,
@@ -6127,17 +5564,17 @@ var InfiniteScroller = (p) => {
     },
     className: "dvn-scroller " + (className != null ? className : ""),
     onScroll
-  }, /* @__PURE__ */ React27.createElement("div", {
+  }, /* @__PURE__ */ React11.createElement("div", {
     className: "dvn-scroll-inner" + (rightElement === void 0 ? " hidden" : "")
-  }, /* @__PURE__ */ React27.createElement("div", {
+  }, /* @__PURE__ */ React11.createElement("div", {
     className: "dvn-stack"
-  }, padders), rightElement !== void 0 && /* @__PURE__ */ React27.createElement(React27.Fragment, null, !rightElementFill && /* @__PURE__ */ React27.createElement("div", {
+  }, padders), rightElement !== void 0 && /* @__PURE__ */ React11.createElement(React11.Fragment, null, !rightElementFill && /* @__PURE__ */ React11.createElement("div", {
     className: "dvn-spacer"
-  }), /* @__PURE__ */ React27.createElement("div", {
+  }), /* @__PURE__ */ React11.createElement("div", {
     ref: rightWrapRef,
-    onMouseDown: nomEvent,
-    onMouseUp: nomEvent,
-    onMouseMove: nomEvent,
+    onMouseDown: eatEvent,
+    onMouseUp: eatEvent,
+    onMouseMove: eatEvent,
     style: {
       height,
       maxHeight: clientHeight - Math.ceil(dpr % 1),
@@ -6154,7 +5591,7 @@ var InfiniteScroller = (p) => {
 };
 
 // src/scrolling-data-grid/scrolling-data-grid.tsx
-var import_clamp4 = __toESM(require("lodash/clamp"), 1);
+var import_clamp4 = __toESM(require("lodash/clamp.js"), 1);
 var MinimapStyle = /* @__PURE__ */ styled_default("div")({
   name: "MinimapStyle",
   class: "m15w2ly5"
@@ -6170,13 +5607,7 @@ var GridScroller = (p) => {
     enableGroups,
     freezeColumns,
     experimental,
-    clientSize
-  } = p;
-  const {
-    paddingRight,
-    paddingBottom
-  } = experimental != null ? experimental : {};
-  const {
+    clientSize,
     className,
     onVisibleRegionChanged,
     scrollToEnd,
@@ -6187,18 +5618,21 @@ var GridScroller = (p) => {
     overscrollX,
     overscrollY,
     showMinimap = false,
-    ...dataGridProps
+    initialSize,
+    smoothScrollX = false,
+    smoothScrollY = false,
+    isDraggable
   } = p;
   const {
-    smoothScrollX = false,
-    smoothScrollY = false
-  } = p;
+    paddingRight,
+    paddingBottom
+  } = experimental != null ? experimental : {};
   const [clientWidth, clientHeight] = clientSize;
-  const last = React28.useRef();
-  const lastX = React28.useRef();
-  const lastY = React28.useRef();
-  const lastSize = React28.useRef();
-  const width = React28.useMemo(() => {
+  const last = React12.useRef();
+  const lastX = React12.useRef();
+  const lastY = React12.useRef();
+  const lastSize = React12.useRef();
+  const width = React12.useMemo(() => {
     let r = Math.max(0, overscrollX != null ? overscrollX : 0);
     for (const c of columns) {
       r += c.width;
@@ -6216,16 +5650,19 @@ var GridScroller = (p) => {
   if (overscrollY !== void 0) {
     height += overscrollY;
   }
-  const lastArgs = React28.useRef();
-  const processArgs = React28.useCallback(() => {
+  const lastArgs = React12.useRef();
+  const processArgs = React12.useCallback(() => {
     var _a2, _b2, _c2;
-    const args = lastArgs.current;
-    if (args === void 0)
+    if (lastArgs.current === void 0)
       return;
+    const args = {
+      ...lastArgs.current
+    };
     let x = 0;
-    let tx = 0;
+    let tx = args.x < 0 ? -args.x : 0;
     let cellRight = 0;
     let cellX = 0;
+    args.x = args.x < 0 ? 0 : args.x;
     let stickyColWidth = 0;
     for (let i = 0; i < freezeColumns; i++) {
       stickyColWidth += columns[i].width;
@@ -6309,11 +5746,11 @@ var GridScroller = (p) => {
       lastSize.current = [args.width, args.height];
     }
   }, [columns, rowHeight, rows, onVisibleRegionChanged, freezeColumns, smoothScrollX, smoothScrollY]);
-  const onScrollUpdate = React28.useCallback((args) => {
+  const onScrollUpdate = React12.useCallback((args) => {
     lastArgs.current = args;
     processArgs();
   }, [processArgs]);
-  React28.useEffect(() => {
+  React12.useEffect(() => {
     processArgs();
   }, [processArgs]);
   const scroller = (_a = scrollRef == null ? void 0 : scrollRef.current) != null ? _a : void 0;
@@ -6327,7 +5764,7 @@ var GridScroller = (p) => {
   const vHeight = Math.min(clientHeight * Math.max(vRatio, 0.01), h);
   const left = ((_b = scroller == null ? void 0 : scroller.scrollLeft) != null ? _b : 0) / (width - clientWidth) * (w - vWidth);
   const top = ((_c = scroller == null ? void 0 : scroller.scrollTop) != null ? _c : 0) / (height - clientHeight) * (h - vHeight);
-  const minimap = React28.useMemo(() => {
+  const minimap = React12.useMemo(() => {
     if (!showMinimap || vWidth === 0 || vHeight === 0)
       return void 0;
     const handleMouse = (e) => {
@@ -6344,7 +5781,7 @@ var GridScroller = (p) => {
         behavior: e.type === "mousemove" ? "auto" : "smooth"
       });
     };
-    return /* @__PURE__ */ React28.createElement(MinimapStyle, {
+    return /* @__PURE__ */ React12.createElement(MinimapStyle, {
       style: {
         width: w,
         height: h
@@ -6356,9 +5793,9 @@ var GridScroller = (p) => {
         handleMouse(e);
       },
       onClick: handleMouse
-    }, /* @__PURE__ */ React28.createElement("div", {
+    }, /* @__PURE__ */ React12.createElement("div", {
       className: "header"
-    }), /* @__PURE__ */ React28.createElement("div", {
+    }), /* @__PURE__ */ React12.createElement("div", {
       className: "locationMarker",
       onDragStart: (e) => e.preventDefault(),
       style: {
@@ -6370,12 +5807,12 @@ var GridScroller = (p) => {
       }
     }));
   }, [h, height, left, scroller, showMinimap, top, vHeight, vWidth, w, width]);
-  return /* @__PURE__ */ React28.createElement(InfiniteScroller, {
+  return /* @__PURE__ */ React12.createElement(InfiniteScroller, {
     scrollRef,
     minimap,
     className,
     preventDiagonalScrolling,
-    draggable: dataGridProps.isDraggable === true || typeof dataGridProps.isDraggable === "string",
+    draggable: isDraggable === true || typeof isDraggable === "string",
     scrollWidth: width + (paddingRight != null ? paddingRight : 0),
     scrollHeight: height + (paddingBottom != null ? paddingBottom : 0),
     clientHeight,
@@ -6384,12 +5821,76 @@ var GridScroller = (p) => {
     paddingRight,
     rightElementProps,
     update: onScrollUpdate,
+    initialSize,
     scrollToEnd
-  }, /* @__PURE__ */ React28.createElement(data_grid_dnd_default, {
+  }, /* @__PURE__ */ React12.createElement(data_grid_dnd_default, {
     eventTargetRef: scrollRef,
     width: clientWidth,
     height: clientHeight,
-    ...dataGridProps
+    accessibilityHeight: p.accessibilityHeight,
+    canvasRef: p.canvasRef,
+    cellXOffset: p.cellXOffset,
+    cellYOffset: p.cellYOffset,
+    columns: p.columns,
+    disabledRows: p.disabledRows,
+    enableGroups: p.enableGroups,
+    fillHandle: p.fillHandle,
+    firstColAccessible: p.firstColAccessible,
+    fixedShadowX: p.fixedShadowX,
+    fixedShadowY: p.fixedShadowY,
+    freezeColumns: p.freezeColumns,
+    getCellContent: p.getCellContent,
+    getCellRenderer: p.getCellRenderer,
+    getGroupDetails: p.getGroupDetails,
+    getRowThemeOverride: p.getRowThemeOverride,
+    groupHeaderHeight: p.groupHeaderHeight,
+    headerHeight: p.headerHeight,
+    highlightRegions: p.highlightRegions,
+    imageWindowLoader: p.imageWindowLoader,
+    isFilling: p.isFilling,
+    isFocused: p.isFocused,
+    lockColumns: p.lockColumns,
+    maxColumnWidth: p.maxColumnWidth,
+    minColumnWidth: p.minColumnWidth,
+    onHeaderMenuClick: p.onHeaderMenuClick,
+    onMouseMove: p.onMouseMove,
+    prelightCells: p.prelightCells,
+    rowHeight: p.rowHeight,
+    rows: p.rows,
+    selection: p.selection,
+    theme: p.theme,
+    trailingRowType: p.trailingRowType,
+    translateX: p.translateX,
+    translateY: p.translateY,
+    verticalBorder: p.verticalBorder,
+    drawCustomCell: p.drawCustomCell,
+    drawFocusRing: p.drawFocusRing,
+    drawHeader: p.drawHeader,
+    experimental: p.experimental,
+    gridRef: p.gridRef,
+    headerIcons: p.headerIcons,
+    isDraggable: p.isDraggable,
+    onCanvasBlur: p.onCanvasBlur,
+    onCanvasFocused: p.onCanvasFocused,
+    onCellFocused: p.onCellFocused,
+    onColumnMoved: p.onColumnMoved,
+    onColumnResize: p.onColumnResize,
+    onColumnResizeEnd: p.onColumnResizeEnd,
+    onColumnResizeStart: p.onColumnResizeStart,
+    onContextMenu: p.onContextMenu,
+    onDragEnd: p.onDragEnd,
+    onDragLeave: p.onDragLeave,
+    onDragOverCell: p.onDragOverCell,
+    onDragStart: p.onDragStart,
+    onDrop: p.onDrop,
+    onItemHovered: p.onItemHovered,
+    onKeyDown: p.onKeyDown,
+    onKeyUp: p.onKeyUp,
+    onMouseDown: p.onMouseDown,
+    onMouseUp: p.onMouseUp,
+    onRowMoved: p.onRowMoved,
+    smoothScrollX: p.smoothScrollX,
+    smoothScrollY: p.smoothScrollY
   }));
 };
 var scrolling_data_grid_default = GridScroller;
@@ -6405,10 +5906,10 @@ var SearchWrapper = /* @__PURE__ */ styled_default("div")({
 });
 
 // src/data-grid-search/data-grid-search.tsx
-var upArrow = /* @__PURE__ */ React29.createElement("svg", {
+var upArrow = /* @__PURE__ */ React13.createElement("svg", {
   className: "button-icon",
   viewBox: "0 0 512 512"
-}, /* @__PURE__ */ React29.createElement("path", {
+}, /* @__PURE__ */ React13.createElement("path", {
   fill: "none",
   stroke: "currentColor",
   strokeLinecap: "round",
@@ -6416,10 +5917,10 @@ var upArrow = /* @__PURE__ */ React29.createElement("svg", {
   strokeWidth: "48",
   d: "M112 244l144-144 144 144M256 120v292"
 }));
-var downArrow = /* @__PURE__ */ React29.createElement("svg", {
+var downArrow = /* @__PURE__ */ React13.createElement("svg", {
   className: "button-icon",
   viewBox: "0 0 512 512"
-}, /* @__PURE__ */ React29.createElement("path", {
+}, /* @__PURE__ */ React13.createElement("path", {
   fill: "none",
   stroke: "currentColor",
   strokeLinecap: "round",
@@ -6427,10 +5928,10 @@ var downArrow = /* @__PURE__ */ React29.createElement("svg", {
   strokeWidth: "48",
   d: "M112 268l144 144 144-144M256 392V100"
 }));
-var closeX = /* @__PURE__ */ React29.createElement("svg", {
+var closeX = /* @__PURE__ */ React13.createElement("svg", {
   className: "button-icon",
   viewBox: "0 0 512 512"
-}, /* @__PURE__ */ React29.createElement("path", {
+}, /* @__PURE__ */ React13.createElement("path", {
   fill: "none",
   stroke: "currentColor",
   strokeLinecap: "round",
@@ -6441,34 +5942,34 @@ var closeX = /* @__PURE__ */ React29.createElement("svg", {
 var targetSearchTimeMS = 10;
 var DataGridSearch = (p) => {
   const {
-    getCellsForSelection,
-    onSearchResultsChanged,
-    showSearch = false,
-    onSearchClose,
     canvasRef,
     cellYOffset,
     rows,
-    columns
+    columns,
+    searchInputRef,
+    getCellsForSelection,
+    onSearchResultsChanged,
+    showSearch = false,
+    onSearchClose
   } = p;
-  const [searchID] = React29.useState(() => "search-box-" + Math.round(Math.random() * 1e3));
-  const [searchString, setSearchString] = React29.useState("");
-  const [searchStatus, setSearchStatus] = React29.useState();
-  const searchStatusRef = React29.useRef(searchStatus);
+  const [searchID] = React13.useState(() => "search-box-" + Math.round(Math.random() * 1e3));
+  const [searchString, setSearchString] = React13.useState("");
+  const [searchStatus, setSearchStatus] = React13.useState();
+  const searchStatusRef = React13.useRef(searchStatus);
   searchStatusRef.current = searchStatus;
-  const abortControllerRef = React29.useRef(new AbortController());
-  const inputRef = React29.useRef(null);
-  const searchHandle = React29.useRef();
-  const [searchResults, setSearchResults] = React29.useState([]);
-  const cancelSearch = React29.useCallback(() => {
+  const abortControllerRef = React13.useRef(new AbortController());
+  const searchHandle = React13.useRef();
+  const [searchResults, setSearchResults] = React13.useState([]);
+  const cancelSearch = React13.useCallback(() => {
     if (searchHandle.current !== void 0) {
       window.cancelAnimationFrame(searchHandle.current);
       searchHandle.current = void 0;
       abortControllerRef.current.abort();
     }
   }, []);
-  const cellYOffsetRef = React29.useRef(cellYOffset);
+  const cellYOffsetRef = React13.useRef(cellYOffset);
   cellYOffsetRef.current = cellYOffset;
-  const beginSearch = React29.useCallback((str) => {
+  const beginSearch = React13.useCallback((str) => {
     const regex = new RegExp(str.replace(/([$()*+.?[\\\]^{|}-])/g, "\\$1"), "i");
     let startY = cellYOffsetRef.current;
     let searchStride = Math.min(10, rows);
@@ -6550,7 +6051,7 @@ var DataGridSearch = (p) => {
     cancelSearch();
     searchHandle.current = window.requestAnimationFrame(tick);
   }, [cancelSearch, columns.length, getCellsForSelection, onSearchResultsChanged, rows]);
-  const onClose = React29.useCallback(() => {
+  const onClose = React13.useCallback(() => {
     var _a;
     onSearchClose == null ? void 0 : onSearchClose();
     setSearchStatus(void 0);
@@ -6559,7 +6060,7 @@ var DataGridSearch = (p) => {
     cancelSearch();
     (_a = canvasRef == null ? void 0 : canvasRef.current) == null ? void 0 : _a.focus();
   }, [cancelSearch, canvasRef, onSearchClose, onSearchResultsChanged]);
-  const onSearchChange = React29.useCallback((event) => {
+  const onSearchChange = React13.useCallback((event) => {
     setSearchString(event.target.value);
     if (event.target.value === "") {
       setSearchStatus(void 0);
@@ -6569,13 +6070,13 @@ var DataGridSearch = (p) => {
       beginSearch(event.target.value);
     }
   }, [beginSearch, cancelSearch]);
-  React29.useEffect(() => {
-    if (showSearch && inputRef.current !== null) {
+  React13.useEffect(() => {
+    if (showSearch && searchInputRef.current !== null) {
       setSearchString("");
-      inputRef.current.focus({ preventScroll: true });
+      searchInputRef.current.focus({ preventScroll: true });
     }
-  }, [showSearch]);
-  const onNext = React29.useCallback((ev) => {
+  }, [showSearch, searchInputRef]);
+  const onNext = React13.useCallback((ev) => {
     var _a;
     (_a = ev == null ? void 0 : ev.stopPropagation) == null ? void 0 : _a.call(ev);
     if (searchStatus === void 0)
@@ -6587,7 +6088,7 @@ var DataGridSearch = (p) => {
     });
     onSearchResultsChanged == null ? void 0 : onSearchResultsChanged(searchResults, newIndex);
   }, [searchStatus, onSearchResultsChanged, searchResults]);
-  const onPrev = React29.useCallback((ev) => {
+  const onPrev = React13.useCallback((ev) => {
     var _a;
     (_a = ev == null ? void 0 : ev.stopPropagation) == null ? void 0 : _a.call(ev);
     if (searchStatus === void 0)
@@ -6601,7 +6102,7 @@ var DataGridSearch = (p) => {
     });
     onSearchResultsChanged == null ? void 0 : onSearchResultsChanged(searchResults, newIndex);
   }, [onSearchResultsChanged, searchResults, searchStatus]);
-  const onSearchKeyDown = React29.useCallback((event) => {
+  const onSearchKeyDown = React13.useCallback((event) => {
     if ((event.ctrlKey || event.metaKey) && event.nativeEvent.code === "KeyF" || event.key === "Escape") {
       onClose();
       event.stopPropagation();
@@ -6614,12 +6115,12 @@ var DataGridSearch = (p) => {
       }
     }
   }, [onClose, onNext, onPrev]);
-  React29.useEffect(() => {
+  React13.useEffect(() => {
     return () => {
       cancelSearch();
     };
   }, [cancelSearch]);
-  const searchbox = React29.useMemo(() => {
+  const searchbox = React13.useMemo(() => {
     var _a, _b, _c;
     let resultString;
     if (searchStatus !== void 0) {
@@ -6635,51 +6136,51 @@ var DataGridSearch = (p) => {
     const progressStyle = {
       width: `${rowsSearchedProgress}%`
     };
-    return /* @__PURE__ */ React29.createElement(SearchWrapper, {
+    return /* @__PURE__ */ React13.createElement(SearchWrapper, {
       showSearch,
       onMouseDown: cancelEvent,
       onMouseMove: cancelEvent,
       onMouseUp: cancelEvent,
       onClick: cancelEvent
-    }, /* @__PURE__ */ React29.createElement("div", {
+    }, /* @__PURE__ */ React13.createElement("div", {
       className: "search-bar-inner"
-    }, /* @__PURE__ */ React29.createElement("input", {
+    }, /* @__PURE__ */ React13.createElement("input", {
       id: searchID,
       "aria-hidden": !showSearch,
       "data-testid": "search-input",
-      ref: inputRef,
+      ref: searchInputRef,
       onChange: onSearchChange,
       value: searchString,
       tabIndex: showSearch ? void 0 : -1,
       onKeyDownCapture: onSearchKeyDown
-    }), /* @__PURE__ */ React29.createElement("button", {
+    }), /* @__PURE__ */ React13.createElement("button", {
       "aria-label": "Previous Result",
       "aria-hidden": !showSearch,
       tabIndex: showSearch ? void 0 : -1,
       onClick: onPrev,
       disabled: ((_b = searchStatus == null ? void 0 : searchStatus.results) != null ? _b : 0) === 0
-    }, upArrow), /* @__PURE__ */ React29.createElement("button", {
+    }, upArrow), /* @__PURE__ */ React13.createElement("button", {
       "aria-label": "Next Result",
       "aria-hidden": !showSearch,
       tabIndex: showSearch ? void 0 : -1,
       onClick: onNext,
       disabled: ((_c = searchStatus == null ? void 0 : searchStatus.results) != null ? _c : 0) === 0
-    }, downArrow), onSearchClose !== void 0 && /* @__PURE__ */ React29.createElement("button", {
+    }, downArrow), onSearchClose !== void 0 && /* @__PURE__ */ React13.createElement("button", {
       "aria-label": "Close Search",
       "aria-hidden": !showSearch,
       "data-testid": "search-close-button",
       tabIndex: showSearch ? void 0 : -1,
       onClick: onClose
-    }, closeX)), searchStatus !== void 0 ? /* @__PURE__ */ React29.createElement(React29.Fragment, null, /* @__PURE__ */ React29.createElement("div", {
+    }, closeX)), searchStatus !== void 0 ? /* @__PURE__ */ React13.createElement(React13.Fragment, null, /* @__PURE__ */ React13.createElement("div", {
       className: "search-status"
-    }, /* @__PURE__ */ React29.createElement("div", {
+    }, /* @__PURE__ */ React13.createElement("div", {
       "data-testid": "search-result-area"
-    }, resultString)), /* @__PURE__ */ React29.createElement("div", {
+    }, resultString)), /* @__PURE__ */ React13.createElement("div", {
       className: "search-progress",
       style: progressStyle
-    })) : /* @__PURE__ */ React29.createElement("div", {
+    })) : /* @__PURE__ */ React13.createElement("div", {
       className: "search-status"
-    }, /* @__PURE__ */ React29.createElement("label", {
+    }, /* @__PURE__ */ React13.createElement("label", {
       htmlFor: searchID
     }, "Type to search")));
   }, [
@@ -6693,85 +6194,92 @@ var DataGridSearch = (p) => {
     searchStatus,
     searchString,
     showSearch,
-    searchID
+    searchID,
+    searchInputRef
   ]);
-  return /* @__PURE__ */ React29.createElement(React29.Fragment, null, /* @__PURE__ */ React29.createElement(scrolling_data_grid_default, {
+  return /* @__PURE__ */ React13.createElement(React13.Fragment, null, /* @__PURE__ */ React13.createElement(scrolling_data_grid_default, {
+    prelightCells: searchResults,
     accessibilityHeight: p.accessibilityHeight,
+    canvasRef: p.canvasRef,
     cellXOffset: p.cellXOffset,
     cellYOffset: p.cellYOffset,
-    columns: p.columns,
-    enableGroups: p.enableGroups,
-    freezeColumns: p.freezeColumns,
-    preventDiagonalScrolling: p.preventDiagonalScrolling,
-    getCellContent: p.getCellContent,
-    groupHeaderHeight: p.groupHeaderHeight,
-    onCanvasFocused: p.onCanvasFocused,
-    onCanvasBlur: p.onCanvasBlur,
-    isFocused: p.isFocused,
-    clientSize: p.clientSize,
-    headerHeight: p.headerHeight,
-    onContextMenu: p.onContextMenu,
-    isFilling: p.isFilling,
-    fillHandle: p.fillHandle,
-    trailingRowType: p.trailingRowType,
-    firstColAccessible: p.firstColAccessible,
-    lockColumns: p.lockColumns,
-    rowHeight: p.rowHeight,
-    onMouseMove: p.onMouseMove,
-    rows: p.rows,
-    highlightRegions: p.highlightRegions,
-    verticalBorder: p.verticalBorder,
-    canvasRef: p.canvasRef,
     className: p.className,
-    theme: p.theme,
+    clientSize: p.clientSize,
+    columns: p.columns,
     disabledRows: p.disabledRows,
-    drawCustomCell: p.drawCustomCell,
-    drawHeader: p.drawHeader,
-    experimental: p.experimental,
+    enableGroups: p.enableGroups,
+    fillHandle: p.fillHandle,
+    firstColAccessible: p.firstColAccessible,
+    fixedShadowX: p.fixedShadowX,
+    fixedShadowY: p.fixedShadowY,
+    freezeColumns: p.freezeColumns,
+    getCellContent: p.getCellContent,
+    getCellRenderer: p.getCellRenderer,
     getGroupDetails: p.getGroupDetails,
     getRowThemeOverride: p.getRowThemeOverride,
+    groupHeaderHeight: p.groupHeaderHeight,
+    headerHeight: p.headerHeight,
+    highlightRegions: p.highlightRegions,
+    imageWindowLoader: p.imageWindowLoader,
+    initialSize: p.initialSize,
+    isFilling: p.isFilling,
+    isFocused: p.isFocused,
+    lockColumns: p.lockColumns,
+    maxColumnWidth: p.maxColumnWidth,
+    minColumnWidth: p.minColumnWidth,
+    onHeaderMenuClick: p.onHeaderMenuClick,
+    onMouseMove: p.onMouseMove,
+    onVisibleRegionChanged: p.onVisibleRegionChanged,
+    overscrollX: p.overscrollX,
+    overscrollY: p.overscrollY,
+    preventDiagonalScrolling: p.preventDiagonalScrolling,
+    rightElement: p.rightElement,
+    rightElementProps: p.rightElementProps,
+    rowHeight: p.rowHeight,
+    rows: p.rows,
+    scrollRef: p.scrollRef,
+    selection: p.selection,
+    showMinimap: p.showMinimap,
+    theme: p.theme,
+    trailingRowType: p.trailingRowType,
+    translateX: p.translateX,
+    translateY: p.translateY,
+    verticalBorder: p.verticalBorder,
+    drawCustomCell: p.drawCustomCell,
+    drawFocusRing: p.drawFocusRing,
+    drawHeader: p.drawHeader,
+    experimental: p.experimental,
     gridRef: p.gridRef,
     headerIcons: p.headerIcons,
     isDraggable: p.isDraggable,
-    onDragEnd: p.onDragEnd,
-    minColumnWidth: p.minColumnWidth,
-    maxColumnWidth: p.maxColumnWidth,
+    onCanvasBlur: p.onCanvasBlur,
+    onCanvasFocused: p.onCanvasFocused,
     onCellFocused: p.onCellFocused,
     onColumnMoved: p.onColumnMoved,
     onColumnResize: p.onColumnResize,
-    onColumnResizeStart: p.onColumnResizeStart,
     onColumnResizeEnd: p.onColumnResizeEnd,
-    onDragStart: p.onDragStart,
-    onDragOverCell: p.onDragOverCell,
+    onColumnResizeStart: p.onColumnResizeStart,
+    onContextMenu: p.onContextMenu,
+    onDragEnd: p.onDragEnd,
     onDragLeave: p.onDragLeave,
+    onDragOverCell: p.onDragOverCell,
+    onDragStart: p.onDragStart,
     onDrop: p.onDrop,
-    onHeaderMenuClick: p.onHeaderMenuClick,
     onItemHovered: p.onItemHovered,
+    onKeyDown: p.onKeyDown,
     onKeyUp: p.onKeyUp,
     onMouseDown: p.onMouseDown,
     onMouseUp: p.onMouseUp,
     onRowMoved: p.onRowMoved,
-    onVisibleRegionChanged: p.onVisibleRegionChanged,
-    overscrollX: p.overscrollX,
-    overscrollY: p.overscrollY,
-    rightElement: p.rightElement,
-    rightElementProps: p.rightElementProps,
-    scrollRef: p.scrollRef,
-    scrollToEnd: p.scrollToEnd,
-    selection: p.selection,
-    showMinimap: p.showMinimap,
     smoothScrollX: p.smoothScrollX,
     smoothScrollY: p.smoothScrollY,
-    translateX: p.translateX,
-    translateY: p.translateY,
-    onKeyDown: p.onKeyDown,
-    prelightCells: searchResults
+    scrollToEnd: p.scrollToEnd
   }), searchbox);
 };
 var data_grid_search_default = DataGridSearch;
 
 // src/data-editor/group-rename.tsx
-var import_react19 = __toESM(require("react"), 1);
+var import_react9 = __toESM(require("react"), 1);
 init_esm2();
 var RenameInput = /* @__PURE__ */ styled_default("input")({
   name: "RenameInput",
@@ -6788,8 +6296,8 @@ var GroupRename = (p) => {
     canvasBounds,
     onFinish
   } = p;
-  const [value, setValue] = import_react19.default.useState(group);
-  return /* @__PURE__ */ import_react19.default.createElement(ClickOutsideContainer, {
+  const [value, setValue] = import_react9.default.useState(group);
+  return /* @__PURE__ */ import_react9.default.createElement(ClickOutsideContainer, {
     style: {
       position: "absolute",
       left: bounds.x - canvasBounds.left + 1,
@@ -6799,7 +6307,7 @@ var GroupRename = (p) => {
     },
     className: "c1sqdbw3",
     onClickOutside: onClose
-  }, /* @__PURE__ */ import_react19.default.createElement(RenameInput, {
+  }, /* @__PURE__ */ import_react9.default.createElement(RenameInput, {
     targetHeight: bounds.height,
     "data-testid": "group-rename-input",
     value,
@@ -6818,19 +6326,19 @@ var GroupRename = (p) => {
 };
 
 // src/data-editor/use-column-sizer.ts
-var React31 = __toESM(require("react"), 1);
+var React15 = __toESM(require("react"), 1);
 var defaultSize = 150;
-function measureCell(ctx, cell, theme) {
-  var _a;
+function measureCell(ctx, cell, theme, getCellRenderer) {
+  var _a, _b;
   if (cell.kind === GridCellKind.Custom)
     return defaultSize;
-  const r = CellRenderers[cell.kind];
-  return (_a = r == null ? void 0 : r.measure(ctx, cell, theme)) != null ? _a : defaultSize;
+  const r = getCellRenderer(cell);
+  return (_b = (_a = r == null ? void 0 : r.measure) == null ? void 0 : _a.call(r, ctx, cell, theme)) != null ? _b : defaultSize;
 }
-function measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, maxColumnWidth, removeOutliers) {
+function measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, maxColumnWidth, removeOutliers, getCellRenderer) {
   let sizes = [];
   if (selectedData !== void 0) {
-    sizes.push(...selectedData.map((row) => row[colIndex]).map((cell) => measureCell(ctx, cell, theme)));
+    sizes.push(...selectedData.map((row) => row[colIndex]).map((cell) => measureCell(ctx, cell, theme, getCellRenderer)));
   }
   if (sizes.length > 5 && removeOutliers) {
     const average = sizes.reduce((a, b) => a + b) / sizes.length;
@@ -6844,21 +6352,21 @@ function measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, ma
     width: final
   };
 }
-function useColumnSizer(columns, rows, getCellsForSelection, clientWidth, minColumnWidth, maxColumnWidth, theme, abortController) {
-  const rowsRef = React31.useRef(rows);
-  const getCellsForSelectionRef = React31.useRef(getCellsForSelection);
-  const themeRef = React31.useRef(theme);
+function useColumnSizer(columns, rows, getCellsForSelection, clientWidth, minColumnWidth, maxColumnWidth, theme, getCellRenderer, abortController) {
+  const rowsRef = React15.useRef(rows);
+  const getCellsForSelectionRef = React15.useRef(getCellsForSelection);
+  const themeRef = React15.useRef(theme);
   rowsRef.current = rows;
   getCellsForSelectionRef.current = getCellsForSelection;
   themeRef.current = theme;
-  const [ctx] = React31.useState(() => {
+  const [ctx] = React15.useState(() => {
     const offscreen = document.createElement("canvas");
     return offscreen.getContext("2d", { alpha: false });
   });
-  const memoMap = React31.useRef({});
-  const lastColumns = React31.useRef();
-  const [selectedData, setSelectionData] = React31.useState();
-  React31.useLayoutEffect(() => {
+  const memoMap = React15.useRef({});
+  const lastColumns = React15.useRef();
+  const [selectedData, setSelectionData] = React15.useState();
+  React15.useLayoutEffect(() => {
     const getCells = getCellsForSelectionRef.current;
     if (getCells === void 0 || columns.every(isSizedGridColumn))
       return;
@@ -6901,7 +6409,7 @@ function useColumnSizer(columns, rows, getCellsForSelection, clientWidth, minCol
     };
     void fn();
   }, [abortController.signal, columns]);
-  return React31.useMemo(() => {
+  return React15.useMemo(() => {
     var _a;
     const getRaw = () => {
       if (columns.every(isSizedGridColumn)) {
@@ -6933,7 +6441,7 @@ function useColumnSizer(columns, rows, getCellsForSelection, clientWidth, minCol
             width: defaultSize
           };
         }
-        const r = measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, maxColumnWidth, true);
+        const r = measureColumn(ctx, theme, c, colIndex, selectedData, minColumnWidth, maxColumnWidth, true, getCellRenderer);
         memoMap.current[c.id] = r.width;
         return r;
       });
@@ -6967,7 +6475,7 @@ function useColumnSizer(columns, rows, getCellsForSelection, clientWidth, minCol
       result = writeable;
     }
     return result;
-  }, [clientWidth, columns, ctx, selectedData, theme, minColumnWidth, maxColumnWidth]);
+  }, [clientWidth, columns, ctx, selectedData, theme, minColumnWidth, maxColumnWidth, getCellRenderer]);
 }
 
 // src/common/is-hotkey.ts
@@ -7022,9 +6530,9 @@ function isHotkey(hotkey, args) {
 }
 
 // src/data-grid/use-selection-behavior.ts
-var import_react21 = __toESM(require("react"), 1);
+var import_react11 = __toESM(require("react"), 1);
 function useSelectionBehavior(gridSelection, setGridSelection, rangeBehavior, columnBehavior, rowBehavior, rangeSelect) {
-  const setCurrent = import_react21.default.useCallback((value, expand, append, trigger) => {
+  const setCurrent = import_react11.default.useCallback((value, expand, append, trigger) => {
     var _a, _b;
     if ((rangeSelect === "cell" || rangeSelect === "multi-cell") && value !== void 0) {
       value = {
@@ -7060,7 +6568,7 @@ function useSelectionBehavior(gridSelection, setGridSelection, rangeBehavior, co
     }
     setGridSelection(newVal, expand);
   }, [columnBehavior, gridSelection, rangeBehavior, rangeSelect, rowBehavior, setGridSelection]);
-  const setSelectedRows = import_react21.default.useCallback((newRows, append, allowMixed) => {
+  const setSelectedRows = import_react11.default.useCallback((newRows, append, allowMixed) => {
     newRows = newRows != null ? newRows : gridSelection.rows;
     if (append !== void 0) {
       newRows = newRows.add(append);
@@ -7084,7 +6592,7 @@ function useSelectionBehavior(gridSelection, setGridSelection, rangeBehavior, co
     }
     setGridSelection(newVal, false);
   }, [columnBehavior, gridSelection, rangeBehavior, rowBehavior, setGridSelection]);
-  const setSelectedColumns = import_react21.default.useCallback((newCols, append, allowMixed) => {
+  const setSelectedColumns = import_react11.default.useCallback((newCols, append, allowMixed) => {
     newCols = newCols != null ? newCols : gridSelection.columns;
     if (append !== void 0) {
       newCols = newCols.add(append);
@@ -7112,9 +6620,9 @@ function useSelectionBehavior(gridSelection, setGridSelection, rangeBehavior, co
 }
 
 // src/data-editor/use-cells-for-selection.ts
-var React33 = __toESM(require("react"), 1);
+var React17 = __toESM(require("react"), 1);
 function useCellsForSelection(getCellsForSelectionIn, getCellContent, rowMarkerOffset, abortController) {
-  const getCellsForSelectionDirectWhenValid = React33.useCallback((rect) => {
+  const getCellsForSelectionDirectWhenValid = React17.useCallback((rect) => {
     var _a;
     if (getCellsForSelectionIn === true) {
       const result = [];
@@ -7137,7 +6645,7 @@ function useCellsForSelection(getCellsForSelectionIn, getCellContent, rowMarkerO
     return (_a = getCellsForSelectionIn == null ? void 0 : getCellsForSelectionIn(rect, abortController.signal)) != null ? _a : [];
   }, [abortController.signal, getCellContent, getCellsForSelectionIn]);
   const getCellsForSelectionDirect = getCellsForSelectionIn !== void 0 ? getCellsForSelectionDirectWhenValid : void 0;
-  const getCellsForSelectionMangled = React33.useCallback((rect) => {
+  const getCellsForSelectionMangled = React17.useCallback((rect) => {
     if (getCellsForSelectionDirect === void 0)
       return [];
     const newRect = {
@@ -7257,7 +6765,7 @@ function unquote(str) {
   let current = [];
   let start = 0;
   let state = 0;
-  str = str.trim().replace(/\r\n/g, "\n");
+  str = str.replace(/\r\n/g, "\n");
   let index2 = 0;
   for (const char of str) {
     switch (state) {
@@ -7422,7 +6930,7 @@ function copyToClipboard(cells, columnIndexes, e) {
 
 // src/data-editor-container/data-grid-container.tsx
 init_esm2();
-var React34 = __toESM(require("react"), 1);
+var React18 = __toESM(require("react"), 1);
 function toCss(x) {
   if (typeof x === "string")
     return x;
@@ -7443,21 +6951,66 @@ var DataEditorContainer = (p) => {
     children,
     ...rest
   } = p;
-  return /* @__PURE__ */ React34.createElement(Wrapper, {
+  return /* @__PURE__ */ React18.createElement(Wrapper, {
     innerHeight: toCss(inHeight),
     innerWidth: toCss(inWidth),
     ...rest
   }, children);
 };
 
+// src/data-grid/cells/boolean-cell.tsx
+function toggleBoolean(data) {
+  return data !== true;
+}
+var booleanCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "false";
+  },
+  kind: GridCellKind.Boolean,
+  needsHover: true,
+  useLabel: false,
+  needsHoverPosition: true,
+  measure: () => 50,
+  draw: (a) => drawBoolean(a, a.cell.data, booleanCellIsEditable(a.cell)),
+  onDelete: (c) => ({
+    ...c,
+    data: false
+  }),
+  onClick: (e) => {
+    const { cell, posX: x, posY: y, bounds } = e;
+    if (booleanCellIsEditable(cell) && Math.abs(x - bounds.width / 2) <= 10 && Math.abs(y - bounds.height / 2) <= 10) {
+      return {
+        ...cell,
+        data: toggleBoolean(cell.data)
+      };
+    }
+    return void 0;
+  },
+  onPaste: (toPaste, cell) => {
+    let newVal = BooleanEmpty;
+    if (toPaste.toLowerCase() === "true") {
+      newVal = true;
+    } else if (toPaste.toLowerCase() === "false") {
+      newVal = false;
+    } else if (toPaste.toLowerCase() === "indeterminate") {
+      newVal = BooleanIndeterminate;
+    }
+    return newVal === cell.data ? void 0 : {
+      ...cell,
+      data: newVal
+    };
+  }
+};
+
 // src/data-editor/use-autoscroll.ts
-var import_react23 = __toESM(require("react"), 1);
+var import_react13 = __toESM(require("react"), 1);
 var maxPxPerMs = 2;
 var msToFullSpeed = 1300;
 function useAutoscroll(scrollDirection, scrollRef) {
-  const speedScalar = import_react23.default.useRef(0);
+  const speedScalar = import_react13.default.useRef(0);
   const [xDir, yDir] = scrollDirection != null ? scrollDirection : [0, 0];
-  import_react23.default.useEffect(() => {
+  import_react13.default.useEffect(() => {
     if (xDir === 0 && yDir === 0) {
       speedScalar.current = 0;
       return;
@@ -7480,6 +7033,676 @@ function useAutoscroll(scrollDirection, scrollRef) {
     return () => window.cancelAnimationFrame(t);
   }, [scrollRef, xDir, yDir]);
 }
+
+// src/data-grid/cells/bubble-cell.tsx
+var React21 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/bubbles-overlay-editor.tsx
+var React20 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/bubbles-overlay-editor-style.tsx
+init_esm2();
+var BubblesOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
+  name: "BubblesOverlayEditorStyle",
+  class: "b1bqsp5z"
+});
+
+// src/data-grid-overlay-editor/private/bubbles-overlay-editor.tsx
+var BubblesOverlayEditor = (p) => {
+  const { bubbles } = p;
+  return /* @__PURE__ */ React20.createElement(BubblesOverlayEditorStyle, null, bubbles.map((b, i) => /* @__PURE__ */ React20.createElement("div", {
+    key: i,
+    className: "boe-bubble"
+  }, b)), /* @__PURE__ */ React20.createElement("textarea", {
+    className: "gdg-input",
+    autoFocus: true
+  }));
+};
+var bubbles_overlay_editor_default = BubblesOverlayEditor;
+
+// src/data-grid/cells/bubble-cell.tsx
+var bubbleCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
+  },
+  kind: GridCellKind.Bubble,
+  needsHover: false,
+  useLabel: false,
+  needsHoverPosition: false,
+  measure: (ctx, cell, t) => cell.data.reduce((acc, data) => ctx.measureText(data).width + acc + 20, 0) + 2 * t.cellHorizontalPadding - 4,
+  draw: (a) => drawBubbles(a, a.cell.data),
+  provideEditor: () => (p) => {
+    const { value } = p;
+    return /* @__PURE__ */ React21.createElement(bubbles_overlay_editor_default, {
+      bubbles: value.data
+    });
+  },
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/drilldown-cell.tsx
+var React23 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/drilldown-overlay-editor.tsx
+var React22 = __toESM(require("react"), 1);
+init_esm2();
+var DrilldownOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
+  name: "DrilldownOverlayEditorStyle",
+  class: "df2kt4a"
+});
+var DrilldownOverlayEditor = (p) => {
+  const {
+    drilldowns
+  } = p;
+  return /* @__PURE__ */ React22.createElement(DrilldownOverlayEditorStyle, null, drilldowns.map((d, i) => /* @__PURE__ */ React22.createElement("div", {
+    key: i,
+    className: "doe-bubble"
+  }, d.img !== void 0 && /* @__PURE__ */ React22.createElement("img", {
+    src: d.img
+  }), /* @__PURE__ */ React22.createElement("div", null, d.text))));
+};
+var drilldown_overlay_editor_default = DrilldownOverlayEditor;
+
+// src/data-grid/cells/drilldown-cell.tsx
+var drilldownCellRenderer = {
+  getAccessibilityString: (c) => c.data.map((d) => d.text).join(", "),
+  kind: GridCellKind.Drilldown,
+  needsHover: false,
+  useLabel: false,
+  needsHoverPosition: false,
+  measure: (ctx, cell, t) => cell.data.reduce((acc, data) => ctx.measureText(data.text).width + acc + 20 + (data.img !== void 0 ? 18 : 0), 0) + 2 * t.cellHorizontalPadding - 4,
+  draw: (a) => drawDrilldownCell(a, a.cell.data),
+  provideEditor: () => (p) => {
+    const { value } = p;
+    return /* @__PURE__ */ React23.createElement(drilldown_overlay_editor_default, {
+      drilldowns: value.data
+    });
+  },
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/image-cell.tsx
+var React25 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/image-overlay-editor.tsx
+var React24 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/image-overlay-editor-style.tsx
+init_esm2();
+var ImageOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
+  name: "ImageOverlayEditorStyle",
+  class: "i1eozt10"
+});
+
+// src/data-grid-overlay-editor/private/image-overlay-editor.tsx
+var import_react_responsive_carousel = require("react-responsive-carousel");
+var ImageOverlayEditor = (p) => {
+  const { urls, canWrite, onEditClick, renderImage } = p;
+  const filtered = urls.filter((u) => u !== "");
+  if (filtered.length === 0) {
+    return null;
+  }
+  const allowMove = filtered.length > 1;
+  return /* @__PURE__ */ React24.createElement(ImageOverlayEditorStyle, {
+    "data-testid": "GDG-default-image-overlay-editor"
+  }, /* @__PURE__ */ React24.createElement(import_react_responsive_carousel.Carousel, {
+    showArrows: allowMove,
+    showThumbs: false,
+    swipeable: allowMove,
+    emulateTouch: allowMove,
+    infiniteLoop: allowMove
+  }, filtered.map((url) => {
+    var _a;
+    const innerContent = (_a = renderImage == null ? void 0 : renderImage(url)) != null ? _a : /* @__PURE__ */ React24.createElement("img", {
+      draggable: false,
+      src: url
+    });
+    return /* @__PURE__ */ React24.createElement("div", {
+      className: "centering-container",
+      key: url
+    }, innerContent);
+  })), canWrite && onEditClick && /* @__PURE__ */ React24.createElement("button", {
+    className: "edit-icon",
+    onClick: onEditClick
+  }, /* @__PURE__ */ React24.createElement(EditPencil, null)));
+};
+
+// src/data-grid/cells/image-cell.tsx
+var imageCellRenderer = {
+  getAccessibilityString: (c) => c.data.join(", "),
+  kind: GridCellKind.Image,
+  needsHover: false,
+  useLabel: false,
+  needsHoverPosition: false,
+  draw: (a) => {
+    var _a;
+    return drawImage(a, (_a = a.cell.displayData) != null ? _a : a.cell.data, a.cell.rounding);
+  },
+  measure: (_ctx, cell) => cell.data.length * 50,
+  onDelete: (c) => ({
+    ...c,
+    data: []
+  }),
+  provideEditor: () => (p) => {
+    const { value, onFinishedEditing, imageEditorOverride } = p;
+    const ImageEditor = imageEditorOverride != null ? imageEditorOverride : ImageOverlayEditor;
+    return /* @__PURE__ */ React25.createElement(ImageEditor, {
+      urls: value.data,
+      canWrite: value.allowAdd,
+      onCancel: onFinishedEditing,
+      onChange: (newImage) => {
+        onFinishedEditing({
+          ...value,
+          data: [newImage]
+        });
+      }
+    });
+  },
+  onPaste: (toPaste, cell) => {
+    toPaste = toPaste.trim();
+    const fragments = toPaste.split(",");
+    const uris = fragments.map((f) => {
+      try {
+        new URL(f);
+        return f;
+      } catch (e) {
+        return void 0;
+      }
+    }).filter((x) => x !== void 0);
+    if (uris.length === cell.data.length && uris.every((u, i) => u === cell.data[i]))
+      return void 0;
+    return {
+      ...cell,
+      data: uris
+    };
+  }
+};
+
+// src/data-grid/cells/loading-cell.tsx
+var loadingCellRenderer = {
+  getAccessibilityString: () => "",
+  kind: GridCellKind.Loading,
+  needsHover: false,
+  useLabel: false,
+  needsHoverPosition: false,
+  measure: () => 120,
+  draw: () => void 0,
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/markdown-cell.tsx
+var React29 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/markdown-overlay-editor.tsx
+var React28 = __toESM(require("react"), 1);
+
+// src/markdown-div/markdown-div.tsx
+var import_react18 = __toESM(require("react"), 1);
+var import_marked = require("marked");
+
+// src/markdown-div/private/markdown-container.tsx
+init_esm2();
+var MarkdownContainer = /* @__PURE__ */ styled_default("div")({
+  name: "MarkdownContainer",
+  class: "mlbeo71"
+});
+
+// src/markdown-div/markdown-div.tsx
+var MarkdownDiv = class extends import_react18.default.PureComponent {
+  constructor() {
+    super(...arguments);
+    this.targetElement = null;
+    this.containerRefHook = (element) => {
+      this.targetElement = element;
+      this.renderMarkdownIntoDiv();
+    };
+  }
+  renderMarkdownIntoDiv() {
+    const { targetElement, props } = this;
+    if (targetElement === null)
+      return;
+    const { contents, createNode } = props;
+    const innerHTML = (0, import_marked.marked)(contents);
+    const childRange = document.createRange();
+    childRange.selectNodeContents(targetElement);
+    childRange.deleteContents();
+    let newChild = createNode == null ? void 0 : createNode(innerHTML);
+    if (newChild === void 0) {
+      const childDoc = document.createElement("template");
+      childDoc.innerHTML = innerHTML;
+      newChild = childDoc.content;
+    }
+    targetElement.append(newChild);
+    const tags = targetElement.getElementsByTagName("a");
+    for (const tag of tags) {
+      tag.target = "_blank";
+      tag.rel = "noreferrer noopener";
+    }
+  }
+  render() {
+    this.renderMarkdownIntoDiv();
+    return /* @__PURE__ */ import_react18.default.createElement(MarkdownContainer, {
+      ref: this.containerRefHook
+    });
+  }
+};
+
+// src/growing-entry/growing-entry.tsx
+var React27 = __toESM(require("react"), 1);
+
+// src/growing-entry/growing-entry-style.tsx
+init_esm2();
+var InputBox = /* @__PURE__ */ styled_default("textarea")({
+  name: "InputBox",
+  class: "ijuk0po"
+});
+var ShadowBox = /* @__PURE__ */ styled_default("div")({
+  name: "ShadowBox",
+  class: "saq3p5l"
+});
+var GrowingEntryStyle = /* @__PURE__ */ styled_default("div")({
+  name: "GrowingEntryStyle",
+  class: "gf8vzix"
+});
+
+// src/growing-entry/growing-entry.tsx
+var GrowingEntry = (props) => {
+  const { placeholder, value, onKeyDown, highlight, altNewline, validatedSelection, ...rest } = props;
+  const { onChange, className } = rest;
+  const inputRef = React27.useRef(null);
+  const useText = value != null ? value : "";
+  assert(onChange !== void 0, "GrowingEntry must be a controlled input area");
+  React27.useEffect(() => {
+    const ta = inputRef.current;
+    if (ta === null)
+      return;
+    if (ta.disabled)
+      return;
+    const length = useText.toString().length;
+    ta.focus();
+    ta.setSelectionRange(highlight ? 0 : length, length);
+  }, []);
+  React27.useLayoutEffect(() => {
+    var _a;
+    if (validatedSelection !== void 0) {
+      const range2 = typeof validatedSelection === "number" ? [validatedSelection, null] : validatedSelection;
+      (_a = inputRef.current) == null ? void 0 : _a.setSelectionRange(range2[0], range2[1]);
+    }
+  }, [validatedSelection]);
+  const onKeyDownInner = React27.useCallback((e) => {
+    if (e.key === "Enter" && e.shiftKey && altNewline === true) {
+      return;
+    }
+    onKeyDown == null ? void 0 : onKeyDown(e);
+  }, [altNewline, onKeyDown]);
+  return /* @__PURE__ */ React27.createElement(GrowingEntryStyle, {
+    className: "gdg-growing-entry"
+  }, /* @__PURE__ */ React27.createElement(ShadowBox, {
+    className
+  }, useText + "\n"), /* @__PURE__ */ React27.createElement(InputBox, {
+    ...rest,
+    className: (className != null ? className : "") + " gdg-input",
+    ref: inputRef,
+    onKeyDown: onKeyDownInner,
+    value: useText,
+    placeholder,
+    dir: "auto"
+  }));
+};
+
+// src/data-grid-overlay-editor/private/markdown-overlay-editor-style.tsx
+init_esm2();
+var MarkdownOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
+  name: "MarkdownOverlayEditorStyle",
+  class: "mdwzdl1",
+  vars: {
+    "mdwzdl1-0": [(p) => p.targetWidth, "px"]
+  }
+});
+
+// src/data-grid-overlay-editor/private/markdown-overlay-editor.tsx
+var MarkdownOverlayEditor = (p) => {
+  const { markdown, onChange, forceEditMode, createNode, targetRect, readonly, onFinish, validatedSelection } = p;
+  const [editMode, setEditMode] = React28.useState(markdown === "" || forceEditMode);
+  const onEditClick = React28.useCallback(() => {
+    setEditMode((e) => !e);
+  }, []);
+  const addLeftPad = markdown ? "ml-6" : "";
+  if (editMode) {
+    return /* @__PURE__ */ React28.createElement(MarkdownOverlayEditorStyle, {
+      targetWidth: targetRect.width - 20
+    }, /* @__PURE__ */ React28.createElement(GrowingEntry, {
+      autoFocus: true,
+      highlight: false,
+      validatedSelection,
+      value: markdown,
+      onKeyDown: (e) => {
+        if (e.key === "Enter")
+          e.stopPropagation();
+      },
+      onChange
+    }), /* @__PURE__ */ React28.createElement("div", {
+      className: `edit-icon checkmark-hover ${addLeftPad}`,
+      onClick: () => onFinish()
+    }, /* @__PURE__ */ React28.createElement(Checkmark, null)));
+  }
+  return /* @__PURE__ */ React28.createElement(MarkdownOverlayEditorStyle, {
+    targetWidth: targetRect.width
+  }, /* @__PURE__ */ React28.createElement(MarkdownDiv, {
+    contents: markdown,
+    createNode
+  }), !readonly && /* @__PURE__ */ React28.createElement(React28.Fragment, null, /* @__PURE__ */ React28.createElement("div", {
+    className: "spacer"
+  }), /* @__PURE__ */ React28.createElement("div", {
+    className: `edit-icon edit-hover ${addLeftPad}`,
+    onClick: onEditClick
+  }, /* @__PURE__ */ React28.createElement(EditPencil, null))), /* @__PURE__ */ React28.createElement("textarea", {
+    className: "md-edit-textarea gdg-input",
+    autoFocus: true
+  }));
+};
+
+// src/data-grid/cells/markdown-cell.tsx
+var markdownCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
+  },
+  kind: GridCellKind.Markdown,
+  needsHover: false,
+  needsHoverPosition: false,
+  drawPrep: prepTextCell,
+  measure: (ctx, cell, t) => {
+    const firstLine = cell.data.split("\n")[0];
+    return ctx.measureText(firstLine).width + 2 * t.cellHorizontalPadding;
+  },
+  draw: (a) => drawTextCell(a, a.cell.data, a.cell.contentAlign),
+  onDelete: (c) => ({
+    ...c,
+    data: ""
+  }),
+  provideEditor: () => (p) => {
+    const {
+      onChange,
+      value,
+      target,
+      onFinishedEditing,
+      markdownDivCreateNode,
+      forceEditMode,
+      validatedSelection
+    } = p;
+    return /* @__PURE__ */ React29.createElement(MarkdownOverlayEditor, {
+      onFinish: onFinishedEditing,
+      targetRect: target,
+      readonly: value.readonly === true,
+      markdown: value.data,
+      validatedSelection,
+      onChange: (e) => onChange({
+        ...value,
+        data: e.target.value
+      }),
+      forceEditMode,
+      createNode: markdownDivCreateNode
+    });
+  },
+  onPaste: (toPaste, cell) => toPaste === cell.data ? void 0 : { ...cell, data: toPaste }
+};
+
+// src/data-grid/cells/marker-cell.tsx
+var markerCellRenderer = {
+  getAccessibilityString: (c) => c.row.toString(),
+  kind: InnerGridCellKind.Marker,
+  needsHover: true,
+  needsHoverPosition: false,
+  drawPrep: prepMarkerRowCell,
+  measure: () => 44,
+  draw: (a) => drawMarkerRowCell(a, a.cell.row, a.cell.checked, a.cell.markerKind, a.cell.drawHandle),
+  onClick: (e) => {
+    const { bounds, cell, posX: x, posY: y } = e;
+    const { width, height } = bounds;
+    const centerX = cell.drawHandle ? 7 + (width - 7) / 2 : width / 2;
+    const centerY = height / 2;
+    if (Math.abs(x - centerX) <= 10 && Math.abs(y - centerY) <= 10) {
+      return {
+        ...cell,
+        checked: !cell.checked
+      };
+    }
+    return void 0;
+  },
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/new-row-cell.tsx
+var newRowCellRenderer = {
+  getAccessibilityString: () => "",
+  kind: InnerGridCellKind.NewRow,
+  needsHover: true,
+  needsHoverPosition: false,
+  measure: () => 200,
+  draw: (a) => drawNewRowCell(a, a.cell.hint, a.cell.icon),
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/number-cell.tsx
+var React31 = __toESM(require("react"), 1);
+var NumberOverlayEditor2 = React31.lazy(async () => await Promise.resolve().then(() => (init_number_overlay_editor(), number_overlay_editor_exports)));
+var numberCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
+  },
+  kind: GridCellKind.Number,
+  needsHover: false,
+  needsHoverPosition: false,
+  useLabel: true,
+  drawPrep: prepTextCell,
+  draw: (a) => drawTextCell(a, a.cell.displayData, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.displayData).width + 16,
+  onDelete: (c) => ({
+    ...c,
+    data: void 0
+  }),
+  provideEditor: () => (p) => {
+    const { isHighlighted, onChange, value, validatedSelection } = p;
+    return /* @__PURE__ */ React31.createElement(React31.Suspense, {
+      fallback: null
+    }, /* @__PURE__ */ React31.createElement(NumberOverlayEditor2, {
+      highlight: isHighlighted,
+      disabled: value.readonly === true,
+      value: value.data,
+      validatedSelection,
+      onChange: (x) => {
+        var _a;
+        return onChange({
+          ...value,
+          data: Number.isNaN((_a = x.floatValue) != null ? _a : 0) ? 0 : x.floatValue
+        });
+      }
+    }));
+  },
+  onPaste: (toPaste, cell) => {
+    const newNumber = Number.parseFloat(toPaste);
+    if (Number.isNaN(newNumber) || cell.data === newNumber)
+      return void 0;
+    return { ...cell, data: newNumber };
+  }
+};
+
+// src/data-grid/cells/protected-cell.tsx
+var protectedCellRenderer = {
+  getAccessibilityString: () => "",
+  measure: () => 108,
+  kind: GridCellKind.Protected,
+  needsHover: false,
+  needsHoverPosition: false,
+  draw: drawProtectedCell,
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/row-id-cell.tsx
+var import_react22 = __toESM(require("react"), 1);
+var rowIDCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
+  },
+  kind: GridCellKind.RowID,
+  needsHover: false,
+  needsHoverPosition: false,
+  drawPrep: (a, b) => prepTextCell(a, b, a.theme.textLight),
+  draw: (a) => drawTextCell(a, a.cell.data, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.data).width + 16,
+  provideEditor: () => (p) => {
+    const { isHighlighted, onChange, value, validatedSelection } = p;
+    return /* @__PURE__ */ import_react22.default.createElement(GrowingEntry, {
+      highlight: isHighlighted,
+      autoFocus: value.readonly !== true,
+      disabled: value.readonly !== false,
+      value: value.data,
+      validatedSelection,
+      onChange: (e) => onChange({
+        ...value,
+        data: e.target.value
+      })
+    });
+  },
+  onPaste: () => void 0
+};
+
+// src/data-grid/cells/text-cell.tsx
+var React33 = __toESM(require("react"), 1);
+var textCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
+  },
+  kind: GridCellKind.Text,
+  needsHover: false,
+  needsHoverPosition: false,
+  drawPrep: prepTextCell,
+  useLabel: true,
+  draw: (a) => (drawTextCell(a, a.cell.displayData, a.cell.contentAlign, a.cell.allowWrapping, a.hyperWrapping), true),
+  measure: (ctx, cell, t) => {
+    const lines = cell.displayData.split("\n").slice(0, cell.allowWrapping === true ? void 0 : 1);
+    return Math.max(...lines.map((l) => ctx.measureText(l).width + 2 * t.cellHorizontalPadding));
+  },
+  onDelete: (c) => ({
+    ...c,
+    data: ""
+  }),
+  provideEditor: () => (p) => {
+    const { isHighlighted, onChange, value, validatedSelection } = p;
+    return /* @__PURE__ */ React33.createElement(GrowingEntry, {
+      highlight: isHighlighted,
+      autoFocus: value.readonly !== true,
+      disabled: value.readonly === true,
+      altNewline: true,
+      value: value.data,
+      validatedSelection,
+      onChange: (e) => onChange({
+        ...value,
+        data: e.target.value
+      })
+    });
+  },
+  onPaste: (toPaste, cell) => toPaste === cell.data ? void 0 : { ...cell, data: toPaste }
+};
+
+// src/data-grid/cells/uri-cell.tsx
+var React35 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/uri-overlay-editor.tsx
+var React34 = __toESM(require("react"), 1);
+
+// src/data-grid-overlay-editor/private/uri-overlay-editor-style.tsx
+init_esm2();
+var UriOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
+  name: "UriOverlayEditorStyle",
+  class: "uf0sjo8"
+});
+
+// src/data-grid-overlay-editor/private/uri-overlay-editor.tsx
+var UriOverlayEditor = (p) => {
+  const { uri, onChange, forceEditMode, readonly, validatedSelection } = p;
+  const [editMode, setEditMode] = React34.useState(uri === "" || forceEditMode);
+  const onEditClick = React34.useCallback(() => {
+    setEditMode(true);
+  }, []);
+  if (editMode) {
+    return /* @__PURE__ */ React34.createElement(GrowingEntry, {
+      validatedSelection,
+      highlight: true,
+      autoFocus: true,
+      value: uri,
+      onChange
+    });
+  }
+  return /* @__PURE__ */ React34.createElement(UriOverlayEditorStyle, null, /* @__PURE__ */ React34.createElement("a", {
+    className: "link-area",
+    href: uri,
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, uri), !readonly && /* @__PURE__ */ React34.createElement("div", {
+    className: "edit-icon",
+    onClick: onEditClick
+  }, /* @__PURE__ */ React34.createElement(EditPencil, null)), /* @__PURE__ */ React34.createElement("textarea", {
+    className: "gdg-input",
+    autoFocus: true
+  }));
+};
+var uri_overlay_editor_default = UriOverlayEditor;
+
+// src/data-grid/cells/uri-cell.tsx
+var uriCellRenderer = {
+  getAccessibilityString: (c) => {
+    var _a, _b;
+    return (_b = (_a = c.data) == null ? void 0 : _a.toString()) != null ? _b : "";
+  },
+  kind: GridCellKind.Uri,
+  needsHover: false,
+  needsHoverPosition: false,
+  useLabel: true,
+  drawPrep: prepTextCell,
+  draw: (a) => drawTextCell(a, a.cell.data, a.cell.contentAlign),
+  measure: (ctx, cell) => ctx.measureText(cell.data).width + 16,
+  onDelete: (c) => ({
+    ...c,
+    data: ""
+  }),
+  provideEditor: () => (p) => {
+    const { onChange, value, forceEditMode, validatedSelection } = p;
+    return /* @__PURE__ */ React35.createElement(uri_overlay_editor_default, {
+      forceEditMode,
+      uri: value.data,
+      validatedSelection,
+      readonly: value.readonly === true,
+      onChange: (e) => onChange({
+        ...value,
+        data: e.target.value
+      })
+    });
+  },
+  onPaste: (toPaste, cell) => toPaste === cell.data ? void 0 : { ...cell, data: toPaste }
+};
+
+// src/data-grid/cells/index.ts
+var CellRenderers = {
+  [InnerGridCellKind.Marker]: markerCellRenderer,
+  [InnerGridCellKind.NewRow]: newRowCellRenderer,
+  [GridCellKind.Boolean]: booleanCellRenderer,
+  [GridCellKind.Bubble]: bubbleCellRenderer,
+  [GridCellKind.Drilldown]: drilldownCellRenderer,
+  [GridCellKind.Image]: imageCellRenderer,
+  [GridCellKind.Loading]: loadingCellRenderer,
+  [GridCellKind.Markdown]: markdownCellRenderer,
+  [GridCellKind.Number]: numberCellRenderer,
+  [GridCellKind.Protected]: protectedCellRenderer,
+  [GridCellKind.RowID]: rowIDCellRenderer,
+  [GridCellKind.Text]: textCellRenderer,
+  [GridCellKind.Uri]: uriCellRenderer
+};
 
 // src/data-editor/data-editor.tsx
 var idCounter = 0;
@@ -7533,9 +7756,10 @@ var emptyGridSelection = {
   current: void 0
 };
 var DataEditorImpl = (p, forwardedRef) => {
-  var _a, _b, _c, _d, _e, _f, _g;
+  var _a, _b, _c, _d, _e;
   const [gridSelectionInner, setGridSelectionInner] = React36.useState(emptyGridSelection);
   const [overlay, setOverlay] = React36.useState();
+  const searchInputRef = React36.useRef(null);
   const canvasRef = React36.useRef(null);
   const [mouseState, setMouseState] = React36.useState();
   const scrollRef = React36.useRef(null);
@@ -7572,6 +7796,8 @@ var DataEditorImpl = (p, forwardedRef) => {
     onGroupHeaderRenamed,
     onCellEdited,
     onCellsEdited,
+    onKeyDown: onKeyDownIn,
+    onKeyUp: onKeyUpIn,
     keybindings: keybindingsIn,
     onRowAppended,
     onColumnMoved,
@@ -7603,18 +7829,42 @@ var DataEditorImpl = (p, forwardedRef) => {
     onGridSelectionChange,
     minColumnWidth: minColumnWidthIn = 50,
     maxColumnWidth: maxColumnWidthIn = 500,
+    maxColumnAutoWidth: maxColumnAutoWidthIn,
     provideEditor,
     trailingRowOptions,
+    scrollOffsetX,
+    scrollOffsetY,
     verticalBorder,
     onDragOverCell,
     onDrop,
     onColumnResize: onColumnResizeIn,
     onColumnResizeEnd: onColumnResizeEndIn,
     onColumnResizeStart: onColumnResizeStartIn,
-    ...rest
+    customRenderers: additionalRenderers,
+    fillHandle,
+    drawFocusRing: drawFocusRing2,
+    experimental,
+    fixedShadowX,
+    fixedShadowY,
+    headerIcons,
+    imageWindowLoader,
+    initialSize,
+    isDraggable,
+    onDragLeave,
+    onRowMoved,
+    overscrollX,
+    overscrollY,
+    preventDiagonalScrolling,
+    rightElement,
+    rightElementProps,
+    showMinimap,
+    smoothScrollX,
+    smoothScrollY,
+    scrollToEnd
   } = p;
   const minColumnWidth = Math.max(minColumnWidthIn, 20);
   const maxColumnWidth = Math.max(maxColumnWidthIn, minColumnWidth);
+  const maxColumnAutoWidth = Math.max(maxColumnAutoWidthIn != null ? maxColumnAutoWidthIn : maxColumnWidth, minColumnWidth);
   const keybindings = React36.useMemo(() => {
     return keybindingsIn === void 0 ? keybindingDefaults : {
       ...keybindingDefaults,
@@ -7652,24 +7902,26 @@ var DataEditorImpl = (p, forwardedRef) => {
     const item = [cell[0] - rowMarkerOffset, cell[1]];
     return validateCellIn == null ? void 0 : validateCellIn(item, newValue, prevValue);
   }, [rowMarkerOffset, validateCellIn]);
+  const expectedExternalGridSelection = React36.useRef(gridSelectionOuter);
   const setGridSelection = React36.useCallback((newVal, expand) => {
     if (expand) {
       newVal = expandSelection(newVal, getCellsForSelection, rowMarkerOffset, spanRangeBehavior, abortControllerRef.current);
     }
     if (onGridSelectionChange !== void 0) {
-      onGridSelectionChange(shiftSelection(newVal, -rowMarkerOffset));
+      expectedExternalGridSelection.current = shiftSelection(newVal, -rowMarkerOffset);
+      onGridSelectionChange(expectedExternalGridSelection.current);
     } else {
       setGridSelectionInner(newVal);
     }
   }, [onGridSelectionChange, getCellsForSelection, rowMarkerOffset, spanRangeBehavior]);
-  const onColumnResize = whenDefined(onColumnResizeIn, React36.useCallback((_, w, ind) => {
-    onColumnResizeIn == null ? void 0 : onColumnResizeIn(columnsIn[ind - rowMarkerOffset], w, ind - rowMarkerOffset);
+  const onColumnResize = whenDefined(onColumnResizeIn, React36.useCallback((_, w, ind, wg) => {
+    onColumnResizeIn == null ? void 0 : onColumnResizeIn(columnsIn[ind - rowMarkerOffset], w, ind - rowMarkerOffset, wg);
   }, [onColumnResizeIn, rowMarkerOffset, columnsIn]));
-  const onColumnResizeEnd = whenDefined(onColumnResizeEndIn, React36.useCallback((_, w, ind) => {
-    onColumnResizeEndIn == null ? void 0 : onColumnResizeEndIn(columnsIn[ind - rowMarkerOffset], w, ind - rowMarkerOffset);
+  const onColumnResizeEnd = whenDefined(onColumnResizeEndIn, React36.useCallback((_, w, ind, wg) => {
+    onColumnResizeEndIn == null ? void 0 : onColumnResizeEndIn(columnsIn[ind - rowMarkerOffset], w, ind - rowMarkerOffset, wg);
   }, [onColumnResizeEndIn, rowMarkerOffset, columnsIn]));
-  const onColumnResizeStart = whenDefined(onColumnResizeStartIn, React36.useCallback((_, w, ind) => {
-    onColumnResizeStartIn == null ? void 0 : onColumnResizeStartIn(columnsIn[ind - rowMarkerOffset], w, ind - rowMarkerOffset);
+  const onColumnResizeStart = whenDefined(onColumnResizeStartIn, React36.useCallback((_, w, ind, wg) => {
+    onColumnResizeStartIn == null ? void 0 : onColumnResizeStartIn(columnsIn[ind - rowMarkerOffset], w, ind - rowMarkerOffset, wg);
   }, [onColumnResizeStartIn, rowMarkerOffset, columnsIn]));
   const drawHeader2 = whenDefined(drawHeaderIn, React36.useCallback((args) => {
     var _a2;
@@ -7690,17 +7942,78 @@ var DataEditorImpl = (p, forwardedRef) => {
     return { ...getDataEditorTheme(), ...theme };
   }, [theme]);
   const [clientSize, setClientSize] = React36.useState([10, 10, 0]);
-  const columns = useColumnSizer(columnsIn, rows, getCellsForSeletionDirect, clientSize[0] - (rowMarkerOffset === 0 ? 0 : rowMarkerWidth) - clientSize[2], minColumnWidth, maxColumnWidth, mergedTheme, abortControllerRef.current);
+  const getCellRenderer = React36.useCallback((cell) => {
+    if (cell.kind !== GridCellKind.Custom) {
+      return CellRenderers[cell.kind];
+    }
+    return additionalRenderers == null ? void 0 : additionalRenderers.find((x) => x.isMatch(cell));
+  }, [additionalRenderers]);
+  const columns = useColumnSizer(columnsIn, rows, getCellsForSeletionDirect, clientSize[0] - (rowMarkerOffset === 0 ? 0 : rowMarkerWidth) - clientSize[2], minColumnWidth, maxColumnAutoWidth, mergedTheme, getCellRenderer, abortControllerRef.current);
   const enableGroups = React36.useMemo(() => {
     return columns.some((c) => c.group !== void 0);
   }, [columns]);
   const totalHeaderHeight = enableGroups ? headerHeight + groupHeaderHeight : headerHeight;
-  const [visibleRegion, setVisibleRegion] = React36.useState({
-    x: 0,
-    y: 0,
+  const numSelectedRows = gridSelection.rows.length;
+  const rowMarkerHeader = rowMarkers === "none" ? "" : numSelectedRows === 0 ? headerCellUnheckedMarker : numSelectedRows === rows ? headerCellCheckedMarker : headerCellIndeterminateMarker;
+  const mangledCols = React36.useMemo(() => {
+    if (rowMarkers === "none")
+      return columns;
+    return [
+      {
+        title: rowMarkerHeader,
+        width: rowMarkerWidth,
+        icon: void 0,
+        hasMenu: false,
+        style: "normal"
+      },
+      ...columns
+    ];
+  }, [columns, rowMarkerWidth, rowMarkers, rowMarkerHeader]);
+  const [visibleRegionY, visibleRegionTy] = React36.useMemo(() => {
+    return [
+      scrollOffsetY !== void 0 && typeof rowHeight === "number" ? Math.floor(scrollOffsetY / rowHeight) : 0,
+      scrollOffsetY !== void 0 && typeof rowHeight === "number" ? -(scrollOffsetY % rowHeight) : 0
+    ];
+  }, [scrollOffsetY, rowHeight]);
+  const visibleRegionRef = React36.useRef({
+    height: 1,
     width: 1,
-    height: 1
+    x: 0,
+    y: 0
   });
+  const visibleRegionInput = React36.useMemo(() => {
+    var _a2, _b2;
+    return {
+      x: visibleRegionRef.current.x,
+      y: visibleRegionY,
+      width: (_a2 = visibleRegionRef.current.width) != null ? _a2 : 1,
+      height: (_b2 = visibleRegionRef.current.height) != null ? _b2 : 1,
+      ty: visibleRegionTy
+    };
+  }, [visibleRegionTy, visibleRegionY]);
+  const hasJustScrolled = React36.useRef(false);
+  const [visibleRegion, setVisibleRegion, empty2] = useStateWithReactiveInput(visibleRegionInput);
+  visibleRegionRef.current = visibleRegion;
+  const vScrollReady = ((_a = visibleRegion.height) != null ? _a : 1) > 1;
+  React36.useLayoutEffect(() => {
+    if (scrollOffsetY !== void 0 && scrollRef.current !== null && vScrollReady) {
+      scrollRef.current.scrollTop = scrollOffsetY;
+      if (scrollRef.current.scrollTop !== scrollOffsetY) {
+        empty2();
+      }
+      hasJustScrolled.current = true;
+    }
+  }, [scrollOffsetY, vScrollReady, empty2]);
+  const hScrollReady = ((_b = visibleRegion.width) != null ? _b : 1) > 1;
+  React36.useLayoutEffect(() => {
+    if (scrollOffsetX !== void 0 && scrollRef.current !== null && hScrollReady) {
+      scrollRef.current.scrollLeft = scrollOffsetX;
+      if (scrollRef.current.scrollLeft !== scrollOffsetX) {
+        empty2();
+      }
+      hasJustScrolled.current = true;
+    }
+  }, [scrollOffsetX, hScrollReady, empty2]);
   const cellXOffset = visibleRegion.x + rowMarkerOffset;
   const cellYOffset = visibleRegion.y;
   const gridRef = React36.useRef(null);
@@ -7728,22 +8041,6 @@ var DataEditorImpl = (p, forwardedRef) => {
     }
     return r;
   }, [onCellEdited, onCellsEdited, rowMarkerOffset]);
-  const numSelectedRows = gridSelection.rows.length;
-  const rowMarkerHeader = rowMarkers === "none" ? "" : numSelectedRows === 0 ? headerCellUnheckedMarker : numSelectedRows === rows ? headerCellCheckedMarker : headerCellIndeterminateMarker;
-  const mangledCols = React36.useMemo(() => {
-    if (rowMarkers === "none")
-      return columns;
-    return [
-      {
-        title: rowMarkerHeader,
-        width: rowMarkerWidth,
-        icon: void 0,
-        hasMenu: false,
-        style: "normal"
-      },
-      ...columns
-    ];
-  }, [columns, rowMarkerWidth, rowMarkers, rowMarkerHeader]);
   const highlightRegions = React36.useMemo(() => {
     if (highlightRegionsIn === void 0)
       return void 0;
@@ -7764,11 +8061,10 @@ var DataEditorImpl = (p, forwardedRef) => {
       };
     }).filter((x) => x !== void 0);
   }, [highlightRegionsIn, mangledCols.length, rowMarkerOffset]);
-  const visibleRegionRef = React36.useRef(visibleRegion);
   const mangledColsRef = React36.useRef(mangledCols);
   mangledColsRef.current = mangledCols;
   const getMangledCellContent = React36.useCallback(([col, row]) => {
-    var _a2, _b2, _c2, _d2, _e2, _f2, _g2, _h, _i, _j, _k;
+    var _a2, _b2, _c2, _d2, _e2, _f, _g, _h, _i, _j;
     const isTrailing = showTrailingBlankRow && row === mangledRows - 1;
     const isRowMarkerCol = col === 0 && hasRowMarkers;
     if (isRowMarkerCol) {
@@ -7781,7 +8077,7 @@ var DataEditorImpl = (p, forwardedRef) => {
         checked: (gridSelection == null ? void 0 : gridSelection.rows.hasIndex(row)) === true,
         markerKind: rowMarkers === "clickable-number" ? "number" : rowMarkers,
         row: rowMarkerStartIndex + row,
-        drawHandle: p.onRowMoved !== void 0
+        drawHandle: onRowMoved !== void 0
       };
     } else if (isTrailing) {
       const isFirst = col === rowMarkerOffset;
@@ -7791,7 +8087,7 @@ var DataEditorImpl = (p, forwardedRef) => {
         return loadingCell2;
       } else {
         const hint = (_d2 = (_c2 = c == null ? void 0 : c.trailingRowOptions) == null ? void 0 : _c2.hint) != null ? _d2 : maybeFirstColumnHint;
-        const icon = (_f2 = (_e2 = c == null ? void 0 : c.trailingRowOptions) == null ? void 0 : _e2.addIcon) != null ? _f2 : trailingRowOptions == null ? void 0 : trailingRowOptions.addIcon;
+        const icon = (_f = (_e2 = c == null ? void 0 : c.trailingRowOptions) == null ? void 0 : _e2.addIcon) != null ? _f : trailingRowOptions == null ? void 0 : trailingRowOptions.addIcon;
         return {
           kind: InnerGridCellKind.NewRow,
           hint,
@@ -7801,11 +8097,11 @@ var DataEditorImpl = (p, forwardedRef) => {
       }
     } else {
       const outerCol = col - rowMarkerOffset;
-      if (((_g2 = p.experimental) == null ? void 0 : _g2.strict) === true) {
+      if ((experimental == null ? void 0 : experimental.strict) === true) {
         const vr = visibleRegionRef.current;
         const isOutsideMainArea = vr.x > outerCol || outerCol > vr.x + vr.width || vr.y > row || row > vr.y + vr.height;
-        const isSelected = outerCol === ((_i = (_h = vr.extras) == null ? void 0 : _h.selected) == null ? void 0 : _i[0]) && row === ((_j = vr.extras) == null ? void 0 : _j.selected[1]);
-        const isOutsideFreezeArea = ((_k = vr.extras) == null ? void 0 : _k.freezeRegion) === void 0 || vr.extras.freezeRegion.x > outerCol || outerCol > vr.extras.freezeRegion.x + vr.extras.freezeRegion.width || vr.extras.freezeRegion.y > row || row > vr.extras.freezeRegion.y + vr.extras.freezeRegion.height;
+        const isSelected = outerCol === ((_h = (_g = vr.extras) == null ? void 0 : _g.selected) == null ? void 0 : _h[0]) && row === ((_i = vr.extras) == null ? void 0 : _i.selected[1]);
+        const isOutsideFreezeArea = ((_j = vr.extras) == null ? void 0 : _j.freezeRegion) === void 0 || vr.extras.freezeRegion.x > outerCol || outerCol > vr.extras.freezeRegion.x + vr.extras.freezeRegion.width || vr.extras.freezeRegion.y > row || row > vr.extras.freezeRegion.y + vr.extras.freezeRegion.height;
         if (isOutsideMainArea && !isSelected && isOutsideFreezeArea) {
           return {
             kind: GridCellKind.Loading,
@@ -7827,12 +8123,12 @@ var DataEditorImpl = (p, forwardedRef) => {
     mangledRows,
     hasRowMarkers,
     gridSelection == null ? void 0 : gridSelection.rows,
-    p.onRowMoved,
+    onRowMoved,
     rowMarkers,
     rowMarkerOffset,
     trailingRowOptions == null ? void 0 : trailingRowOptions.hint,
     trailingRowOptions == null ? void 0 : trailingRowOptions.addIcon,
-    (_a = p.experimental) == null ? void 0 : _a.strict,
+    experimental == null ? void 0 : experimental.strict,
     getCellContent,
     rowMarkerStartIndex
   ]);
@@ -7881,12 +8177,14 @@ var DataEditorImpl = (p, forwardedRef) => {
       let content = c;
       if (initialValue !== void 0) {
         switch (content.kind) {
-          case GridCellKind.Number:
+          case GridCellKind.Number: {
+            const d = maybe(() => initialValue === "-" ? -0 : Number.parseFloat(initialValue), 0);
             content = {
               ...content,
-              data: maybe(() => initialValue === "-" ? -0 : Number.parseFloat(initialValue), 0)
+              data: Number.isNaN(d) ? 0 : d
             };
             break;
+          }
           case GridCellKind.Text:
           case GridCellKind.Markdown:
           case GridCellKind.Uri:
@@ -7905,7 +8203,7 @@ var DataEditorImpl = (p, forwardedRef) => {
         highlight: initialValue === void 0,
         forceEditMode: initialValue !== void 0
       });
-    } else if (c.kind === GridCellKind.Boolean && fromKeyboard) {
+    } else if (c.kind === GridCellKind.Boolean && fromKeyboard && c.readonly !== true) {
       mangledOnCellsEdited([
         {
           location: gridSelection.current.cell,
@@ -7937,35 +8235,89 @@ var DataEditorImpl = (p, forwardedRef) => {
       forceEditMode: true
     });
   }, [getMangledCellContent, setOverlaySimple]);
-  const overscrollY = (_b = p.overscrollY) != null ? _b : 0;
-  const scrollTo = React36.useCallback((col, row, dir = "both", paddingX = 0, paddingY = 0) => {
+  const scrollTo = React36.useCallback((col, row, dir = "both", paddingX = 0, paddingY = 0, options = void 0) => {
+    var _a2;
     if (scrollRef.current !== null) {
       const grid = gridRef.current;
       const canvas = canvasRef.current;
+      const trueCol = typeof col !== "number" ? col.unit === "cell" ? col.amount : void 0 : col;
+      const trueRow = typeof row !== "number" ? row.unit === "cell" ? row.amount : void 0 : row;
+      const desiredX = typeof col !== "number" && col.unit === "px" ? col.amount : void 0;
+      const desiredY = typeof row !== "number" && row.unit === "px" ? row.amount : void 0;
       if (grid !== null && canvas !== null) {
-        const rawBounds = grid.getBounds(col + rowMarkerOffset, row);
+        let targetRect = {
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        };
+        let scrollX = 0;
+        let scrollY = 0;
+        if (trueCol !== void 0 || trueRow !== void 0) {
+          targetRect = (_a2 = grid.getBounds((trueCol != null ? trueCol : 0) + rowMarkerOffset, trueRow != null ? trueRow : 0)) != null ? _a2 : targetRect;
+          if (targetRect.width === 0 || targetRect.height === 0)
+            return;
+        }
         const scrollBounds = canvas.getBoundingClientRect();
-        if (rawBounds !== void 0) {
-          const bounds = {
-            x: rawBounds.x - paddingX,
-            y: rawBounds.y - paddingY,
-            width: rawBounds.width + 2 * paddingX,
-            height: rawBounds.height + 2 * paddingY
+        if (desiredX !== void 0) {
+          targetRect = {
+            ...targetRect,
+            x: desiredX - scrollBounds.left - scrollRef.current.scrollLeft,
+            width: 1
           };
-          let scrollX = 0;
-          let scrollY = 0;
+        }
+        if (desiredY !== void 0) {
+          targetRect = {
+            ...targetRect,
+            y: desiredY + scrollBounds.top - scrollRef.current.scrollTop,
+            height: 1
+          };
+        }
+        if (targetRect !== void 0) {
+          const bounds = {
+            x: targetRect.x - paddingX,
+            y: targetRect.y - paddingY,
+            width: targetRect.width + 2 * paddingX,
+            height: targetRect.height + 2 * paddingY
+          };
           let frozenWidth = 0;
           for (let i = 0; i < freezeColumns; i++) {
             frozenWidth += columns[i].width;
           }
-          const sLeft = frozenWidth + scrollBounds.left + rowMarkerOffset * rowMarkerWidth;
-          const sRight = scrollBounds.right;
-          const sTop = scrollBounds.top + totalHeaderHeight;
           let trailingRowHeight = 0;
           if (lastRowSticky) {
             trailingRowHeight = typeof rowHeight === "number" ? rowHeight : rowHeight(rows);
           }
-          const sBottom = scrollBounds.bottom - trailingRowHeight;
+          let sLeft = frozenWidth + scrollBounds.left + rowMarkerOffset * rowMarkerWidth;
+          let sRight = scrollBounds.right;
+          let sTop = scrollBounds.top + totalHeaderHeight;
+          let sBottom = scrollBounds.bottom - trailingRowHeight;
+          const minx = targetRect.width + paddingX * 2;
+          switch (options == null ? void 0 : options.hAlign) {
+            case "start":
+              sRight = sLeft + minx;
+              break;
+            case "end":
+              sLeft = sRight - minx;
+              break;
+            case "center":
+              sLeft = Math.floor((sLeft + sRight) / 2) - minx / 2;
+              sRight = sLeft + minx;
+              break;
+          }
+          const miny = targetRect.height + paddingY * 2;
+          switch (options == null ? void 0 : options.vAlign) {
+            case "start":
+              sBottom = sTop + miny;
+              break;
+            case "end":
+              sTop = sBottom - miny;
+              break;
+            case "center":
+              sTop = Math.floor((sTop + sBottom) / 2) - miny / 2;
+              sBottom = sTop + miny;
+              break;
+          }
           if (sLeft > bounds.x) {
             scrollX = bounds.x - sLeft;
           } else if (sRight < bounds.x + bounds.width) {
@@ -7973,8 +8325,8 @@ var DataEditorImpl = (p, forwardedRef) => {
           }
           if (sTop > bounds.y) {
             scrollY = bounds.y - sTop;
-          } else if (sBottom < bounds.y + bounds.height + overscrollY) {
-            scrollY = bounds.y + bounds.height + overscrollY - sBottom;
+          } else if (sBottom < bounds.y + bounds.height + (overscrollY != null ? overscrollY : 0)) {
+            scrollY = bounds.y + bounds.height + (overscrollY != null ? overscrollY : 0) - sBottom;
           }
           if (dir === "vertical" || col < freezeColumns) {
             scrollX = 0;
@@ -8057,6 +8409,16 @@ var DataEditorImpl = (p, forwardedRef) => {
   }, [columns, columnsIn, hasRowMarkers, trailingRowOptions == null ? void 0 : trailingRowOptions.targetColumn]);
   const lastSelectedRowRef = React36.useRef();
   const lastSelectedColRef = React36.useRef();
+  const themeForCell = React36.useCallback((cell, pos) => {
+    var _a2;
+    const [col, row] = pos;
+    return {
+      ...mergedTheme,
+      ...(_a2 = mangledCols[col]) == null ? void 0 : _a2.themeOverride,
+      ...getRowThemeOverride == null ? void 0 : getRowThemeOverride(row),
+      ...cell.themeOverride
+    };
+  }, [getRowThemeOverride, mangledCols, mergedTheme]);
   const handleSelect = React36.useCallback((args) => {
     var _a2, _b2, _c2, _d2;
     const isMultiKey = browserIsOSX.value ? args.metaKey : args.ctrlKey;
@@ -8076,9 +8438,18 @@ var DataEditorImpl = (p, forwardedRef) => {
         if (markerCell.kind !== InnerGridCellKind.Marker) {
           return;
         }
-        if (p.onRowMoved !== void 0) {
-          const renderer = CellRenderers[markerCell.kind];
-          const postClick = (_c2 = renderer.onClick) == null ? void 0 : _c2.call(renderer, markerCell, args.localEventX, args.localEventY, args.bounds);
+        if (onRowMoved !== void 0) {
+          const renderer = getCellRenderer(markerCell);
+          assert((renderer == null ? void 0 : renderer.kind) === InnerGridCellKind.Marker);
+          const postClick = (_c2 = renderer == null ? void 0 : renderer.onClick) == null ? void 0 : _c2.call(renderer, {
+            ...args,
+            cell: markerCell,
+            posX: args.localEventX,
+            posY: args.localEventY,
+            bounds: args.bounds,
+            theme: themeForCell(markerCell, args.location),
+            preventDefault: () => void 0
+          });
           if (postClick === void 0 || postClick.checked === markerCell.checked)
             return;
         }
@@ -8111,6 +8482,23 @@ var DataEditorImpl = (p, forwardedRef) => {
         void appendRow(customTargetColumn != null ? customTargetColumn : col);
       } else {
         if (cellCol !== col || cellRow !== row) {
+          const cell = getMangledCellContent(args.location);
+          const renderer = getCellRenderer(cell);
+          if ((renderer == null ? void 0 : renderer.onSelect) !== void 0) {
+            let prevented = false;
+            renderer.onSelect({
+              ...args,
+              cell,
+              posX: args.localEventX,
+              posY: args.localEventY,
+              bounds: args.bounds,
+              preventDefault: () => prevented = true,
+              theme: themeForCell(cell, args.location)
+            });
+            if (prevented) {
+              return;
+            }
+          }
           const isLastStickyRow = lastRowSticky && row === rows;
           const startedFromLastSticky = lastRowSticky && gridSelection !== void 0 && ((_d2 = gridSelection.current) == null ? void 0 : _d2.cell[1]) === rows;
           if ((args.shiftKey || args.isLongTouch === true) && cellCol !== void 0 && cellRow !== void 0 && gridSelection.current !== void 0 && !startedFromLastSticky) {
@@ -8194,13 +8582,14 @@ var DataEditorImpl = (p, forwardedRef) => {
     appendRow,
     columnSelect,
     focus,
+    getCellRenderer,
     getCustomNewRowTargetColumn,
     getMangledCellContent,
     gridSelection,
     hasRowMarkers,
     lastRowSticky,
     onSelectionCleared,
-    p.onRowMoved,
+    onRowMoved,
     rowMarkerOffset,
     rowMarkers,
     rowSelect,
@@ -8210,7 +8599,8 @@ var DataEditorImpl = (p, forwardedRef) => {
     setGridSelection,
     setSelectedColumns,
     setSelectedRows,
-    showTrailingBlankRow
+    showTrailingBlankRow,
+    themeForCell
   ]);
   const lastMouseSelectLocation = React36.useRef();
   const touchDownArgs = React36.useRef(visibleRegion);
@@ -8230,12 +8620,12 @@ var DataEditorImpl = (p, forwardedRef) => {
       time,
       location: args.location
     };
-    const fillHandle = args.kind === "cell" && args.isFillHandle;
-    if (!fillHandle && args.kind !== "cell" && args.isEdge)
+    const fh = args.kind === "cell" && args.isFillHandle;
+    if (!fh && args.kind !== "cell" && args.isEdge)
       return;
     setMouseState({
       previousSelection: gridSelection,
-      fillHandle
+      fillHandle: fh
     });
     lastMouseSelectLocation.current = void 0;
     if (!args.isTouch) {
@@ -8343,8 +8733,8 @@ var DataEditorImpl = (p, forwardedRef) => {
       const ctx = offscreen.getContext("2d", { alpha: false });
       if (ctx !== null) {
         ctx.font = `${mergedTheme.baseFontStyle} ${mergedTheme.fontFamily}`;
-        const newCol = measureColumn(ctx, mergedTheme, inputCol, 0, cells, minColumnWidth, maxColumnWidth, false);
-        onColumnResize == null ? void 0 : onColumnResize(inputCol, newCol.width, col);
+        const newCol = measureColumn(ctx, mergedTheme, inputCol, 0, cells, minColumnWidth, maxColumnWidth, false, getCellRenderer);
+        onColumnResize == null ? void 0 : onColumnResize(inputCol, newCol.width, col, newCol.width);
       }
     }
   }, [
@@ -8355,7 +8745,8 @@ var DataEditorImpl = (p, forwardedRef) => {
     minColumnWidth,
     onColumnResize,
     rowMarkerOffset,
-    rows
+    rows,
+    getCellRenderer
   ]);
   const [scrollDir, setScrollDir] = React36.useState();
   const onMouseUp = React36.useCallback((args, isOutside) => {
@@ -8378,25 +8769,33 @@ var DataEditorImpl = (p, forwardedRef) => {
           preventDefault
         });
       }
-      if (gridSelection.current !== void 0) {
-        if ((mouse == null ? void 0 : mouse.fillHandle) === true) {
-          fillDown(gridSelection.current.cell[1] !== gridSelection.current.range.y);
-        } else if (gridSelection.current !== void 0 && ((_b3 = (_a3 = mouse == null ? void 0 : mouse.previousSelection) == null ? void 0 : _a3.current) == null ? void 0 : _b3.cell) !== void 0 && !isPrevented.current) {
+      if ((mouse == null ? void 0 : mouse.fillHandle) === true && gridSelection.current !== void 0) {
+        fillDown(gridSelection.current.cell[1] !== gridSelection.current.range.y);
+      } else if (!isPrevented.current) {
+        const c = getMangledCellContent(args.location);
+        const r = getCellRenderer(c);
+        if (r !== void 0 && r.onClick !== void 0) {
+          const newVal = r.onClick({
+            ...a,
+            cell: c,
+            posX: a.localEventX,
+            posY: a.localEventY,
+            bounds: a.bounds,
+            theme: themeForCell(c, args.location),
+            preventDefault
+          });
+          if (newVal !== void 0 && !isInnerOnlyCell(newVal) && isEditableGridCell(newVal)) {
+            mangledOnCellsEdited([{ location: a.location, value: newVal }]);
+            (_a3 = gridRef.current) == null ? void 0 : _a3.damage([
+              {
+                cell: a.location
+              }
+            ]);
+          }
+        }
+        if (!isPrevented.current && ((_c3 = (_b3 = mouse == null ? void 0 : mouse.previousSelection) == null ? void 0 : _b3.current) == null ? void 0 : _c3.cell) !== void 0 && gridSelection.current !== void 0) {
           const [selectedCol, selectedRow] = gridSelection.current.cell;
           const [prevCol, prevRow] = mouse.previousSelection.current.cell;
-          const c = getMangledCellContent([col, row]);
-          const r = c.kind === GridCellKind.Custom ? void 0 : CellRenderers[c.kind];
-          if (r !== void 0 && r.onClick !== void 0) {
-            const newVal = r.onClick(c, a.localEventX, a.localEventY, a.bounds);
-            if (newVal !== void 0 && !isInnerOnlyCell(newVal) && isEditableGridCell(newVal)) {
-              mangledOnCellsEdited([{ location: a.location, value: newVal }]);
-              (_c3 = gridRef.current) == null ? void 0 : _c3.damage([
-                {
-                  cell: a.location
-                }
-              ]);
-            }
-          }
           if (col === selectedCol && col === prevCol && row === selectedRow && row === prevRow) {
             onCellActivated == null ? void 0 : onCellActivated([col - rowMarkerOffset, row]);
             reselect(a.bounds, false);
@@ -8469,11 +8868,13 @@ var DataEditorImpl = (p, forwardedRef) => {
     lastMouseSelectLocation.current = void 0;
   }, [
     mouseState,
+    rowMarkerOffset,
     gridSelection,
     onCellClicked,
-    rowMarkerOffset,
     fillDown,
     getMangledCellContent,
+    getCellRenderer,
+    themeForCell,
     mangledOnCellsEdited,
     onCellActivated,
     reselect,
@@ -8481,9 +8882,9 @@ var DataEditorImpl = (p, forwardedRef) => {
     onHeaderContextMenu,
     onGroupHeaderContextMenu,
     handleSelect,
+    onGroupHeaderClicked,
     normalSizeColumn,
     onHeaderClicked,
-    onGroupHeaderClicked,
     handleGroupHeaderSelection
   ]);
   const onMouseMoveImpl = React36.useCallback((args) => {
@@ -8510,8 +8911,9 @@ var DataEditorImpl = (p, forwardedRef) => {
       selected = [selected[0] - rowMarkerOffset, selected[1]];
     }
     const newRegion = {
-      ...region,
       x: region.x - rowMarkerOffset,
+      y: region.y,
+      width: region.width,
       height: showTrailingBlankRow && region.y + region.height >= rows ? region.height - 1 : region.height,
       tx,
       ty,
@@ -8527,9 +8929,16 @@ var DataEditorImpl = (p, forwardedRef) => {
     };
     setClientSize([clientWidth, clientHeight, rightElWidth]);
     setVisibleRegion(newRegion);
-    visibleRegionRef.current = newRegion;
     onVisibleRegionChanged == null ? void 0 : onVisibleRegionChanged(newRegion, newRegion.tx, newRegion.ty, newRegion.extras);
-  }, [freezeColumns, currentCell, onVisibleRegionChanged, rowMarkerOffset, rows, showTrailingBlankRow]);
+  }, [
+    currentCell,
+    rowMarkerOffset,
+    showTrailingBlankRow,
+    rows,
+    freezeColumns,
+    setVisibleRegion,
+    onVisibleRegionChanged
+  ]);
   const onColumnMovedImpl = whenDefined(onColumnMoved, React36.useCallback((startIndex, endIndex) => {
     onColumnMoved == null ? void 0 : onColumnMoved(startIndex - rowMarkerOffset, endIndex - rowMarkerOffset);
     if (columnSelect !== "none") {
@@ -8782,7 +9191,22 @@ var DataEditorImpl = (p, forwardedRef) => {
   }, []);
   const onKeyDown = React36.useCallback((event) => {
     const fn = async () => {
-      var _a2, _b2, _c2, _d2;
+      var _a2, _b2, _c2, _d2, _e2;
+      let cancelled = false;
+      if (onKeyDownIn !== void 0) {
+        onKeyDownIn({
+          ...event,
+          cancel: () => {
+            cancelled = true;
+          }
+        });
+      }
+      if (cancelled)
+        return;
+      const cancel = () => {
+        event.stopPropagation();
+        event.preventDefault();
+      };
       const overlayOpen = overlay !== void 0;
       const { altKey, shiftKey, metaKey, ctrlKey, key, bounds } = event;
       const isOSX = browserIsOSX.value;
@@ -8825,10 +9249,11 @@ var DataEditorImpl = (p, forwardedRef) => {
             s == null ? void 0 : s.addRange(r);
           }
         }
-        event.cancel();
+        cancel();
         return;
       } else if (isHotkey("primary+f", event) && keybindings.search) {
-        event.cancel();
+        cancel();
+        (_c2 = searchInputRef == null ? void 0 : searchInputRef.current) == null ? void 0 : _c2.focus({ preventScroll: true });
         setShowSearchInner(true);
       }
       function deleteRange(r) {
@@ -8838,6 +9263,8 @@ var DataEditorImpl = (p, forwardedRef) => {
         for (let x = r.x; x < r.x + r.width; x++) {
           for (let y = r.y; y < r.y + r.height; y++) {
             const cellValue = getCellContent([x - rowMarkerOffset, y]);
+            if (!cellValue.allowOverlay && cellValue.kind !== GridCellKind.Boolean)
+              continue;
             let newVal = void 0;
             if (cellValue.kind === GridCellKind.Custom) {
               const editor = provideEditor == null ? void 0 : provideEditor(cellValue);
@@ -8845,8 +9272,8 @@ var DataEditorImpl = (p, forwardedRef) => {
                 newVal = (_a3 = editor == null ? void 0 : editor.deletedValue) == null ? void 0 : _a3.call(editor, cellValue);
               }
             } else if (isEditableGridCell(cellValue) && cellValue.allowOverlay || cellValue.kind === GridCellKind.Boolean) {
-              const toDelete = CellRenderers[cellValue.kind];
-              newVal = (_b3 = toDelete.onDelete) == null ? void 0 : _b3.call(toDelete, cellValue);
+              const toDelete = getCellRenderer(cellValue);
+              newVal = (_b3 = toDelete == null ? void 0 : toDelete.onDelete) == null ? void 0 : _b3.call(toDelete, cellValue);
             }
             if (newVal !== void 0 && !isInnerOnlyCell(newVal) && isEditableGridCell(newVal)) {
               editList.push({ location: [x, y], value: newVal });
@@ -8857,8 +9284,8 @@ var DataEditorImpl = (p, forwardedRef) => {
         (_c3 = gridRef.current) == null ? void 0 : _c3.damage(editList.map((x) => ({ cell: x.location })));
       }
       if (isDeleteKey) {
-        const callbackResult = (_c2 = onDelete == null ? void 0 : onDelete(gridSelection)) != null ? _c2 : true;
-        event.cancel();
+        const callbackResult = (_d2 = onDelete == null ? void 0 : onDelete(gridSelection)) != null ? _d2 : true;
+        cancel();
         if (callbackResult !== false) {
           const toDelete = callbackResult === true ? gridSelection : callbackResult;
           if (toDelete.current !== void 0) {
@@ -8926,11 +9353,11 @@ var DataEditorImpl = (p, forwardedRef) => {
         } else {
           onCellActivated == null ? void 0 : onCellActivated([col - rowMarkerOffset, row]);
           reselect(bounds, true);
-          event.cancel();
+          cancel();
         }
       } else if (keybindings.downFill && isHotkey("primary+_68", event) && gridSelection.current.range.height > 1) {
         fillDown(false);
-        event.cancel();
+        cancel();
       } else if (keybindings.rightFill && isHotkey("primary+_82", event) && gridSelection.current.range.width > 1) {
         const editList = [];
         const r = gridSelection.current.range;
@@ -8949,16 +9376,16 @@ var DataEditorImpl = (p, forwardedRef) => {
           }
         }
         mangledOnCellsEdited(editList);
-        (_d2 = gridRef.current) == null ? void 0 : _d2.damage(editList.map((c) => ({
+        (_e2 = gridRef.current) == null ? void 0 : _e2.damage(editList.map((c) => ({
           cell: c.location
         })));
-        event.cancel();
+        cancel();
       } else if (keybindings.pageDown && isHotkey("PageDown", event)) {
         row += Math.max(1, visibleRegionRef.current.height - 4);
-        event.cancel();
+        cancel();
       } else if (keybindings.pageUp && isHotkey("PageUp", event)) {
         row -= Math.max(1, visibleRegionRef.current.height - 4);
-        event.cancel();
+        cancel();
       } else if (keybindings.first && isHotkey("primary+Home", event)) {
         setOverlay(void 0);
         row = 0;
@@ -9034,15 +9461,16 @@ var DataEditorImpl = (p, forwardedRef) => {
           return;
         }
         reselect(bounds, true, key);
-        event.cancel();
+        cancel();
       }
       const moved = updateSelectedCell(col, row, false, freeMove);
       if (moved) {
-        event.cancel();
+        cancel();
       }
     };
     void fn();
   }, [
+    onKeyDownIn,
     overlay,
     gridSelection,
     keybindings.selectAll,
@@ -9069,6 +9497,7 @@ var DataEditorImpl = (p, forwardedRef) => {
     focus,
     mangledOnCellsEdited,
     provideEditor,
+    getCellRenderer,
     onDelete,
     mangledCols.length,
     setSelectedColumns,
@@ -9085,10 +9514,11 @@ var DataEditorImpl = (p, forwardedRef) => {
     lastRowSticky
   ]);
   const onPasteInternal = React36.useCallback(async (e) => {
-    var _a2, _b2, _c2, _d2, _e2, _f2, _g2;
+    var _a2, _b2, _c2, _d2, _e2, _f, _g;
     if (!keybindings.paste)
       return;
     function pasteToCell(inner, target2, toPaste) {
+      var _a3, _b3;
       if (!isInnerOnlyCell(inner) && isReadWriteCell(inner) && inner.readonly !== true) {
         const coerced = coercePasteValue == null ? void 0 : coercePasteValue(toPaste, inner);
         if (coerced !== void 0 && isEditableGridCell(coerced)) {
@@ -9100,59 +9530,30 @@ var DataEditorImpl = (p, forwardedRef) => {
             value: coerced
           };
         }
-        switch (inner.kind) {
-          case GridCellKind.Text:
-          case GridCellKind.Markdown:
-          case GridCellKind.Uri: {
-            return {
-              location: target2,
-              value: {
-                ...inner,
-                data: toPaste
-              }
-            };
-          }
-          case GridCellKind.Number: {
-            const newNumber = Number.parseFloat(toPaste);
-            if (!Number.isNaN(newNumber)) {
-              return {
-                location: target2,
-                value: {
-                  ...inner,
-                  data: newNumber
-                }
-              };
-            }
+        const r = getCellRenderer(inner);
+        if (r === void 0)
+          return void 0;
+        if (r.kind === GridCellKind.Custom) {
+          assert(inner.kind === GridCellKind.Custom);
+          const newVal = (_a3 = r.onPaste) == null ? void 0 : _a3.call(r, toPaste, inner);
+          if (newVal === void 0)
             return void 0;
-          }
-          case GridCellKind.Custom: {
-            return {
-              location: target2,
-              value: {
-                ...inner,
-                copyData: toPaste
-              }
-            };
-          }
-          case GridCellKind.Boolean: {
-            let newVal = BooleanEmpty;
-            if (toPaste.toLowerCase() === "true") {
-              newVal = true;
-            } else if (toPaste.toLowerCase() === "false") {
-              newVal = false;
-            } else if (toPaste.toLowerCase() === "indeterminate") {
-              newVal = BooleanIndeterminate;
+          return {
+            location: target2,
+            value: {
+              ...inner,
+              data: newVal
             }
-            return {
-              location: target2,
-              value: {
-                ...inner,
-                data: newVal
-              }
-            };
-          }
-          default:
-            assertNever(inner);
+          };
+        } else {
+          const newVal = (_b3 = r.onPaste) == null ? void 0 : _b3.call(r, toPaste, inner);
+          if (newVal === void 0)
+            return void 0;
+          assert(newVal.kind === inner.kind);
+          return {
+            location: target2,
+            value: newVal
+          };
         }
       }
       return void 0;
@@ -9213,7 +9614,7 @@ var DataEditorImpl = (p, forwardedRef) => {
       do {
         if (onPaste === void 0) {
           const cellData = getMangledCellContent(target);
-          const newVal = pasteToCell(cellData, target, (_f2 = text != null ? text : data == null ? void 0 : data.map((r) => r.join("	")).join("	")) != null ? _f2 : "");
+          const newVal = pasteToCell(cellData, target, (_f = text != null ? text : data == null ? void 0 : data.map((r) => r.join("	")).join("	")) != null ? _f : "");
           if (newVal !== void 0) {
             editList.push(newVal);
           }
@@ -9241,12 +9642,13 @@ var DataEditorImpl = (p, forwardedRef) => {
         }
       } while (false);
       mangledOnCellsEdited(editList);
-      (_g2 = gridRef.current) == null ? void 0 : _g2.damage(editList.map((c) => ({
+      (_g = gridRef.current) == null ? void 0 : _g.damage(editList.map((c) => ({
         cell: c.location
       })));
     }
   }, [
     coercePasteValue,
+    getCellRenderer,
     getMangledCellContent,
     gridSelection,
     keybindings.paste,
@@ -9330,7 +9732,8 @@ var DataEditorImpl = (p, forwardedRef) => {
   const scrollToRef = React36.useRef(scrollTo);
   scrollToRef.current = scrollTo;
   React36.useEffect(() => {
-    if (outCol !== void 0 && outRow !== void 0) {
+    var _a2, _b2, _c2, _d2;
+    if (outCol !== void 0 && outRow !== void 0 && (outCol !== ((_b2 = (_a2 = expectedExternalGridSelection.current) == null ? void 0 : _a2.current) == null ? void 0 : _b2.cell[0]) || outRow !== ((_d2 = (_c2 = expectedExternalGridSelection.current) == null ? void 0 : _c2.current) == null ? void 0 : _d2.cell[1]))) {
       scrollToRef.current(outCol, outRow);
     }
   }, [outCol, outRow]);
@@ -9384,36 +9787,45 @@ var DataEditorImpl = (p, forwardedRef) => {
           onKeyDown({
             bounds: void 0,
             cancel: () => void 0,
+            stopPropagation: () => void 0,
+            preventDefault: () => void 0,
             ctrlKey: false,
             key: "Delete",
             keyCode: 46,
             metaKey: false,
             shiftKey: false,
-            altKey: false
+            altKey: false,
+            rawEvent: void 0
           });
           break;
         case "fill-right":
           onKeyDown({
             bounds: void 0,
             cancel: () => void 0,
+            stopPropagation: () => void 0,
+            preventDefault: () => void 0,
             ctrlKey: true,
             key: "r",
             keyCode: 82,
             metaKey: false,
             shiftKey: false,
-            altKey: false
+            altKey: false,
+            rawEvent: void 0
           });
           break;
         case "fill-down":
           onKeyDown({
             bounds: void 0,
             cancel: () => void 0,
+            stopPropagation: () => void 0,
+            preventDefault: () => void 0,
             ctrlKey: true,
             key: "d",
             keyCode: 68,
             metaKey: false,
             shiftKey: false,
-            altKey: false
+            altKey: false,
+            rawEvent: void 0
           });
           break;
         case "copy":
@@ -9466,9 +9878,9 @@ var DataEditorImpl = (p, forwardedRef) => {
     setIsFocusedDebounced.current(false);
   }, []);
   const [idealWidth, idealHeight] = React36.useMemo(() => {
-    var _a2, _b2;
+    var _a2;
     let h;
-    const scrollbarWidth = (_b2 = (_a2 = p.experimental) == null ? void 0 : _a2.scrollbarWidthOverride) != null ? _b2 : getScrollBarWidth();
+    const scrollbarWidth = (_a2 = experimental == null ? void 0 : experimental.scrollbarWidthOverride) != null ? _a2 : getScrollBarWidth();
     const rowsCountWithTrailingRow = rows + (showTrailingBlankRow ? 1 : 0);
     if (typeof rowHeight === "number") {
       h = totalHeaderHeight + rowsCountWithTrailingRow * rowHeight;
@@ -9484,7 +9896,7 @@ var DataEditorImpl = (p, forwardedRef) => {
     h += scrollbarWidth;
     const w = mangledCols.reduce((acc, x) => x.width + acc, 0) + scrollbarWidth;
     return [`${Math.min(1e5, w)}px`, `${Math.min(1e5, h)}px`];
-  }, [mangledCols, (_f = p.experimental) == null ? void 0 : _f.scrollbarWidthOverride, rowHeight, rows, showTrailingBlankRow, totalHeaderHeight]);
+  }, [mangledCols, experimental == null ? void 0 : experimental.scrollbarWidthOverride, rowHeight, rows, showTrailingBlankRow, totalHeaderHeight]);
   return /* @__PURE__ */ React36.createElement(ThemeContext.Provider, {
     value: mergedTheme
   }, /* @__PURE__ */ React36.createElement(DataEditorContainer, {
@@ -9493,7 +9905,27 @@ var DataEditorImpl = (p, forwardedRef) => {
     inWidth: width != null ? width : idealWidth,
     inHeight: height != null ? height : idealHeight
   }, /* @__PURE__ */ React36.createElement(data_grid_search_default, {
-    ...rest,
+    fillHandle,
+    drawFocusRing: drawFocusRing2,
+    experimental,
+    fixedShadowX,
+    fixedShadowY,
+    getRowThemeOverride: p.getRowThemeOverride,
+    headerIcons,
+    imageWindowLoader,
+    initialSize,
+    isDraggable,
+    onDragLeave,
+    onRowMoved,
+    overscrollX,
+    overscrollY,
+    preventDiagonalScrolling,
+    rightElement,
+    rightElementProps,
+    showMinimap,
+    smoothScrollX,
+    smoothScrollY,
+    className,
     enableGroups,
     onCanvasFocused,
     onCanvasBlur: onFocusOut,
@@ -9514,6 +9946,7 @@ var DataEditorImpl = (p, forwardedRef) => {
     getCellContent: getMangledCellContent,
     minColumnWidth,
     maxColumnWidth,
+    searchInputRef,
     showSearch,
     onSearchClose,
     highlightRegions,
@@ -9534,6 +9967,7 @@ var DataEditorImpl = (p, forwardedRef) => {
     isFilling: (mouseState == null ? void 0 : mouseState.fillHandle) === true,
     onMouseMove: onMouseMoveImpl,
     onKeyDown,
+    onKeyUp: onKeyUpIn,
     onMouseDown,
     onMouseUp,
     onDragOverCell,
@@ -9548,12 +9982,15 @@ var DataEditorImpl = (p, forwardedRef) => {
     translateX: visibleRegion.tx,
     translateY: visibleRegion.ty,
     verticalBorder: mangledVerticalBorder,
-    gridRef
+    gridRef,
+    getCellRenderer,
+    scrollToEnd
   }), renameGroupNode, overlay !== void 0 && /* @__PURE__ */ React36.createElement(data_grid_overlay_editor_default, {
     ...overlay,
     validateCell,
     id: overlayID,
-    className: ((_g = p.experimental) == null ? void 0 : _g.isSubGrid) === true ? "click-outside-ignore" : void 0,
+    getCellRenderer,
+    className: (experimental == null ? void 0 : experimental.isSubGrid) === true ? "click-outside-ignore" : void 0,
     provideEditor,
     imageEditorOverride,
     onFinishEditing,
@@ -9564,42 +10001,13 @@ var DataEditor = React36.forwardRef(DataEditorImpl);
 
 // src/data-editor/use-custom-cells.ts
 var React37 = __toESM(require("react"), 1);
-function useCustomCells(cells) {
-  const drawCell2 = React37.useCallback((args) => {
-    const { cell } = args;
-    if (cell.kind !== GridCellKind.Custom)
-      return false;
-    for (const c of cells) {
-      if (c.isMatch(cell)) {
-        return c.draw(args, cell);
-      }
-    }
-    return false;
-  }, [cells]);
-  const provideEditor = React37.useCallback((cell) => {
-    if (cell.kind !== GridCellKind.Custom)
-      return void 0;
-    for (const c of cells) {
-      if (c.isMatch(cell)) {
-        return c.provideEditor(cell);
-      }
-    }
-    return void 0;
-  }, [cells]);
-  const coercePasteValue = React37.useCallback((val, cell) => {
-    if (cell.kind !== GridCellKind.Custom)
-      return void 0;
-    for (const c of cells) {
-      if (c.isMatch(cell)) {
-        if (c.onPaste === void 0) {
-          return void 0;
-        }
-        return {
-          ...cell,
-          data: c.onPaste(val, cell.data)
-        };
-      }
-    }
-  }, [cells]);
-  return { drawCell: drawCell2, provideEditor, coercePasteValue };
+function inflate(input) {
+  return {
+    ...input,
+    kind: GridCellKind.Custom
+  };
 }
+function useCustomCells(cells) {
+  return { customRenderers: React37.useMemo(() => cells.map(inflate), [cells]) };
+}
+//# sourceMappingURL=index.js.map

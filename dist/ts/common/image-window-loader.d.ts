@@ -1,5 +1,5 @@
-import type { Item, Rectangle } from "../data-grid/data-grid-types";
-declare class ImageWindowLoader {
+import type { ImageWindowLoader, Item, Rectangle } from "../data-grid/data-grid-types";
+declare class ImageWindowLoaderImpl implements ImageWindowLoader {
     private imageLoaded;
     private loadedLocations;
     private visibleWindow;
@@ -11,6 +11,7 @@ declare class ImageWindowLoader {
     private clearOutOfWindow;
     setWindow(newWindow: Rectangle, freezeCols: number): void;
     private loadImage;
-    loadOrGetImage(url: string, col: number, row: number): HTMLImageElement | undefined;
+    loadOrGetImage(url: string, col: number, row: number): HTMLImageElement | ImageBitmap | undefined;
 }
-export default ImageWindowLoader;
+export default ImageWindowLoaderImpl;
+//# sourceMappingURL=image-window-loader.d.ts.map

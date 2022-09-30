@@ -10,3 +10,4 @@ import type { InternalCellRenderer } from "./cell-types";
  */
 export declare function toggleBoolean(data: boolean | null | undefined): boolean | null | undefined;
 export declare const booleanCellRenderer: InternalCellRenderer<BooleanCell>;
+//# sourceMappingURL=boolean-cell.d.ts.map

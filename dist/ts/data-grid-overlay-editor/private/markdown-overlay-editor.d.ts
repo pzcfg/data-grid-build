@@ -3,7 +3,6 @@ import type { Rectangle, SelectionRange } from "../../data-grid/data-grid-types"
 interface Props {
     readonly targetRect: Rectangle;
     readonly markdown: string;
-    readonly onKeyDown: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
     readonly onChange: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
     readonly forceEditMode: boolean;
     readonly onFinish: () => void;
@@ -13,3 +12,4 @@ interface Props {
 }
 export declare const MarkdownOverlayEditor: React.FunctionComponent<Props>;
 export {};
+//# sourceMappingURL=markdown-overlay-editor.d.ts.map

@@ -1,16 +1,18 @@
-import { CustomCell, GridCell, ProvideEditorCallback } from "../data-grid/data-grid-types";
-import type { DrawArgs } from "./custom-cell-draw-args";
+import type { CustomRenderer } from "../data-grid/cells/cell-types";
+import { CustomCell } from "../data-grid/data-grid-types";
 import type { DataEditorProps } from "./data-editor";
-declare type DrawCallback = NonNullable<DataEditorProps["drawCell"]>;
-export declare type CustomCellRenderer<T extends CustomCell> = {
-    isMatch: (cell: CustomCell) => cell is T;
-    draw: (args: DrawArgs, cell: T) => boolean;
-    provideEditor: ProvideEditorCallback<T>;
-    onPaste?: (val: string, cellData: T["data"]) => T["data"];
-};
+/**
+ * @category Renderers
+ * @deprecated use CustomRenderer instead
+ */
+export declare type CustomCellRenderer<T extends CustomCell> = Omit<CustomRenderer<T>, "kind">;
+/**
+ * @category Hooks
+ * @deprecated use customRenderers instead.
+ * @param cells
+ * @returns an object intended to be spread on the DataEditor.
+ */
 export declare function useCustomCells(cells: readonly CustomCellRenderer<any>[]): {
-    drawCell: DrawCallback;
-    provideEditor: ProvideEditorCallback<GridCell>;
-    coercePasteValue: NonNullable<DataEditorProps["coercePasteValue"]>;
+    customRenderers: NonNullable<DataEditorProps["customRenderers"]>;
 };
-export {};
+//# sourceMappingURL=use-custom-cells.d.ts.map

@@ -11,3 +11,5 @@ export declare const Checkmark: React.FunctionComponent<Partial<SpriteProps>>;
 export declare function useDebouncedMemo<T>(factory: () => T, deps: React.DependencyList | undefined, time: number): T;
 export declare function direction(value: string): "rtl" | "ltr" | "neutral";
 export declare function getScrollBarWidth(): number;
+export declare function useStateWithReactiveInput<T>(inputState: T): [T, React.Dispatch<React.SetStateAction<T>>, () => void];
+//# sourceMappingURL=utils.d.ts.map

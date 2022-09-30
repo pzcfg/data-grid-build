@@ -9,3 +9,4 @@ export declare const DataGridOverlayEditorStyle: import("@linaria/core").StyledM
     as?: import("react").ElementType<any> | undefined;
 }>;
 export {};
+//# sourceMappingURL=data-grid-overlay-editor-style.d.ts.map

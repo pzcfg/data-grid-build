@@ -8,3 +8,4 @@ export declare const ShadowBox: import("@linaria/core").StyledMeta & import("rea
 export declare const GrowingEntryStyle: import("@linaria/core").StyledMeta & import("react").FunctionComponent<import("react").ClassAttributes<HTMLDivElement> & import("react").HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
     as?: import("react").ElementType<any> | undefined;
 }>;
+//# sourceMappingURL=growing-entry-style.d.ts.map

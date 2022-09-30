@@ -4,3 +4,4 @@ export declare const SearchWrapper: import("@linaria/core").StyledMeta & import(
 } & {
     as?: import("react").ElementType<any> | undefined;
 }>;
+//# sourceMappingURL=data-grid-search-style.d.ts.map

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Theme } from "../common/styles";
+import type { GetCellRendererCallback } from "../data-grid/cells/cell-types";
 import { EditableGridCell, GridCell, Item, ProvideEditorCallback, Rectangle, ValidatedGridCell } from "../data-grid/data-grid-types";
 import type { OverlayImageEditorProps } from "./private/image-overlay-editor";
 declare type ImageEditorType = React.ComponentType<OverlayImageEditorProps>;
@@ -15,9 +16,11 @@ interface DataGridOverlayEditorProps {
     readonly forceEditMode: boolean;
     readonly highlight: boolean;
     readonly imageEditorOverride?: ImageEditorType;
+    readonly getCellRenderer: GetCellRendererCallback;
     readonly markdownDivCreateNode?: (content: string) => DocumentFragment;
     readonly provideEditor?: ProvideEditorCallback<GridCell>;
     readonly validateCell?: (cell: Item, newValue: EditableGridCell, prevValue: GridCell) => boolean | ValidatedGridCell;
 }
 declare const DataGridOverlayEditor: React.FunctionComponent<DataGridOverlayEditorProps>;
 export default DataGridOverlayEditor;
+//# sourceMappingURL=data-grid-overlay-editor.d.ts.map

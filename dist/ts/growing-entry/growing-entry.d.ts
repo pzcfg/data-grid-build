@@ -6,5 +6,7 @@ interface Props extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTM
     readonly altNewline?: boolean;
     readonly validatedSelection?: SelectionRange;
 }
-declare const GrowingEntry: React.FunctionComponent<Props>;
-export default GrowingEntry;
+/** @category Renderers */
+export declare const GrowingEntry: React.FunctionComponent<Props>;
+export {};
+//# sourceMappingURL=growing-entry.d.ts.map

@@ -4,3 +4,4 @@ export declare function expandSelection(newVal: GridSelection, getCellsForSelect
 export declare function unquote(str: string): string[][];
 export declare function decodeHTML(tableEl: HTMLTableElement): string[][] | undefined;
 export declare function copyToClipboard(cells: readonly (readonly GridCell[])[], columnIndexes: readonly number[], e?: ClipboardEvent): void;
+//# sourceMappingURL=data-editor-fns.d.ts.map
