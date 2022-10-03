@@ -1,6 +1,6 @@
 {
     "name": "@glideapps/glide-data-grid",
-    "version": "5.1.2",
+    "version": "5.1.4",
     "description": "Super fast, pure canvas Data Grid Editor",
     "sideEffects": [
         "**/*.css"
@@ -53,8 +53,8 @@
     },
     "homepage": "https://grid.glideapps.com",
     "dependencies": {
-        "canvas-hypertxt": "^0.0.3",
-        "react-number-format": "^4.4.1"
+        "canvas-hypertxt": "^0.0.7",
+        "react-number-format": "^5.0.0"
     },
     "peerDependencies": {
         "lodash": "^4.17.19",

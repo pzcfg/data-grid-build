@@ -1,6 +1,6 @@
 import * as React from "react";
-import type { NumberFormatValues } from "react-number-format";
 import type { SelectionRange } from "../../data-grid/data-grid-types";
+import type { NumberFormatValues } from "react-number-format/types/types";
 interface Props {
     value: number | undefined;
     disabled?: boolean;

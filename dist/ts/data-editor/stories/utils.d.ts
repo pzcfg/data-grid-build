@@ -8,19 +8,19 @@ export declare type GridColumnWithMockingInfo = GridColumn & {
     getContent(): GridCell;
 };
 export declare function getGridColumn(columnWithMock: GridColumnWithMockingInfo): GridColumn;
-export declare const ColumnAddButton: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
+export declare const ColumnAddButton: import("@linaria/react").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
     as?: React.ElementType<any> | undefined;
 }>;
-export declare const BeautifulStyle: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
+export declare const BeautifulStyle: import("@linaria/react").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Record<string, unknown> & {
     as?: React.ElementType<any> | undefined;
 }>;
-export declare const PropName: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLSpanElement> & React.HTMLAttributes<HTMLSpanElement> & Record<string, unknown> & {
+export declare const PropName: import("@linaria/react").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLSpanElement> & React.HTMLAttributes<HTMLSpanElement> & Record<string, unknown> & {
     as?: React.ElementType<any> | undefined;
 }>;
-export declare const Description: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLParagraphElement> & React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown> & {
+export declare const Description: import("@linaria/react").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLParagraphElement> & React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown> & {
     as?: React.ElementType<any> | undefined;
 }>;
-export declare const MoreInfo: import("@linaria/core").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLParagraphElement> & React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown> & {
+export declare const MoreInfo: import("@linaria/react").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLParagraphElement> & React.HTMLAttributes<HTMLParagraphElement> & Record<string, unknown> & {
     as?: React.ElementType<any> | undefined;
 }>;
 interface BeautifulProps {

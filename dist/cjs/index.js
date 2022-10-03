@@ -20,7 +20,10 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // ../../node_modules/@emotion/memoize/dist/memoize.browser.esm.js
@@ -45,9 +48,11 @@ var init_is_prop_valid_browser_esm = __esm({
   "../../node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js"() {
     init_memoize_browser_esm();
     reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|inert|itemProp|itemScope|itemType|itemID|itemRef|on|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/;
-    index = memoize_browser_esm_default(function(prop) {
-      return reactPropsRegex.test(prop) || prop.charCodeAt(0) === 111 && prop.charCodeAt(1) === 110 && prop.charCodeAt(2) < 91;
-    });
+    index = memoize_browser_esm_default(
+      function(prop) {
+        return reactPropsRegex.test(prop) || prop.charCodeAt(0) === 111 && prop.charCodeAt(1) === 110 && prop.charCodeAt(2) < 91;
+      }
+    );
     is_prop_valid_browser_esm_default = index;
   }
 });
@@ -237,7 +242,7 @@ var init_number_overlay_editor = __esm({
     "use strict";
     React30 = __toESM(require("react"), 1);
     init_number_overlay_editor_style();
-    import_react_number_format = __toESM(require("react-number-format"), 1);
+    import_react_number_format = require("react-number-format");
     NumberOverlayEditor = (p) => {
       const { value, onChange, disabled, highlight, validatedSelection } = p;
       const inputRef = React30.useRef();
@@ -248,7 +253,7 @@ var init_number_overlay_editor = __esm({
           (_a = inputRef.current) == null ? void 0 : _a.setSelectionRange(range2[0], range2[1]);
         }
       }, [validatedSelection]);
-      return /* @__PURE__ */ React30.createElement(NumberOverlayEditorStyle, null, /* @__PURE__ */ React30.createElement(import_react_number_format.default, {
+      return /* @__PURE__ */ React30.createElement(NumberOverlayEditorStyle, null, /* @__PURE__ */ React30.createElement(import_react_number_format.NumericFormat, {
         autoFocus: true,
         getInputRef: inputRef,
         className: "gdg-input",
@@ -722,17 +727,24 @@ CompactSelection.fromSingleSelection = (selection) => {
 
 // src/data-grid-overlay-editor/data-grid-overlay-editor-style.tsx
 init_esm2();
+var _exp = () => (p) => p.targetY;
+var _exp2 = () => (p) => p.targetX - 1;
+var _exp3 = () => (p) => p.targetY - 1;
+var _exp4 = () => (p) => p.targetWidth + 2;
+var _exp5 = () => (p) => p.targetHeight + 2;
+var _exp6 = () => (p) => p.targetY + 10;
+var _exp7 = () => (p) => Math.max(0, (p.targetHeight - 28) / 2);
 var DataGridOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
   name: "DataGridOverlayEditorStyle",
   class: "d1t1th9s",
   vars: {
-    "d1t1th9s-0": [(p) => p.targetY, "px"],
-    "d1t1th9s-1": [(p) => p.targetX - 1, "px"],
-    "d1t1th9s-2": [(p) => p.targetY - 1, "px"],
-    "d1t1th9s-3": [(p) => p.targetWidth + 2, "px"],
-    "d1t1th9s-4": [(p) => p.targetHeight + 2, "px"],
-    "d1t1th9s-5": [(p) => p.targetY + 10, "px"],
-    "d1t1th9s-6": [(p) => Math.max(0, (p.targetHeight - 28) / 2), "px"]
+    "d1t1th9s-0": [_exp(), "px"],
+    "d1t1th9s-1": [_exp2(), "px"],
+    "d1t1th9s-2": [_exp3(), "px"],
+    "d1t1th9s-3": [_exp4(), "px"],
+    "d1t1th9s-4": [_exp5(), "px"],
+    "d1t1th9s-5": [_exp6(), "px"],
+    "d1t1th9s-6": [_exp7(), "px"]
   }
 });
 
@@ -1602,17 +1614,24 @@ function drawNewRowCell(args, data, icon) {
 function drawCheckbox(ctx, theme, checked, x, y, width, height, highlighted, hoverX = -20, hoverY = -20) {
   const centerX = x + width / 2;
   const centerY = y + height / 2;
-  const hovered = Math.abs(hoverX - width / 2) < 10 && Math.abs(hoverY - height / 2) < 10;
+  const checkBoxWidth = height / 1.89;
+  const emptyCheckBoxWidth = height / 2;
+  const hoverHelper = height / 3.4;
+  const hovered = Math.abs(hoverX - width / 2) < hoverHelper && Math.abs(hoverY - height / 2) < hoverHelper;
+  const rectBordRadius = 4;
+  const posHelperChecked = height / 4.25;
+  const posHelperEmpty = height / 4;
+  const posHelperInter = height / 8.5;
   switch (checked) {
     case true: {
       ctx.beginPath();
-      roundedRect(ctx, centerX - 9, centerY - 9, 18, 18, 4);
+      roundedRect(ctx, centerX - checkBoxWidth / 2, centerY - checkBoxWidth / 2, checkBoxWidth, checkBoxWidth, rectBordRadius);
       ctx.fillStyle = highlighted ? theme.accentColor : theme.textMedium;
       ctx.fill();
       ctx.beginPath();
-      ctx.moveTo(centerX - 8 + 3.65005, centerY - 8 + 7.84995);
-      ctx.lineTo(centerX - 8 + 6.37587, centerY - 8 + 10.7304);
-      ctx.lineTo(centerX - 8 + 11.9999, centerY - 8 + 4.74995);
+      ctx.moveTo(centerX - posHelperChecked + height / 9.31, centerY - posHelperChecked + height / 4.33);
+      ctx.lineTo(centerX - posHelperChecked + height / 5.33, centerY - posHelperChecked + height / 3.17);
+      ctx.lineTo(centerX - posHelperChecked + height / 2.83, centerY - posHelperChecked + height / 7.16);
       ctx.strokeStyle = theme.bgCell;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
@@ -1623,7 +1642,7 @@ function drawCheckbox(ctx, theme, checked, x, y, width, height, highlighted, hov
     case BooleanEmpty:
     case false: {
       ctx.beginPath();
-      roundedRect(ctx, centerX - 8.5, centerY - 8.5, 17, 17, 4);
+      roundedRect(ctx, centerX - posHelperEmpty, centerY - posHelperEmpty, emptyCheckBoxWidth, emptyCheckBoxWidth, rectBordRadius);
       ctx.lineWidth = 1;
       ctx.strokeStyle = hovered ? theme.textDark : theme.textMedium;
       ctx.stroke();
@@ -1631,12 +1650,12 @@ function drawCheckbox(ctx, theme, checked, x, y, width, height, highlighted, hov
     }
     case BooleanIndeterminate: {
       ctx.beginPath();
-      roundedRect(ctx, centerX - 8.5, centerY - 8.5, 17, 17, 4);
+      roundedRect(ctx, centerX - posHelperEmpty, centerY - posHelperEmpty, emptyCheckBoxWidth, emptyCheckBoxWidth, rectBordRadius);
       ctx.fillStyle = hovered ? theme.textMedium : theme.textLight;
       ctx.fill();
       ctx.beginPath();
-      ctx.moveTo(centerX - 4, centerY);
-      ctx.lineTo(centerX + 4, centerY);
+      ctx.moveTo(centerX - posHelperInter, centerY);
+      ctx.lineTo(centerX + posHelperInter, centerY);
       ctx.strokeStyle = theme.bgCell;
       ctx.lineCap = "round";
       ctx.lineWidth = 1.9;
@@ -2718,7 +2737,7 @@ function drawGridLines(ctx, effectiveCols, cellYOffset, translateX, translateY, 
       continue;
     x += c.width;
     const tx = c.sticky ? x : x + translateX;
-    if (tx >= minX && tx <= maxX - 1 && verticalBorder(index2 + 1)) {
+    if (tx >= minX && tx <= maxX && verticalBorder(index2 + 1)) {
       toDraw.push({
         x1: tx,
         y1: Math.max(groupHeaderHeight, minY),
@@ -2847,7 +2866,7 @@ function drawGroups(ctx, effectiveCols, width, translateX, groupHeaderHeight, ho
         ctx.globalAlpha = 1;
       }
     }
-    if (verticalBorder(span[0])) {
+    if (x !== 0 && verticalBorder(span[0])) {
       ctx.beginPath();
       ctx.moveTo(x + 0.5, 0);
       ctx.lineTo(x + 0.5, groupHeaderHeight);
@@ -5377,11 +5396,12 @@ function useResizeDetector(initialSize) {
 }
 
 // src/scrolling-data-grid/infinite-scroller.tsx
+var _exp8 = () => (p) => p.isSafari ? "scroll" : "auto";
 var ScrollRegionStyle = /* @__PURE__ */ styled_default("div")({
   name: "ScrollRegionStyle",
   class: "s1jz82f8",
   vars: {
-    "s1jz82f8-0": [(p) => p.isSafari ? "scroll" : "auto"]
+    "s1jz82f8-0": [_exp8()]
   }
 });
 function eatEvent(e) {
@@ -5501,8 +5521,12 @@ var InfiniteScroller = (p) => {
   const onScrollRef = React11.useRef(onScroll);
   onScrollRef.current = onScroll;
   const lastProps = React11.useRef();
+  const didFirstScroll = React11.useRef(false);
   React11.useEffect(() => {
-    onScroll();
+    if (didFirstScroll.current)
+      onScroll();
+    else
+      didFirstScroll.current = true;
   }, [onScroll, paddingBottom, paddingRight]);
   const setRefs = React11.useCallback((instance) => {
     scroller.current = instance;
@@ -5897,11 +5921,12 @@ var scrolling_data_grid_default = GridScroller;
 
 // src/data-grid-search/data-grid-search-style.tsx
 init_esm2();
+var _exp9 = () => (p) => p.showSearch ? 0 : 400;
 var SearchWrapper = /* @__PURE__ */ styled_default("div")({
   name: "SearchWrapper",
   class: "sxep88s",
   vars: {
-    "sxep88s-0": [(p) => p.showSearch ? 0 : 400, "px"]
+    "sxep88s-0": [_exp9(), "px"]
   }
 });
 
@@ -6281,11 +6306,12 @@ var data_grid_search_default = DataGridSearch;
 // src/data-editor/group-rename.tsx
 var import_react9 = __toESM(require("react"), 1);
 init_esm2();
+var _exp10 = () => (p) => Math.max(16, p.targetHeight - 10);
 var RenameInput = /* @__PURE__ */ styled_default("input")({
   name: "RenameInput",
   class: "r1kzy40b",
   vars: {
-    "r1kzy40b-0": [(p) => Math.max(16, p.targetHeight - 10), "px"]
+    "r1kzy40b-0": [_exp10(), "px"]
   }
 });
 var GroupRename = (p) => {
@@ -6936,12 +6962,14 @@ function toCss(x) {
     return x;
   return `${x}px`;
 }
+var _exp11 = () => (p) => p.innerWidth;
+var _exp22 = () => (p) => p.innerHeight;
 var Wrapper = /* @__PURE__ */ styled_default("div")({
   name: "Wrapper",
   class: "wzg2m5k",
   vars: {
-    "wzg2m5k-0": [(p) => p.innerWidth],
-    "wzg2m5k-1": [(p) => p.innerHeight]
+    "wzg2m5k-0": [_exp11()],
+    "wzg2m5k-1": [_exp22()]
   }
 });
 var DataEditorContainer = (p) => {
@@ -6979,7 +7007,7 @@ var booleanCellRenderer = {
   }),
   onClick: (e) => {
     const { cell, posX: x, posY: y, bounds } = e;
-    if (booleanCellIsEditable(cell) && Math.abs(x - bounds.width / 2) <= 10 && Math.abs(y - bounds.height / 2) <= 10) {
+    if (booleanCellIsEditable(cell) && Math.abs(x - bounds.width / 2) <= bounds.height / 3.4 && Math.abs(y - bounds.height / 2) <= bounds.height / 3.4) {
       return {
         ...cell,
         data: toggleBoolean(cell.data)
@@ -7353,11 +7381,12 @@ var GrowingEntry = (props) => {
 
 // src/data-grid-overlay-editor/private/markdown-overlay-editor-style.tsx
 init_esm2();
+var _exp12 = () => (p) => p.targetWidth;
 var MarkdownOverlayEditorStyle = /* @__PURE__ */ styled_default("div")({
   name: "MarkdownOverlayEditorStyle",
   class: "mdwzdl1",
   vars: {
-    "mdwzdl1-0": [(p) => p.targetWidth, "px"]
+    "mdwzdl1-0": [_exp12(), "px"]
   }
 });
 
@@ -8756,6 +8785,10 @@ var DataEditorImpl = (p, forwardedRef) => {
     setScrollDir(void 0);
     if (isOutside)
       return;
+    if ((mouse == null ? void 0 : mouse.fillHandle) === true && gridSelection.current !== void 0) {
+      fillDown(gridSelection.current.cell[1] !== gridSelection.current.range.y);
+      return;
+    }
     const [col, row] = args.location;
     const [lastMouseDownCol, lastMouseDownRow] = (_a2 = lastMouseSelectLocation.current) != null ? _a2 : [];
     const preventDefault = () => {
@@ -8763,15 +8796,13 @@ var DataEditorImpl = (p, forwardedRef) => {
     };
     const handleMaybeClick = (a) => {
       var _a3, _b3, _c3;
-      if (lastMouseDownCol === col && lastMouseDownRow === row) {
+      if (a.isTouch || lastMouseDownCol === col && lastMouseDownRow === row) {
         onCellClicked == null ? void 0 : onCellClicked([col - rowMarkerOffset, row], {
           ...a,
           preventDefault
         });
       }
-      if ((mouse == null ? void 0 : mouse.fillHandle) === true && gridSelection.current !== void 0) {
-        fillDown(gridSelection.current.cell[1] !== gridSelection.current.range.y);
-      } else if (!isPrevented.current) {
+      if (!isPrevented.current) {
         const c = getMangledCellContent(args.location);
         const r = getCellRenderer(c);
         if (r !== void 0 && r.onClick !== void 0) {
@@ -8837,6 +8868,12 @@ var DataEditorImpl = (p, forwardedRef) => {
       } else if (args.kind === groupHeaderKind) {
         onGroupHeaderClicked == null ? void 0 : onGroupHeaderClicked(clickLocation, { ...args, preventDefault });
       } else {
+        if (args.kind === headerKind) {
+          onHeaderClicked == null ? void 0 : onHeaderClicked(clickLocation, {
+            ...args,
+            preventDefault
+          });
+        }
         handleSelect(args);
       }
       return;
@@ -8906,6 +8943,7 @@ var DataEditorImpl = (p, forwardedRef) => {
   }, [onHeaderMenuClick, rowMarkerOffset]);
   const currentCell = (_c = gridSelection == null ? void 0 : gridSelection.current) == null ? void 0 : _c.cell;
   const onVisibleRegionChangedImpl = React36.useCallback((region, clientWidth, clientHeight, rightElWidth, tx, ty) => {
+    hasJustScrolled.current = false;
     let selected = currentCell;
     if (selected !== void 0) {
       selected = [selected[0] - rowMarkerOffset, selected[1]];
@@ -8970,10 +9008,16 @@ var DataEditorImpl = (p, forwardedRef) => {
       if (row < 0) {
         row = visibleRegionRef.current.y;
       }
-      const landedOnLastStickyRow = lastRowSticky && row === rows;
       const startedFromLastStickyRow = lastRowSticky && selectedRow === rows;
-      if (landedOnLastStickyRow || startedFromLastStickyRow)
+      if (startedFromLastStickyRow)
         return;
+      const landedOnLastStickyRow = lastRowSticky && row === rows;
+      if (landedOnLastStickyRow) {
+        if (args.kind === outOfBoundsKind)
+          row--;
+        else
+          return;
+      }
       col = Math.max(col, rowMarkerOffset);
       const deltaX = col - selectedCol;
       const deltaY = row - selectedRow;
@@ -9731,9 +9775,9 @@ var DataEditorImpl = (p, forwardedRef) => {
   const [outCol, outRow] = (_e = (_d = gridSelectionOuter == null ? void 0 : gridSelectionOuter.current) == null ? void 0 : _d.cell) != null ? _e : [];
   const scrollToRef = React36.useRef(scrollTo);
   scrollToRef.current = scrollTo;
-  React36.useEffect(() => {
+  React36.useLayoutEffect(() => {
     var _a2, _b2, _c2, _d2;
-    if (outCol !== void 0 && outRow !== void 0 && (outCol !== ((_b2 = (_a2 = expectedExternalGridSelection.current) == null ? void 0 : _a2.current) == null ? void 0 : _b2.cell[0]) || outRow !== ((_d2 = (_c2 = expectedExternalGridSelection.current) == null ? void 0 : _c2.current) == null ? void 0 : _d2.cell[1]))) {
+    if (!hasJustScrolled.current && outCol !== void 0 && outRow !== void 0 && (outCol !== ((_b2 = (_a2 = expectedExternalGridSelection.current) == null ? void 0 : _a2.current) == null ? void 0 : _b2.cell[0]) || outRow !== ((_d2 = (_c2 = expectedExternalGridSelection.current) == null ? void 0 : _c2.current) == null ? void 0 : _d2.cell[1]))) {
       scrollToRef.current(outCol, outRow);
     }
   }, [outCol, outRow]);
