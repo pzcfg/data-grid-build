@@ -31,6 +31,7 @@ export interface Theme {
     cellHorizontalPadding: number;
     cellVerticalPadding: number;
     headerFontStyle: string;
+    headerIconSize: number;
     baseFontStyle: string;
     fontFamily: string;
     editorFontSize: string;

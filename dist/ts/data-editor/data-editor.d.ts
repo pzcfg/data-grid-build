@@ -1,5 +1,5 @@
 import * as React from "react";
-import { EditableGridCell, GridCell, GridSelection, Rectangle, ProvideEditorCallback, DrawCustomCellCallback, GridColumn, GroupHeaderClickedEventArgs, HeaderClickedEventArgs, CellClickedEventArgs, Item, ValidatedGridCell, ImageEditorType, CustomCell } from "../data-grid/data-grid-types";
+import { EditableGridCell, GridCell, GridSelection, Rectangle, CompactSelection, ProvideEditorCallback, DrawCustomCellCallback, GridColumn, GroupHeaderClickedEventArgs, HeaderClickedEventArgs, CellClickedEventArgs, Item, ValidatedGridCell, ImageEditorType, CustomCell } from "../data-grid/data-grid-types";
 import { DataGridSearchProps } from "../data-grid-search/data-grid-search";
 import { Theme } from "../common/styles";
 import type { DataGridRef } from "../data-grid/data-grid";
@@ -125,11 +125,18 @@ export interface DataEditorProps extends Props {
      * @group Data
      */
     readonly rows: number;
-    /** Determins if row markers should be automatically added to the grid.
+    /** Determines if row markers should be automatically added to the grid.
+     * Interactive row markers allow the user to select a row.
+     *
+     * - "clickable-number" renders a number that can be clicked to
+     *   select the row
+     * - "both" causes the row marker to show up as a number but
+     *   reveal a checkbox when the marker is hovered.
+     *
      * @defaultValue `none`
      * @group Style
      */
-    readonly rowMarkers?: "checkbox" | "number" | "clickable-number" | "both" | "none";
+    readonly rowMarkers?: "checkbox" | "number" | "clickable-number" | "checkbox-visible" | "both" | "none";
     /**
      * Sets the width of row markers in pixels, if unset row markers will automatically size.
      * @group Style
@@ -140,6 +147,10 @@ export interface DataEditorProps extends Props {
      * @group Style
      */
     readonly rowMarkerStartIndex?: number;
+    /** Changes the theme of the row marker column
+     * @group Style
+     */
+    readonly rowMarkerTheme?: Partial<Theme>;
     /** Sets the width of the data grid.
      * @group Style
      */
@@ -266,11 +277,17 @@ export interface DataEditorProps extends Props {
     readonly drawCell?: DrawCustomCellCallback;
     /**
      * The current selection of the data grid. Contains all selected cells, ranges, rows, and columns.
+     * Used in conjunction with {@link onGridSelectionChange}
+     * method to implement a controlled selection.
      * @group Selection
      */
     readonly gridSelection?: GridSelection;
     /**
-     * Emitted whenever the grid selection changes.
+     * Emitted whenever the grid selection changes. Specifying
+     * this function will make the grid’s selection controlled, so
+     * so you will need to specify {@link gridSelection} as well. See
+     * the "Controlled Selection" example for details.
+     *
      * @param newSelection The new gridSelection as created by user input.
      * @group Selection
      */
@@ -305,6 +322,12 @@ export interface DataEditorProps extends Props {
      * @defaultValue `auto`
      */
     readonly rowSelectionMode?: "auto" | "multi";
+    /**
+     * Add table headers to copied data.
+     * @group Editing
+     * @defaultValue `false`
+     */
+    readonly copyHeaders?: boolean;
     /**
      * Determins which keybindings are enabled.
      * @group Editing
@@ -384,6 +407,7 @@ export interface DataEditorProps extends Props {
      * @group Advanced
      */
     readonly customRenderers?: readonly CustomRenderer<CustomCell<any>>[];
+    readonly scaleToRem?: boolean;
 }
 declare type ScrollToFn = (col: number | {
     amount: number;
@@ -402,7 +426,7 @@ export interface DataEditorRef {
      * @param col The column index to focus in the new row.
      * @returns A promise which waits for the append to complete.
      */
-    appendRow: (col: number) => Promise<void>;
+    appendRow: (col: number, openOverlay: boolean) => Promise<void>;
     /**
      * Triggers cells to redraw.
      */
@@ -423,6 +447,10 @@ export interface DataEditorRef {
      * Scrolls to the desired cell or location in the grid.
      */
     scrollTo: ScrollToFn;
+    /**
+     * Causes the columns in the selection to have their natural size recomputed and re-emitted as a resize event.
+     */
+    remeasureColumns: (cols: CompactSelection) => void;
 }
 /**
  * The primary component of Glide Data Grid.

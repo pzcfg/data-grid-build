@@ -5,6 +5,7 @@ interface Props {
     readonly onChange: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
     readonly forceEditMode: boolean;
     readonly readonly: boolean;
+    readonly preview: string;
     readonly validatedSelection?: SelectionRange;
 }
 declare const UriOverlayEditor: React.FunctionComponent<Props>;

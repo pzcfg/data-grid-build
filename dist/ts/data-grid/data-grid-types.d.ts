@@ -13,6 +13,7 @@ export interface GridSelection {
     readonly columns: CompactSelection;
     readonly rows: CompactSelection;
 }
+export declare function gridSelectionHasItem(sel: GridSelection, item: Item): boolean;
 /** @category Types */
 export declare type ImageEditorType = React.ComponentType<OverlayImageEditorProps>;
 /** @category Types */
@@ -192,7 +193,17 @@ export declare enum GridColumnIcon {
 }
 /** @category Types */
 export declare type CellArray = readonly (readonly GridCell[])[];
-/** @category Types */
+/**
+ * This type is used to specify the coordinates of
+ * a cell or header within the dataset: positive row
+ * numbers identify cells.
+ *
+ * - `-1`: Header
+ * - `-2`: Group header
+ * - `0 and higher`: Row index
+ *
+ * @category Types
+ */
 export declare type Item = readonly [col: number, row: number];
 /** @category Types */
 export declare const headerCellCheckboxPrefix = "___gdg_header_cell_";
@@ -277,6 +288,7 @@ export interface BaseGridCell {
     readonly span?: readonly [start: number, end: number];
     readonly contentAlign?: "left" | "right" | "center";
     readonly cursor?: CSSProperties["cursor"];
+    readonly copyData?: string;
 }
 /** @category Cells */
 export interface LoadingCell extends BaseGridCell {
@@ -300,6 +312,10 @@ export interface NumberCell extends BaseGridCell {
     readonly displayData: string;
     readonly data: number | undefined;
     readonly readonly?: boolean;
+    readonly fixedDecimals?: number;
+    readonly allowNegative?: boolean;
+    readonly thousandSeparator?: boolean | string;
+    readonly decimalSeparator?: string;
 }
 /** @category Cells */
 export interface ImageCell extends BaseGridCell {
@@ -373,6 +389,7 @@ export interface BooleanCell extends BaseGridCell {
     readonly data: boolean | BooleanEmpty | BooleanIndeterminate;
     readonly readonly?: boolean;
     readonly allowOverlay: false;
+    readonly maxSize?: number;
 }
 /** @category Cells */
 export declare function booleanCellIsEditable(cell: BooleanCell): boolean;
@@ -392,6 +409,7 @@ export interface MarkdownCell extends BaseGridCell {
 export interface UriCell extends BaseGridCell {
     readonly kind: GridCellKind.Uri;
     readonly data: string;
+    readonly displayData?: string;
     readonly readonly?: boolean;
 }
 /** @category Cells */
@@ -413,7 +431,7 @@ export interface MarkerCell extends BaseGridCell {
     readonly row: number;
     readonly drawHandle: boolean;
     readonly checked: boolean;
-    readonly markerKind: "checkbox" | "number" | "both";
+    readonly markerKind: "checkbox" | "number" | "both" | "checkbox-visible";
 }
 /** @category Selection */
 export declare type Slice = [start: number, end: number];

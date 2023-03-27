@@ -42,7 +42,7 @@ export interface DataGridProps {
     readonly rowHeight: number | ((index: number) => number);
     readonly canvasRef: React.MutableRefObject<HTMLCanvasElement | null> | undefined;
     readonly eventTargetRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
-    readonly getCellContent: (cell: Item) => InnerGridCell;
+    readonly getCellContent: (cell: Item, forceStrict?: boolean) => InnerGridCell;
     /**
      * Provides additional details about groups to extend group functionality.
      * @group Data
@@ -103,6 +103,7 @@ export interface DataGridProps {
     readonly verticalBorder: (col: number) => boolean;
     /**
      * Determines what can be dragged using HTML drag and drop
+     * @defaultValue false
      * @group Drag and Drop
      */
     readonly isDraggable: boolean | "cell" | "header" | undefined;

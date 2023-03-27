@@ -1,13 +1,12 @@
 import * as React from "react";
-import type { Rectangle, SelectionRange } from "../../data-grid/data-grid-types";
+import type { MarkdownCell, Rectangle, SelectionRange } from "../../data-grid/data-grid-types";
 interface Props {
     readonly targetRect: Rectangle;
-    readonly markdown: string;
     readonly onChange: (ev: React.ChangeEvent<HTMLTextAreaElement>) => void;
     readonly forceEditMode: boolean;
-    readonly onFinish: () => void;
+    readonly onFinish: (newValue?: MarkdownCell | undefined) => void;
     readonly validatedSelection?: SelectionRange;
-    readonly readonly: boolean;
+    readonly value: MarkdownCell;
     createNode?: (content: string) => DocumentFragment;
 }
 export declare const MarkdownOverlayEditor: React.FunctionComponent<Props>;

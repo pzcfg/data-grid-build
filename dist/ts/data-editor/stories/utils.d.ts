@@ -1,5 +1,6 @@
 import * as React from "react";
-import { CellArray, EditableGridCell, GridCell, GridColumn, Item, Rectangle } from "../../data-grid/data-grid-types";
+import { EditableGridCell, GridCell, GridColumn, Item } from "../../data-grid/data-grid-types";
+import type { DataEditorProps } from "../data-editor";
 /**
  * Attempts to copy data between grid cells of any kind.
  */
@@ -27,6 +28,7 @@ interface BeautifulProps {
     title: string;
     description?: React.ReactNode;
     className?: string;
+    scale?: string;
 }
 export declare const BeautifulWrapper: React.FC<BeautifulProps>;
 export declare class ContentCache {
@@ -39,8 +41,18 @@ export declare function useMockDataGenerator(numCols: number, readonly?: boolean
     getCellContent: ([col, row]: Item) => GridCell;
     onColumnResize: (column: GridColumn, newSize: number) => void;
     setCellValue: ([col, row]: Item, val: GridCell) => void;
-    getCellsForSelection: (selection: Rectangle) => CellArray;
     setCellValueRaw: ([col, row]: Item, val: GridCell) => void;
+};
+export declare const KeyName: import("@linaria/react").StyledMeta & React.FunctionComponent<React.ClassAttributes<HTMLElement> & React.HTMLAttributes<HTMLElement> & Record<string, unknown> & {
+    as?: React.ElementType<any> | undefined;
+}>;
+export declare const defaultProps: Partial<DataEditorProps>;
+export declare function clearCell(cell: GridCell): GridCell;
+export declare function useAllMockedKinds(): {
+    cols: GridColumn[];
+    getCellContent: ([col, row]: Item) => GridCell;
+    onColumnResize: (column: GridColumn, newSize: number) => void;
+    setCellValue: ([col, row]: Item, val: GridCell, noDisplay?: boolean, forceUpdate?: boolean) => void;
 };
 export {};
 //# sourceMappingURL=utils.d.ts.map
