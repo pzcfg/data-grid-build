@@ -2550,6 +2550,10 @@ function parseToRgba(color) {
   if (computedColor !== control)
     return [0, 0, 0, 1];
   let result = computedColor.replace(/[^\d.,]/g, "").split(",").map(Number.parseFloat);
+  if (result.length < 3) {
+    console.warn("Invalid color format", control, computedColor, result);
+    result = [255, 255, 255, 1];
+  }
   if (result.length < 4) {
     result.push(1);
   }
